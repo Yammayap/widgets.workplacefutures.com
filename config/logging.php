@@ -2,7 +2,6 @@
 
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
 
 return [
@@ -60,13 +59,13 @@ return [
 
         'env-test' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'sentry'],
             'ignore_exceptions' => false,
         ],
 
         'env-production' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'sentry'],
             'ignore_exceptions' => false,
         ],
 
@@ -83,6 +82,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 28,
             'replace_placeholders' => true,
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
+            'level' => env('LOG_LEVEL', 'error'),
+            'bubble' => true,
         ],
 
 //        'slack' => [
