@@ -1,0 +1,77 @@
+name: Quality Assurance
+
+on:
+    workflow_call:
+
+jobs:
+
+    quality-assurance:
+        name: Quality Assurance
+
+        runs-on: ubuntu-22.04
+
+        services:
+                mysql:
+                    image: mysql:8.0
+                    env:
+                        MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                        MYSQL_DATABASE: tests
+                    ports:
+                        - 3306
+                    options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+                redis:
+                    image: redis
+                    ports:
+                        - 6379/tcp
+                    options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+
+            -   name: Download built assets
+                uses: actions/download-artifact@v3
+                with:
+                    name: assets-${{ github.sha }}
+                    path: public/build
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.3'
+                    extensions: curl, gd, json, mbstring, xml, pdo, mysql, redis, intl
+                    coverage: none
+
+            -   name: Create a .env file
+                run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+            -   name: Install Composer dependencies (project)
+                uses: ramsey/composer-install@v2
+                with:
+                    dependency-versions: locked
+                    composer-options: "--no-scripts --prefer-dist"
+
+            -   name: Install Composer dependencies (global)
+                run: composer global require "squizlabs/php_codesniffer=*"
+
+            -   name: Generate app key
+                run: php artisan key:generate
+
+            -   name: Use MySQL for tests (instead of default of SQLite)
+                run: sed -i 's/<env name="DB_CONNECTION" value="sqlite"/<env name="DB_CONNECTION" value="mysql"/g' phpunit.xml.dist
+
+            -   name: Execute PHP_CodeSniffer
+                run: phpcs -p
+
+            -   name: Execute Larastan
+                run: ./vendor/bin/phpstan analyse
+
+            -   name: Execute Tests
+                run: php artisan test --parallel
+                env:
+                    DB_HOST: 127.0.0.1
+                    DB_PORT: ${{ job.services.mysql.ports[3306] }}
+                    DB_USERNAME: root
+                    DB_DATABASE: tests
+                    REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
