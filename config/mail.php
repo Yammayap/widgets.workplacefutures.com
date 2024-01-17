@@ -50,13 +50,13 @@ return [
 //            'transport' => 'ses',
 //        ],
 
-//        'postmark' => [
-//            'transport' => 'postmark',
-//            // 'message_stream_id' => null,
-//            // 'client' => [
-//            //     'timeout' => 5,
-//            // ],
-//        ],
+        'postmark-transactional'    => [
+            'transport'         => 'postmark',
+            'message_stream_id' => env('POSTMARK_STEAM_ID_TRANSACTIONAL'),
+            // 'client' => [
+            //     'timeout' => 5,
+            // ],
+        ],
 
 //        'mailgun' => [
 //            'transport' => 'mailgun',
