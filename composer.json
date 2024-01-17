@@ -8,7 +8,8 @@
         "artesaos/seotools": "^1.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.41",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "lorisleiva/laravel-actions": "^2.7"
     },
     "require-dev": {
         "brianium/paratest": "^7.3",

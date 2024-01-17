@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Lorisleiva\Actions\Concerns\AsFake;
+use Lorisleiva\Actions\Concerns\AsObject;
+
+class {{ class }}
+{
+    use AsFake;
+    use AsObject;
+
+    public function handle(): void
+    {
+        // ...
+    }
+}
