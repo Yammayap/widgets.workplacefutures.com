@@ -1,0 +1,14 @@
+name: "Dev"
+
+on:
+    pull_request:
+        types: [opened, reopened, synchronize]
+    workflow_dispatch:
+
+jobs:
+    build-assets:
+        uses: ./.github/workflows/wf-build-assets.yml
+
+    quality-assurance:
+        needs: [build-assets]
+        uses: ./.github/workflows/wf-quality-assurance.yml
