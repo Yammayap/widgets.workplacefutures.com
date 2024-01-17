@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'daily'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,9 +52,21 @@ return [
     */
 
     'channels' => [
-        'stack' => [
+        'env-local' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily'],
+            'ignore_exceptions' => false,
+        ],
+
+        'env-test' => [
+            'driver' => 'stack',
+            'channels' => ['daily'],
+            'ignore_exceptions' => false,
+        ],
+
+        'env-production' => [
+            'driver' => 'stack',
+            'channels' => ['daily'],
             'ignore_exceptions' => false,
         ],
 
@@ -69,30 +81,30 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => 14,
+            'days' => 28,
             'replace_placeholders' => true,
         ],
 
-        'slack' => [
-            'driver' => 'slack',
-            'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
-            'emoji' => ':boom:',
-            'level' => env('LOG_LEVEL', 'critical'),
-            'replace_placeholders' => true,
-        ],
+//        'slack' => [
+//            'driver' => 'slack',
+//            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+//            'username' => 'Laravel Log',
+//            'emoji' => ':boom:',
+//            'level' => env('LOG_LEVEL', 'critical'),
+//            'replace_placeholders' => true,
+//        ],
 
-        'papertrail' => [
-            'driver' => 'monolog',
-            'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => env('LOG_PAPERTRAIL_HANDLER', SyslogUdpHandler::class),
-            'handler_with' => [
-                'host' => env('PAPERTRAIL_URL'),
-                'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
-            ],
-            'processors' => [PsrLogMessageProcessor::class],
-        ],
+//        'papertrail' => [
+//            'driver' => 'monolog',
+//            'level' => env('LOG_LEVEL', 'debug'),
+//            'handler' => env('LOG_PAPERTRAIL_HANDLER', SyslogUdpHandler::class),
+//            'handler_with' => [
+//                'host' => env('PAPERTRAIL_URL'),
+//                'port' => env('PAPERTRAIL_PORT'),
+//                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+//            ],
+//            'processors' => [PsrLogMessageProcessor::class],
+//        ],
 
         'stderr' => [
             'driver' => 'monolog',
@@ -125,6 +137,13 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'mail' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/mail.log'),
+            'level' => 'debug',
+            'days' => 28,
         ],
     ],
 

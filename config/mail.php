@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'log'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,67 +34,82 @@ return [
     */
 
     'mailers' => [
-        'smtp' => [
-            'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
-        ],
+//        'smtp' => [
+//            'transport' => 'smtp',
+//            'url' => env('MAIL_URL'),
+//            'host' => env('MAIL_SMTP_HOST'),
+//            'port' => env('MAIL_SMTP_PORT', 587),
+//            'encryption' => env('MAIL_SMTP_ENCRYPTION', 'tls'),
+//            'username' => env('MAIL_SMTP_USERNAME'),
+//            'password' => env('MAIL_SMTP_PASSWORD'),
+//            'timeout' => null,
+//            'local_domain' => env('MAIL_SMTP_EHLO_DOMAIN'),
+//        ],
 
-        'ses' => [
-            'transport' => 'ses',
-        ],
+//        'ses' => [
+//            'transport' => 'ses',
+//        ],
 
-        'postmark' => [
-            'transport' => 'postmark',
-            // 'message_stream_id' => null,
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
-        ],
+//        'postmark' => [
+//            'transport' => 'postmark',
+//            // 'message_stream_id' => null,
+//            // 'client' => [
+//            //     'timeout' => 5,
+//            // ],
+//        ],
 
-        'mailgun' => [
-            'transport' => 'mailgun',
-            // 'client' => [
-            //     'timeout' => 5,
-            // ],
-        ],
+//        'mailgun' => [
+//            'transport' => 'mailgun',
+//            // 'client' => [
+//            //     'timeout' => 5,
+//            // ],
+//        ],
 
-        'sendmail' => [
-            'transport' => 'sendmail',
-            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
-        ],
+//        'sendmail' => [
+//            'transport' => 'sendmail',
+//            'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
+//        ],
 
         'log' => [
             'transport' => 'log',
-            'channel' => env('MAIL_LOG_CHANNEL'),
+            'channel' => 'mail',
         ],
 
         'array' => [
             'transport' => 'array',
         ],
 
-        'failover' => [
-            'transport' => 'failover',
-            'mailers' => [
-                'smtp',
-                'log',
-            ],
-        ],
+//        'failover' => [
+//            'transport' => 'failover',
+//            'mailers' => [
+//                'smtp',
+//                'log',
+//            ],
+//        ],
 
-        'roundrobin' => [
-            'transport' => 'roundrobin',
-            'mailers' => [
-                'ses',
-                'postmark',
-            ],
-        ],
+//        'roundrobin' => [
+//            'transport' => 'roundrobin',
+//            'mailers' => [
+//                'ses',
+//                'postmark',
+//            ],
+//        ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Global "To" Address
+    |--------------------------------------------------------------------------
+    |
+    | Who should all emails be sent to? Useful in dev MODE.
+    | Don't include in the ENV file to skip this...
+    |
+    */
+
+    'to' => (env('MAIL_TO_ADDRESS') ? [
+        'address' => env('MAIL_TO_ADDRESS'),
+        'name' => env('MAIL_TO_NAME', env('MAIL_TO_ADDRESS')),
+    ] : null),
 
     /*
     |--------------------------------------------------------------------------
@@ -108,8 +123,20 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS'),
+        'name' => env('MAIL_FROM_NAME', env('MAIL_FROM_ADDRESS')),
+    ],
+
+    /*
+     |--------------------------------------------------------------------------
+     | Global "Reply To" Address
+     |--------------------------------------------------------------------------
+     |
+     */
+
+    'reply_to' => [
+        'address' => env('MAIL_REPLY_TO_ADDRESS'),
+        'name' => env('MAIL_REPLY_TO_NAME', env('MAIL_REPLY_TO_ADDRESS')),
     ],
 
     /*
