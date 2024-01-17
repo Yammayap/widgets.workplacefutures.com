@@ -18,13 +18,12 @@ class Kernel extends ConsoleKernel
         return 'Europe/London';
     }
 
-
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
-
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**
