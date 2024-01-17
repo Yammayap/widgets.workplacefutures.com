@@ -15,7 +15,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     {
         parent::boot();
 
-        if( !empty(config('app.sysadmin_email')) ) {
+        if (!empty(config('app.sysadmin_email'))) {
             Horizon::routeMailNotificationsTo(config('app.sysadmin_email'));
         }
 

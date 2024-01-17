@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Mockery;
 use Mockery\Matcher\Closure;
 
-
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
