@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*---------------------------------------------------------------------*
  *------------------- GUEST & AUTHENTICATED ROUTES --------------------*
  *---------------------------------------------------------------------*/
 
-// Routes....
+Route::group(['middleware' => 'set_up_tenant'], function () {
+    Route::get('/', [DashboardController::class, 'getIndex'])->name('dashboard');
+});
 
 /*---------------------------------------------------------------------*
  *--------------------------- GUEST ROUTES ----------------------------*
