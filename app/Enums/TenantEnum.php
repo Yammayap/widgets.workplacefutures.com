@@ -32,7 +32,7 @@ enum TenantEnum: string implements HasLabel
      */
     public function phone(): ?PhoneNumber
     {
- // copied from their websites
+        // copied from their websites
         return match ($this) {
             self::AMBIT      => new PhoneNumber('02031761777', 'GB'),
             self::MODUS      => new PhoneNumber('02078289009', 'GB'), // the general number
@@ -59,7 +59,7 @@ enum TenantEnum: string implements HasLabel
     /**
      * @return string
      */
-    public function logo(): string
+    private function logo(): string
     {
  // todo: These are just temp logos from their websites - they should be replaced later
         return match ($this) {
@@ -68,6 +68,14 @@ enum TenantEnum: string implements HasLabel
             self::PLATFFORM  => 'platfform.svg',
             self::TWO        => 'two.png',
             self::WFG        => 'wfg.svg',
-        }; // todo: get these via a tenant logo function - only reference file names here
+        };
+    }
+
+    /**
+     * @return string
+     */
+    public function logoFilepath(): string
+    {
+        return '/tenants/logos/' . $this->logo();
     }
 }
