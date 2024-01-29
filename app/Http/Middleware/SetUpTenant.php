@@ -19,6 +19,8 @@ class SetUpTenant
     {
         // tenant middleware will be here - via support class
 
+        // get the correct logo showing via ?ref query string
+
         return $next($request);
     }
 }
