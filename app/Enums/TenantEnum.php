@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use App\Enums\Contracts\HasLabel;
+use Propaganistas\LaravelPhone\PhoneNumber;
 
 enum TenantEnum: string implements HasLabel
 {
@@ -22,21 +23,22 @@ enum TenantEnum: string implements HasLabel
             self::MODUS      => 'Modus',
             self::PLATFFORM  => 'Platfform',
             self::TWO        => 'Two',
-            default          => 'Workplace Futures Group',
+            self::WFG        => 'Workplace Futures Group',
         };
     }
 
     /**
-     * @return string
+     * @return PhoneNumber|null
      */
-    public function phone(): string
-    { // copied from their websites
+    public function phone(): ?PhoneNumber
+    {
+ // copied from their websites
         return match ($this) {
-            self::AMBIT      => '02031761777',
-            self::MODUS      => '02078289009', // the general number
-            self::PLATFFORM  => 'N/A', // TBC - no phone on their website
-            self::TWO        => '02038978067',
-            default          => '02079631801', // wfg number
+            self::AMBIT      => new PhoneNumber('02031761777', 'GB'),
+            self::MODUS      => new PhoneNumber('02078289009', 'GB'), // the general number
+            self::PLATFFORM  => null, // TBC - no phone on their website
+            self::TWO        => new PhoneNumber('02038978067', 'GB'),
+            self::WFG        => new PhoneNumber('02079631801', 'GB'),
         };
     }
 
@@ -50,7 +52,7 @@ enum TenantEnum: string implements HasLabel
             self::MODUS      => 'https://www.modus.space/', // needs www's to work
             self::PLATFFORM  => 'https://www.platfform.uk/', // works with both
             self::TWO        => 'https://wearetwo.com/', // www's redirect back to this
-            default          => 'https://workplacefutures.com/', // www's redirect to this
+            self::WFG        => 'https://workplacefutures.com/', // www's redirect to this
         };
     }
 
@@ -58,13 +60,14 @@ enum TenantEnum: string implements HasLabel
      * @return string
      */
     public function logo(): string
-    { // todo: These are just temp logos from their websites - they should be replaced later
+    {
+ // todo: These are just temp logos from their websites - they should be replaced later
         return match ($this) {
             self::AMBIT      => 'ambit.svg',
             self::MODUS      => 'modus.svg',
             self::PLATFFORM  => 'platfform.svg',
             self::TWO        => 'two.png',
-            default          => 'wfg.svg',
+            self::WFG        => 'wfg.svg',
         }; // todo: get these via a tenant logo function - only reference file names here
     }
 }

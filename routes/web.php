@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
  *------------------- GUEST & AUTHENTICATED ROUTES --------------------*
  *---------------------------------------------------------------------*/
 
-Route::group(['middleware' => 'set_up_tenant'], function () {
-    Route::get('/', [DashboardController::class, 'getIndex'])->name('dashboard');
-});
+
+Route::get('/', [DashboardController::class, 'getIndex'])->name('dashboard');
+
 
 /*---------------------------------------------------------------------*
  *--------------------------- GUEST ROUTES ----------------------------*
