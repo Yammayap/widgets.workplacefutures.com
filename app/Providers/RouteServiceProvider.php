@@ -25,7 +25,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             // Web Routes
             Route::name('web.')
-                ->middleware(['web'])
+                ->middleware(['web', 'set_tenant'])
                 ->group(base_path('routes/web.php'));
         });
     }
