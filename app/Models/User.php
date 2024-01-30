@@ -5,22 +5,23 @@ namespace App\Models;
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 /**
  * @property int $id
  * @property string $uuid
+ * @property CarbonImmutable $created_at
+ * @property CarbonImmutable $updated_at
  * @property string $first_name
  * @property string $last_name
  * @property string $email
  * @property string|null $company_name
  * @property PhoneNumber|null $phone
  * @property boolean $marketing_opt_in
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
  */
-class User extends Model
+class User extends Authenticatable
 {
     use HasFactory;
     use HasUuid;
@@ -37,7 +38,8 @@ class User extends Model
      *
      * @var array<string, string|class-string>
      */
-    protected $casts = [ // todo: should phone also be casted? (We don't know a lot about the field yet)
+    protected $casts = [
         'marketing_opt_in' => 'boolean',
+        'phone'            => E164PhoneNumberCast::class,
     ];
 }
