@@ -21,7 +21,7 @@ enum Widget: string implements HasLabel
     /**
      * @return array<string,mixed>
      */
-    public function configFile(): array
+    public function config(): array
     {
         return match ($this) {
             self::SPACE_CALCULATOR => config('widgets.space-calculator'),
