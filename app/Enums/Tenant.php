@@ -5,7 +5,7 @@ namespace App\Enums;
 use App\Enums\Contracts\HasLabel;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-enum TenantEnum: string implements HasLabel
+enum Tenant: string implements HasLabel
 {
     case AMBIT = 'ambit';
     case MODUS = 'modus';
@@ -76,6 +76,6 @@ enum TenantEnum: string implements HasLabel
      */
     public function logoFilepath(): string
     {
-        return '/tenants/logos/' . $this->logo();
+        return 'img/tenants/logos/' . $this->logo();
     }
 }

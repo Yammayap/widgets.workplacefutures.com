@@ -2,20 +2,28 @@
 
 namespace App\Services\TenantManager;
 
-use App\Enums\TenantEnum;
+use App\Enums\Tenant;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 
 class TenantManager
 {
     /**
-     * @var TenantEnum $tenant
+     * @var Tenant $tenant
      */
-    private TenantEnum $tenant;
+    private Tenant $tenant;
 
     public function __construct(private readonly Session $session)
     {
         //
+    }
+
+    /**
+     * @return Tenant
+     */
+    public function getCurrentTenant(): Tenant
+    {
+        return $this->tenant;
     }
 
     /**
@@ -39,29 +47,21 @@ class TenantManager
     }
 
     /**
-     * @return TenantEnum
+     * @return Tenant
      */
-    private function getDefaultTenant(): TenantEnum
+    private function getDefaultTenant(): Tenant
     {
-        return TenantEnum::WFG;
+        return Tenant::WFG;
     }
 
     /**
      * @param string $tenantString
-     * @return TenantEnum
+     * @return Tenant
      */
-    private function getTenantFromString(string $tenantString): TenantEnum
+    private function getTenantFromString(string $tenantString): Tenant
     {
-        $tenant = TenantEnum::tryFrom($tenantString);
+        $tenant = Tenant::tryFrom($tenantString);
 
         return $tenant ?? $this->getDefaultTenant();
-    }
-
-    /**
-     * @return TenantEnum
-     */
-    public function getCurrentTenant(): TenantEnum
-    {
-        return $this->tenant;
     }
 }
