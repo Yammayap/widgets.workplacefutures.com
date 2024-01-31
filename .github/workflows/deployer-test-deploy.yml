@@ -1,0 +1,91 @@
+name: "Deployer: Test: Deploy"
+
+on:
+  workflow_call:
+    secrets:
+      AWS_TEST_SG_ID:
+        required: true
+      AWS_TEST_ACCESS_KEY_ID:
+        required: true
+      AWS_TEST_SECRET_ACCESS_KEY:
+        required: true
+      DOT_ENV_TEST:
+        required: true
+      SSH_TEST_DEPLOY_PRIVATE_KEY:
+        required: true
+      SSH_TEST_DEPLOY_KNOWN_HOSTS:
+        required: true
+      GHA_SENTRY_RELEASES_TOKEN:
+        required: true
+
+jobs:
+
+  deployer:
+    name: "Deployer: Test: Deploy"
+    if: github.ref == 'refs/heads/test'
+
+    runs-on: ubuntu-22.04
+
+    environment:
+      name: test
+      url: https://test.widgets.workplacefutures.com/
+
+    steps:
+      - name: Get GitHub Actions runner IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Whitelist the GHA runner IP
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_TEST_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TEST_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TEST_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-west-2'
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download built assets
+        uses: actions/download-artifact@v3
+        with:
+          name: assets-${{ github.sha }}
+          path: public/build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, gd, json, mbstring, xml, pdo, mysql, redis, intl
+          coverage: none
+
+      - name: Create release SHA file
+        run: echo ${{ github.sha }} > _RELEASE.txt
+
+      - name: Deploy
+        uses: deployphp/action@v1.0.17
+        env:
+          DOT_ENV: ${{ secrets.DOT_ENV_TEST }}
+        with:
+          deployer-version: "7.0.0"
+          dep: deploy env=test -vvv
+          private-key: ${{ secrets.SSH_TEST_DEPLOY_PRIVATE_KEY }}
+          known-hosts: ${{ secrets.SSH_TEST_DEPLOY_KNOWN_HOSTS }}
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.GHA_SENTRY_RELEASES_TOKEN }}
+          SENTRY_ORG: yammayap
+          SENTRY_PROJECT: wfg-widgets
+        with:
+          environment: test
+
+      - name: Un-whitelist the GHA runner IP
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_TEST_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_TEST_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_TEST_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'eu-west-2'
+        if: always()
