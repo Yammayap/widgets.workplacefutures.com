@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -42,4 +43,12 @@ class User extends Authenticatable
         'marketing_opt_in' => 'boolean',
         'phone'            => E164PhoneNumberCast::class,
     ];
+
+    /**
+     * @return HasMany<Enquiry>
+     */
+    public function enquiries(): HasMany
+    {
+        return $this->hasMany(Enquiry::class, 'user_id');
+    }
 }
