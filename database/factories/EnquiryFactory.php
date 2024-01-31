@@ -80,55 +80,7 @@ class EnquiryFactory extends Factory
     {
         return $this->state(function (array $attributes): array {
             return [
-                'user_id' => User::factory()->create()->id,
-            ];
-        });
-    }
-
-    /**
-     * @return static
-     */
-    public function tenantAmbit(): static
-    {
-        return $this->state(function (array $attributes): array {
-            return [
-                'tenant' => Tenant::AMBIT,
-            ];
-        });
-    }
-
-    /**
-     * @return static
-     */
-    public function tenantModus(): static
-    {
-        return $this->state(function (array $attributes): array {
-            return [
-                'tenant' => Tenant::MODUS,
-            ];
-        });
-    }
-
-    /**
-     * @return static
-     */
-    public function tenantPlatfform(): static
-    {
-        return $this->state(function (array $attributes): array {
-            return [
-                'tenant' => Tenant::PLATFFORM,
-            ];
-        });
-    }
-
-    /**
-     * @return static
-     */
-    public function tenantTwo(): static
-    {
-        return $this->state(function (array $attributes): array {
-            return [
-                'tenant' => Tenant::TWO,
+                'user_id' => User::factory(),
             ];
         });
     }

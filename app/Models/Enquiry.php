@@ -15,11 +15,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $uuid
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
- * @property int $user_id
+ * @property int|null $user_id
  * @property Tenant $tenant
  * @property Widget $widget
- * @property string $message
+ * @property string|null $message
  * @property boolean $can_contact
+ *
+ * @property-read User|null $user
  */
 class Enquiry extends Model
 {

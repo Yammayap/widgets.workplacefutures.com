@@ -16,10 +16,10 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->timestamps();
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
-            $table->string('tenant', 9);
+            $table->string('tenant', 20);
             $table->string('widget', 50);
             $table->text('message')->nullable();
-            $table->boolean('can_contact')->default(0);
+            $table->boolean('can_contact');
         });
     }
 

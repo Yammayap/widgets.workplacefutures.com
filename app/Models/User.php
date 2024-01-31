@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
@@ -21,6 +22,8 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property string|null $company_name
  * @property PhoneNumber|null $phone
  * @property boolean $marketing_opt_in
+ *
+ * @property-read Collection<int, Enquiry> $enquiries
  */
 class User extends Authenticatable
 {
