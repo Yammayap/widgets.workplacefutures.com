@@ -13,14 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SentryContext
 {
-    /**
-     * @var TenantManager $tenantManager
-     */
-    private TenantManager $tenantManager;
 
-    public function __construct(TenantManager $tenantManager)
+    public function __construct(private readonly TenantManager $tenantManager)
     {
-        $this->tenantManager = $tenantManager;
+        //
     }
 
     /**
@@ -47,8 +43,9 @@ class SentryContext
                         id: $user->id,
                         email: $user->email,
                         ipAddress: $request->ip(),
-                        username: $user->name,
                     );
+
+                    $userDataBag->setMetadata('Name', $user->name);
 
                     $scope->setUser($userDataBag);
                 }
