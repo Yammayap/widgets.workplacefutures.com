@@ -16,13 +16,13 @@ return new class extends Migration
             $table->uuid()->unique();
             $table->timestamps();
             $table->foreignId('enquiry_id')->references('id')->on('enquiries');
-            $table->string('sector', 50);
+            $table->string('workstyle', 50);
             $table->integer('total_people');
             $table->integer('growth_percentage');
             $table->integer('desk_percentage');
             $table->string('hybrid_working', 50);
             $table->string('mobility', 50);
-            $table->string('focus', 50);
+            $table->string('collaboration', 50);
         });
     }
 
