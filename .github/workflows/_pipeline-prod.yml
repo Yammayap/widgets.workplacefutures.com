@@ -1,0 +1,24 @@
+name: "Pipeline: Master"
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  codecommit-sync:
+    uses: ./.github/workflows/codecommit-sync.yml
+    secrets: inherit
+
+  build-assets:
+    uses: ./.github/workflows/build-assets.yml
+
+  quality-assurance:
+    needs: [build-assets]
+    uses: ./.github/workflows/quality-assurance.yml
+
+#  deployer-prod-deploy:
+#    needs: [build-assets, quality-assurance]
+#    uses: ./.github/workflows/deployer-prod-deploy.yml
+#    secrets: inherit

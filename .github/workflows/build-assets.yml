@@ -1,0 +1,43 @@
+name: "Build Assets"
+
+on:
+  workflow_call:
+
+jobs:
+  build-assets:
+    name: "Build Assets"
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, gd, json, mbstring, xml, pdo, mysql, redis, intl
+          coverage: none
+
+      - name: Create a .env file
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Composer dependencies (project)
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--no-scripts --prefer-dist"
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Vite build
+        run: npm run build
+
+      - name: Upload built assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets-${{ github.sha }}
+          path: public/build
+          retention-days: 7
