@@ -2,7 +2,9 @@
 
 namespace App\Enums\Widgets\SpaceCalculator;
 
-enum Workstyle: string
+use App\Enums\Contracts\HasLabel;
+
+enum Workstyle: string implements HasLabel
 {
     case SERVICE_DELIVERY = 'service-delivery';
     case CREATIVE = 'creative';
@@ -16,7 +18,7 @@ enum Workstyle: string
     /**
      * @return string
      */
-    public function answerLabel(): string
+    public function label(): string
     {
         return match ($this) {
             self::SERVICE_DELIVERY => 'Companies delivering services such as accounting and consultancy',
