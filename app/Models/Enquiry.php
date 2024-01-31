@@ -7,8 +7,8 @@ use App\Enums\Widget;
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property int $id
@@ -21,7 +21,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $message
  * @property boolean $can_contact
  */
-class Enquiry extends Authenticatable
+class Enquiry extends Model
 {
     use HasFactory;
     use HasUuid;
