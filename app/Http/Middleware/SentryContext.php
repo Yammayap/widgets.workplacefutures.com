@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SentryContext
 {
-
     public function __construct(private readonly TenantManager $tenantManager)
     {
         //
