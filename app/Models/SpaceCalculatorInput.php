@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\Widgets\SpaceCalculator\Collaboration;
+use App\Enums\Widgets\SpaceCalculator\HybridWorking;
+use App\Enums\Widgets\SpaceCalculator\Mobility;
+use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +18,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
  * @property int $enquiry_id
- * // todo: carry on setting up vars here when enums set up
+ * @property Workstyle $workstyle
+ * @property int $total_people
+ * @property int $growth_percentage
+ * @property int $desk_percentage
+ * @property HybridWorking $hybrid_working
+ * @property Mobility $mobility
+ * @property Collaboration $collaboration
+ *
+ * @property-read Enquiry $enquiry
  */
 class SpaceCalculatorInput extends Model
 {
@@ -34,7 +46,10 @@ class SpaceCalculatorInput extends Model
      * @var array<string, string|class-string>
      */
     protected $casts = [
-        // todo: set up casts when enums set up
+        'workstyle' => Workstyle::class,
+        'hybrid_working' => HybridWorking::class,
+        'mobility' => Mobility::class,
+        'collaboration' => Collaboration::class,
     ];
 
     /**

@@ -19,9 +19,12 @@ enum Mobility: string implements HasLabel
     {
         return match ($this) {
             self::SPECIFIC_DESKS => 'We have specialist kit which means we must use specific desks',
-            self::COMPUTER_MIXTURE => 'We use a mixture of laptops and desktops and do a lot of our work at regular desks',
-            self::LAPTOPS_DOCKING => 'Everything is on our laptops but we prefer to use docking stations on regular desks if available',
-            self::LAPTOPS_TOUCHDOWN => 'Everything is on our laptops but we prefer to work at desks or touchdown points',
+            self::COMPUTER_MIXTURE => 'We use a mixture of laptops and desktops and do a lot of our work'
+                . ' at regular desks',
+            self::LAPTOPS_DOCKING => 'Everything is on our laptops but we prefer to use docking stations on regular'
+                . ' desks if available',
+            self::LAPTOPS_TOUCHDOWN => 'Everything is on our laptops but we prefer to work at desks'
+                . ' or touchdown points',
             self::LAPTOPS_ANYWHERE => 'Everything is on our laptops and we can work anywhere',
         };
     }
