@@ -1,16 +1,16 @@
 <?php
 
-namespace Feature\Http\Web\Widgets\SpaceCalculator\LandingController;
+namespace Feature\Http\Web\SpaceCalculator\LandingController;
 
 use Tests\TestCase;
 
-class GetLandingTest extends TestCase
+class GetIndexTest extends TestCase
 {
     public function test_page_loads_ok(): void
     {
         $response = $this->get(route('web.space-calculator.index'));
 
         $response->assertOk()
-            ->assertSessionHasNoErrors();
+            ->assertViewIs('web.space-calculator.landing');
     }
 }
