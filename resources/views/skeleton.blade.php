@@ -9,7 +9,11 @@
 </head>
 <body>
 
+<x-header />
+
 @yield('page')
+
+<x-footer />
 
 @vite(['resources/js/app.js'])
 
