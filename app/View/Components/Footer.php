@@ -6,7 +6,7 @@ use App\Services\TenantManager\TenantManager;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Header extends Component
+class Footer extends Component
 {
     /**
      * Create a new component instance.
@@ -21,7 +21,7 @@ class Header extends Component
      */
     public function render(): View
     {
-        return view('components.header', [
+        return view('components.footer', [
             'tenant' => $this->tenantManager->getCurrentTenant(),
         ]);
     }

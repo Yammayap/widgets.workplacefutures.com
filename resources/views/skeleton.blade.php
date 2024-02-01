@@ -13,6 +13,8 @@
 
 @yield('page')
 
+<x-footer />
+
 @vite(['resources/js/app.js'])
 
 @stack('scripts')
