@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
  *------------------- GUEST & AUTHENTICATED ROUTES --------------------*
  *---------------------------------------------------------------------*/
 
+Route::get('/', [Web\HomeController::class, 'getIndex'])
+    ->name('home.index');
+
 Route::group(['prefix' => 'space-calculator'], function (): void {
     Route::get('/', [Web\SpaceCalculator\LandingController::class, 'getIndex'])
         ->name('space-calculator.index');
