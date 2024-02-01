@@ -10,10 +10,9 @@ class LandingController extends WebController
     /**
      * @return View
      */
-    public function getLanding(): View
+    public function getIndex(): View
     {
-        // todo: discuss - redefine meta title (defer for now)
-        $this->metaTitle('Space Calculator Landing Page');
+        $this->metaTitle('Space Calculator');
 
         return view('web.space-calculator.landing', [
             //
