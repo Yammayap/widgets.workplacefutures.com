@@ -6,11 +6,11 @@ use App\Enums\Contracts\HasLabel;
 
 enum HybridWorking: string implements HasLabel
 {
-    case OFFICE = 'office_based';
-    case ONE_DAY = 'one_day';
-    case TWO_DAYS = 'two_days';
-    case THREE_DAYS = 'three_days';
-    case FOUR_DAYS = 'four_days';
+    case OFFICE = 'office-based';
+    case ONE_DAY = 'one-day';
+    case TWO_DAYS = 'two-days';
+    case THREE_DAYS = 'three-days';
+    case FOUR_DAYS = 'four-days';
     case HOME = 'home';
 
     /**

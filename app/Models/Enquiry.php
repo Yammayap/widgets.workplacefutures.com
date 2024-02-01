@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -24,7 +23,7 @@ use Illuminate\Support\Collection;
  * @property boolean $can_contact
  *
  * @property-read User|null $user
- * @property-read Collection<int, SpaceCalculatorInput> $spaceCalculatorInputs
+ * @property-read SpaceCalculatorInput $spaceCalculatorInput
  */
 class Enquiry extends Model
 {
@@ -60,7 +59,7 @@ class Enquiry extends Model
     /**
      * @return HasOne<SpaceCalculatorInput>
      */
-    public function spaceCalculatorInputs(): HasOne
+    public function spaceCalculatorInput(): HasOne
     {
         return $this->hasOne(SpaceCalculatorInput::class, 'enquiry_id');
     }

@@ -6,11 +6,11 @@ use App\Enums\Contracts\HasLabel;
 
 enum Collaboration: string implements HasLabel
 {
-    case INDIVIDUAL_FOCUS = 'individual_focus';
-    case SOME_MEETINGS = 'some_meetings';
-    case MANY_MEETINGS = 'many_meetings';
+    case INDIVIDUAL_FOCUS = 'individual-focus';
+    case SOME_MEETINGS = 'some-meetings';
+    case MANY_MEETINGS = 'many-meetings';
     case AGILE = 'agile';
-    case ALL_COLLABORATION = 'all_collaboration';
+    case ALL_COLLABORATION = 'all-collaboration';
 
     /**
      * @return string

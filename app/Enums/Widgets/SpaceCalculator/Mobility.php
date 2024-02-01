@@ -6,11 +6,11 @@ use App\Enums\Contracts\HasLabel;
 
 enum Mobility: string implements HasLabel
 {
-    case SPECIFIC_DESKS = 'specific_desks';
-    case COMPUTER_MIXTURE = 'computer_mixture';
-    case LAPTOPS_DOCKING = 'laptops_docking';
-    case LAPTOPS_TOUCHDOWN = 'laptops_touchdown';
-    case LAPTOPS_ANYWHERE = 'laptops_anywhere';
+    case SPECIFIC_DESKS = 'specific-desks';
+    case COMPUTER_MIXTURE = 'computer-mixture';
+    case LAPTOPS_DOCKING = 'laptops-docking';
+    case LAPTOPS_TOUCHDOWN = 'laptops-touchdown';
+    case LAPTOPS_ANYWHERE = 'laptops-anywhere';
 
     /**
      * @return string

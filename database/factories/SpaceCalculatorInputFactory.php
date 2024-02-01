@@ -31,13 +31,13 @@ class SpaceCalculatorInputFactory extends Factory
     {
         return [
             'enquiry_id' => Enquiry::factory(),
-            'workstyle' => $this->faker->randomElement(Workstyle::cases())->value,
+            'workstyle' => $this->faker->randomElement(Workstyle::cases()),
             'total_people' => $this->faker->numberBetween(10, 20),
             'growth_percentage' => $this->faker->numberBetween(0, 100),
             'desk_percentage' => $this->faker->numberBetween(0, 100),
-            'hybrid_working' => $this->faker->randomElement(HybridWorking::cases())->value,
-            'mobility' => $this->faker->randomElement(Mobility::cases())->value,
-            'collaboration' => $this->faker->randomElement(Collaboration::cases())->value,
+            'hybrid_working' => $this->faker->randomElement(HybridWorking::cases()),
+            'mobility' => $this->faker->randomElement(Mobility::cases()),
+            'collaboration' => $this->faker->randomElement(Collaboration::cases()),
         ];
     }
 }

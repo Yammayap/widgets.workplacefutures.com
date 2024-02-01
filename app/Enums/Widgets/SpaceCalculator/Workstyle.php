@@ -12,8 +12,8 @@ enum Workstyle: string implements HasLabel
     case GENERAL = 'general';
     case TECHNOLOGY = 'technology';
     case LAW = 'law';
-    case PROCESS_DRIVEN = 'process_driven';
-    case PUBLIC_SECTOR = 'public_sector';
+    case PROCESS_DRIVEN = 'process-driven';
+    case PUBLIC_SECTOR = 'public-sector';
 
     /**
      * @return string
