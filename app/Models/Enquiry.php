@@ -9,6 +9,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $id
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property boolean $can_contact
  *
  * @property-read User|null $user
+ * @property-read SpaceCalculatorInput $spaceCalculatorInput
  */
 class Enquiry extends Model
 {
@@ -52,5 +54,13 @@ class Enquiry extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id', 'user_id');
+    }
+
+    /**
+     * @return HasOne<SpaceCalculatorInput>
+     */
+    public function spaceCalculatorInput(): HasOne
+    {
+        return $this->hasOne(SpaceCalculatorInput::class, 'enquiry_id');
     }
 }
