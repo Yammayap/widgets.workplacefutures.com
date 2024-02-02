@@ -7,8 +7,8 @@ use App\Enums\Widgets\SpaceCalculator\Workstyle as WorkstyleEnum;
 class Workstyle extends Select
 {
     /**
-     * @param string $name
      * @param string $label
+     * @param string|null $name
      * @param string|null $selected
      * @param string|null $placeholder
      * @param bool $required

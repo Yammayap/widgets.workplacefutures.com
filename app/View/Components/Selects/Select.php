@@ -53,8 +53,8 @@ abstract class Select extends Component
     public readonly array $options;
 
     /**
-     * @param string $name
      * @param string $label
+     * @param string|null $name
      * @param string|null $selected
      * @param string|null $placeholder
      * @param bool $required
@@ -72,8 +72,8 @@ abstract class Select extends Component
         bool $allowBlank = false,
         array $classes = array(),
     ) {
-        $this->name = !is_null($name) ? $name : $this->defaultName();
         $this->label = $label;
+        $this->name = !is_null($name) ? $name : $this->defaultName();
         $this->selected = $selected;
         $this->placeholder = $placeholder;
         $this->required = $required;

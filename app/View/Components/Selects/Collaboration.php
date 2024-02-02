@@ -2,7 +2,9 @@
 
 namespace App\View\Components\Selects;
 
-class Boolean extends Select
+use App\Enums\Widgets\SpaceCalculator\Collaboration as CollaborationEnum;
+
+class Collaboration extends Select
 {
     /**
      * @param string $label
@@ -41,17 +43,20 @@ class Boolean extends Select
      */
     protected function defaultName(): string
     {
-        return 'choice';
+        return 'collaboration';
     }
 
     /**
-     * @return array<int, string>
+     * @return array<string, string>
      */
     protected function options(): array
     {
-        return [
-            0 => 'No',
-            1 => 'Yes',
-        ];
+        $output = array();
+
+        foreach (CollaborationEnum::cases() as $case) {
+            $output[$case->value] = $case->label();
+        }
+
+        return $output;
     }
 }
