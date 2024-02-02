@@ -8,7 +8,7 @@ use App\Services\TenantManager\TenantManager;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class CreateAndGetEnquiry
+class CreateAndGetEnquiryAction
 {
     use AsFake;
     use AsObject;

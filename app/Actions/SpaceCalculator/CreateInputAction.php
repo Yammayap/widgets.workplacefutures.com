@@ -11,7 +11,7 @@ use App\Models\SpaceCalculatorInput;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class CreateInput
+class CreateInputAction
 {
     use AsFake;
     use AsObject;
