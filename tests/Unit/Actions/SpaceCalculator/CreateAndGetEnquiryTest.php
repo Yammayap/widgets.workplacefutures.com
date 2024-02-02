@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Actions\SpaceCalculator;
 
-use App\Actions\SpaceCalculator\CreateAndGetEnquiryAction as CreateAndGetEnquiryAction;
+use App\Actions\SpaceCalculator\CreateAndGetEnquiryAction;
 use App\Enums\Tenant;
 use App\Enums\Widget;
 use App\Models\Enquiry;
