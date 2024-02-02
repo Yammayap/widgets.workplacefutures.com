@@ -13,6 +13,11 @@ Route::get('/', [Web\HomeController::class, 'getIndex'])
 Route::group(['prefix' => 'space-calculator'], function (): void {
     Route::get('/', [Web\SpaceCalculator\LandingController::class, 'getIndex'])
         ->name('space-calculator.index');
+
+    Route::group(['prefix' => 'inputs'], function (): void {
+        Route::get('/', [Web\SpaceCalculator\InputsController::class, 'getIndex'])
+            ->name('space-calculator.inputs');
+    });
 });
 
 /*---------------------------------------------------------------------*
