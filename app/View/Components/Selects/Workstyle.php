@@ -2,7 +2,9 @@
 
 namespace App\View\Components\Selects;
 
-class Boolean extends Select
+use App\Enums\Widgets\SpaceCalculator\Workstyle as WorkstyleEnum;
+
+class Workstyle extends Select
 {
     /**
      * @param string $name
@@ -15,8 +17,8 @@ class Boolean extends Select
      * @param array<int, string> $classes
      */
     public function __construct(
-        string $name,
         string $label,
+        string $name = null,
         string $selected = null,
         string $placeholder = null,
         bool $required = false,
@@ -25,8 +27,8 @@ class Boolean extends Select
         array $classes = array(),
     ) {
         parent::__construct(
-            $name,
             $label,
+            $name,
             $selected,
             $placeholder,
             $required,
@@ -41,17 +43,20 @@ class Boolean extends Select
      */
     protected function defaultName(): string
     {
-        return 'choice';
+        return 'workstyle';
     }
 
     /**
-     * @return array<int, string>
+     * @return array<string, string>
      */
     protected function options(): array
     {
-        return [
-            0 => 'No',
-            1 => 'Yes',
-        ];
+        $output = array();
+
+        foreach (WorkstyleEnum::cases() as $case) {
+            $output[$case->value] = $case->label();
+        }
+
+        return $output;
     }
 }

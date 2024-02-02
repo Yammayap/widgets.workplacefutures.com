@@ -10,7 +10,7 @@ abstract class Select extends Component
     /**
      * @var string
      */
-    public readonly string $name;
+    public readonly string|null $name;
 
     /**
      * @var string
@@ -63,8 +63,8 @@ abstract class Select extends Component
      * @param array<int, string> $classes
      */
     public function __construct(
-        string $name,
         string $label,
+        ?string $name = null,
         string $selected = null,
         string $placeholder = null,
         bool $required = false,
@@ -72,7 +72,7 @@ abstract class Select extends Component
         bool $allowBlank = false,
         array $classes = array(),
     ) {
-        $this->name = $name;
+        $this->name = !is_null($name) ? $name : $this->defaultName();
         $this->label = $label;
         $this->selected = $selected;
         $this->placeholder = $placeholder;
@@ -82,6 +82,11 @@ abstract class Select extends Component
         $this->classes = $classes;
         $this->options = $this->options();
     }
+
+    /**
+     * @return string
+     */
+    abstract protected function defaultName(): string;
 
     /**
      * @return array<int|string,string>
