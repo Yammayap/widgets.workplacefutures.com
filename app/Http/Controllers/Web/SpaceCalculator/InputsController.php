@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
+use App\Actions\SpaceCalculator\CreateAndGetEnquiry;
+use App\Actions\SpaceCalculator\CreateInput;
+use App\Enums\Widgets\SpaceCalculator\Collaboration;
+use App\Enums\Widgets\SpaceCalculator\HybridWorking;
+use App\Enums\Widgets\SpaceCalculator\Mobility;
+use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\PostSpaceCalculatorInputsRequest;
 use Illuminate\Http\RedirectResponse;
@@ -23,10 +29,26 @@ class InputsController extends WebController
     }
 
     /**
+     * @param PostSpaceCalculatorInputsRequest $request
      * @return RedirectResponse
      */
     public function postIndex(PostSpaceCalculatorInputsRequest $request): RedirectResponse
     {
-        dd('in the post function', $request->all());
+        $enquiry = CreateAndGetEnquiry::run();
+
+        CreateInput::run(
+            // todo: is it better to pass in enums here, or pass in strings and run "from()" functions in the action?
+            Workstyle::from($request->input('workstyle')),
+            $request->input('total_people'),
+            $request->input('growth_percentage'),
+            $request->input('desk_percentage'),
+            HybridWorking::from($request->input('hybrid_working')),
+            Mobility::from($request->input('mobility')),
+            Collaboration::from($request->input('collaboration')),
+            $enquiry,
+        );
+
+        // todo: change redirect when ready
+        return redirect()->route('web.space-calculator.index');
     }
 }
