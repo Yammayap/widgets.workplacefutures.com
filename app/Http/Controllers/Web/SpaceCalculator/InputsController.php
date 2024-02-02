@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
 use App\Http\Controllers\WebController;
+use App\Http\Requests\Web\SpaceCalculator\PostSpaceCalculatorInputsRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class InputsController extends WebController
@@ -18,5 +20,13 @@ class InputsController extends WebController
         return view('web.space-calculator.inputs', [
             //
         ]);
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function postIndex(PostSpaceCalculatorInputsRequest $request): RedirectResponse
+    {
+        dd('in the post function', $request->all());
     }
 }

@@ -43,7 +43,7 @@ class HybridWorking extends Select
      */
     protected function defaultName(): string
     {
-        return 'hybrid-working';
+        return 'hybrid_working';
     }
 
     /**
