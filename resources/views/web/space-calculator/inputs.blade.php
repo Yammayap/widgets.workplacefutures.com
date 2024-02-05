@@ -15,16 +15,22 @@
         </div>
 
         <div>
-            {{-- "How many people will be working out of this office?" --}}
-            <x-inputs.text name="total_people" id="total_people" type="number" :value="old('total_people')" />
+            <x-forms.label for="total_people">
+                How many people will be working out of this office?
+            </x-forms.label>
+            <x-forms.text name="total_people" id="total_people" type="number" :value="old('total_people')" />
         </div>
         <div>
-            {{-- "What percentage should be added for growth or flexibility if any?" --}}
-            <x-inputs.text name="growth_percentage" id="growth_percentage" type="number" :value="old('growth_percentage')" />
+            <x-forms.label for="growth_percentage">
+                What percentage should be added for growth or flexibility if any?
+            </x-forms.label>
+            <x-forms.text name="growth_percentage" id="growth_percentage" type="number" :value="old('growth_percentage')" />
         </div>
         <div>
-            {{-- "What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?" --}}
-            <x-inputs.text name="desk_percentage" id="desk_percentage" type="number" :value="old('desk_percentage')" />
+            <x-forms.label for="desk_percentage">
+                What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?
+            </x-forms.label>
+            <x-forms.text name="desk_percentage" id="desk_percentage" type="number" :value="old('desk_percentage')" />
         </div>
 
         <div>
