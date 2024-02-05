@@ -16,7 +16,7 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
 
     Route::group(['prefix' => 'inputs'], function (): void {
         Route::get('/', [Web\SpaceCalculator\InputsController::class, 'getIndex'])
-            ->name('space-calculator.inputs');
+            ->name('space-calculator.inputs.index');
         Route::post('/', [Web\SpaceCalculator\InputsController::class, 'postIndex'])
             ->name('space-calculator.inputs.post');
     });

@@ -13,7 +13,7 @@ class Errors extends Component
      *
      * @param ViewErrorBag $errorBag
      */
-    public function __construct(public ViewErrorBag $errorBag)
+    public function __construct(public readonly ViewErrorBag $errorBag)
     {
         //
     }

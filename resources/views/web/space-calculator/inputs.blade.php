@@ -6,9 +6,9 @@
 
     <p>Lorem ipsum dolor sit amet. This page is a WIP but demonstrates inputs and selects as view components below.</p>
 
-    <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate> {{-- real action url to come in next PR for posting/capturing this data --}}
+    <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate>
         {{-- note: The questions/labels below have been copied from the spreadsheet --}}
-        {{ csrf_field() }}
+        @csrf
         <x-errors />
         <div> {{-- naming these selects the same as the enums --}}
             <x-selects.workstyle label="Choose the sector or predominant work style that most closely matches your organisation" :selected="old('workstyle')" allowBlank />

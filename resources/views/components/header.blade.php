@@ -2,7 +2,7 @@
     <div>
         <div>
             <a href="/" title="{{ $tenant->label() }}">
-                <img src="/{{ $tenant->logoFilePath() }}" alt="{{ $tenant->label() }}" />
+                <img src="{{ $tenant->logoFileUrl() }}" alt="{{ $tenant->label() }}" />
             </a>
         </div>
         <div>

@@ -10,7 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
-class PostSpaceCalculatorInputsRequest extends FormRequest
+class PostIndexRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -24,9 +24,9 @@ class PostSpaceCalculatorInputsRequest extends FormRequest
             'hybrid_working' => ['required', Rule::enum(HybridWorking::class)],
             'mobility' => ['required', Rule::enum(Mobility::class)],
             'collaboration' => ['required', Rule::enum(Collaboration::class)],
-            'total_people' => ['required', 'numeric', 'min:1'],
-            'growth_percentage' => ['required', 'numeric', 'min:0'],
-            'desk_percentage' => ['required', 'numeric', 'min:0'],
+            'total_people' => ['required', 'integer', 'min:1', 'max:2147483647'],
+            'growth_percentage' => ['required', 'integer', 'min:0', 'max:2147483647'],
+            'desk_percentage' => ['required', 'integer', 'min:0', 'max:2147483647'],
         ];
     }
 }
