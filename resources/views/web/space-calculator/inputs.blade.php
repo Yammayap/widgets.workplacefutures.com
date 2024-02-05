@@ -9,7 +9,7 @@
     <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate>
         {{-- note: The questions/labels below have been copied from the spreadsheet --}}
         @csrf
-        <x-errors />
+        <x-errors :errors="$errors" />
         <div> {{-- naming these selects the same as the enums --}}
             <x-selects.workstyle label="Choose the sector or predominant work style that most closely matches your organisation" :selected="old('workstyle')" allowBlank />
         </div>
