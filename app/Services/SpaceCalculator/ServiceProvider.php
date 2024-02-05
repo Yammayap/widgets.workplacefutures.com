@@ -14,7 +14,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->app->scoped(Calculator::class, function (Application $app) {
             return new Calculator(
-                // config class here
+                new Config() // vars to be passed into config here
             );
         });
     }
