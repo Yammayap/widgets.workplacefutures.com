@@ -13,7 +13,7 @@
             <x-forms.label for="workstyle">
                 Choose the sector or predominant work style that most closely matches your organisation
             </x-forms.label>
-            <x-select name="workstyle" id="workstyle" :selected="old('workstyle')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Workstyle::toSelectOptions()" />
+            <x-forms.select name="workstyle" id="workstyle" :selected="old('workstyle')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Workstyle::toSelectOptions()" />
         </div>
         <div>
             <x-forms.label for="total_people">
@@ -37,19 +37,19 @@
             <x-forms.label for="hybrid_working">
                 What is your hybrid working policy (choose closest match)?
             </x-forms.label>
-            <x-select name="hybrid_working" id="hybrid_working" :selected="old('hybrid_working')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\HybridWorking::toSelectOptions()" />
+            <x-forms.select name="hybrid_working" id="hybrid_working" :selected="old('hybrid_working')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\HybridWorking::toSelectOptions()" />
         </div>
         <div>
             <x-forms.label for="mobility">
                 Which of these best describes the level of mobility when in the office?
             </x-forms.label>
-            <x-select name="mobility" id="mobility" :selected="old('mobility')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Mobility::toSelectOptions()" />
+            <x-forms.select name="mobility" id="mobility" :selected="old('mobility')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Mobility::toSelectOptions()" />
         </div>
         <div>
             <x-forms.label for="collaboration">
                 Which of these best describes the level of team or focus working when in the office?
             </x-forms.label>
-            <x-select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
+            <x-forms.select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
         </div>
         <button type="submit" title="Submit Inputs">Submit Inputs</button>
     </form>

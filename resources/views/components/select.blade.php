@@ -1,10 +1,10 @@
 <div>
-    <select {{ $attributes->whereDoesntStartWith('options') }}>
+    <select {{ $attributes }}>
         @if($allowBlank)
-            <option value="" disabled{{ is_null($selected) || !in_array($selected, $options) ? ' selected' : '' }}>-</option>
+            <option value="">-</option>
         @endif
         @foreach($options as $option)
-            <option value="{{ $option["value"] }}"{{ !is_null($selected) && $selected == $option["value"] ? ' selected' : '' }}>{{ $option["label"] }}</option>
+            <option value="{{ $option["value"] }}" @selected(strval($option['value']) === strval($selected))>{{ $option["label"] }}</option>
         @endforeach
     </select>
 </div>
