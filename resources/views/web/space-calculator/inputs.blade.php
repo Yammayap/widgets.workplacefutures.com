@@ -13,15 +13,20 @@
         <div> {{-- naming these selects the same as the enums --}}
             <x-selects.workstyle label="Choose the sector or predominant work style that most closely matches your organisation" :selected="old('workstyle')" allowBlank />
         </div>
+
         <div>
-            <x-inputs.text name="total_people" label="How many people will be working out of this office?" type="number" :value="old('total_people')" />
+            {{-- "How many people will be working out of this office?" --}}
+            <x-inputs.text name="total_people" id="total_people" type="number" :value="old('total_people')" />
         </div>
         <div>
-            <x-inputs.text name="growth_percentage" label="What percentage should be added for growth or flexibility if any?" type="number" :value="old('growth_percentage')" />
+            {{-- "What percentage should be added for growth or flexibility if any?" --}}
+            <x-inputs.text name="growth_percentage" id="growth_percentage" type="number" :value="old('growth_percentage')" />
         </div>
         <div>
-            <x-inputs.text name="desk_percentage" label="What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?" type="number" :value="old('desk_percentage')" />
+            {{-- "What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?" --}}
+            <x-inputs.text name="desk_percentage" id="desk_percentage" type="number" :value="old('desk_percentage')" />
         </div>
+
         <div>
             <x-selects.hybrid-working label="What is your hybrid working policy (choose closest match)?" :selected="old('hybrid_working')" allowBlank />
         </div>
