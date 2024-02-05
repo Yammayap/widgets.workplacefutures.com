@@ -3,9 +3,12 @@
 namespace App\Enums\Widgets\SpaceCalculator;
 
 use App\Enums\Contracts\HasLabel;
+use App\Enums\Traits\ProvidesSelectOptions;
 
 enum Mobility: string implements HasLabel
 {
+    use ProvidesSelectOptions;
+
     case SPECIFIC_DESKS = 'specific-desks';
     case COMPUTER_MIXTURE = 'computer-mixture';
     case LAPTOPS_DOCKING = 'laptops-docking';

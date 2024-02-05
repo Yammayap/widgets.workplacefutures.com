@@ -7,13 +7,14 @@
     <p>Lorem ipsum dolor sit amet. This page is a WIP but demonstrates inputs and selects as view components below.</p>
 
     <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate>
-        {{-- note: The questions/labels below have been copied from the spreadsheet --}}
         @csrf
         <x-errors :errors="$errors" />
-        <div> {{-- naming these selects the same as the enums --}}
-            <x-selects.workstyle label="Choose the sector or predominant work style that most closely matches your organisation" :selected="old('workstyle')" allowBlank />
+        <div>
+            <x-forms.label for="workstyle">
+                Choose the sector or predominant work style that most closely matches your organisation
+            </x-forms.label>
+            <x-select name="workstyle" id="workstyle" :selected="old('workstyle')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Workstyle::toSelectOptions()" />
         </div>
-
         <div>
             <x-forms.label for="total_people">
                 How many people will be working out of this office?
@@ -32,17 +33,25 @@
             </x-forms.label>
             <x-forms.text name="desk_percentage" id="desk_percentage" type="number" :value="old('desk_percentage')" />
         </div>
-
         <div>
-            <x-selects.hybrid-working label="What is your hybrid working policy (choose closest match)?" :selected="old('hybrid_working')" allowBlank />
+            <x-forms.label for="hybrid_working">
+                What is your hybrid working policy (choose closest match)?
+            </x-forms.label>
+            <x-select name="hybrid_working" id="hybrid_working" :selected="old('hybrid_working')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\HybridWorking::toSelectOptions()" />
         </div>
         <div>
-            <x-selects.mobility label="Which of these best describes the level of mobility when in the office?" :selected="old('mobility')" allowBlank />
+            <x-forms.label for="mobility">
+                Which of these best describes the level of mobility when in the office?
+            </x-forms.label>
+            <x-select name="mobility" id="mobility" :selected="old('mobility')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Mobility::toSelectOptions()" />
         </div>
         <div>
-            <x-selects.collaboration label="Which of these best describes the level of team or focus working when in the office?" :selected="old('collaboration')" allowBlank />
+            <x-forms.label for="collaboration">
+                Which of these best describes the level of team or focus working when in the office?
+            </x-forms.label>
+            <x-select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
         </div>
-        <button type="submit" title="Submit Inputs">Submit Inputs</button> {{-- todo: discuss real submit button text - this is proably fine for now --}}
+        <button type="submit" title="Submit Inputs">Submit Inputs</button>
     </form>
 
 @endsection
