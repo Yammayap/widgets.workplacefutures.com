@@ -18,11 +18,13 @@ class CreateAndGetEnquiryTest extends TestCase
 
         $this->assertEquals(0, Enquiry::count());
 
+        /**
+         * @var Enquiry $enquiry
+         */
         $enquiry = CreateAndGetEnquiryAction::run();
 
         $this->assertEquals(1, Enquiry::count());
 
-        $this->assertNotNull($enquiry);
         $this->assertEquals(Tenant::WFG, $enquiry->tenant);
         $this->assertEquals(Widget::SPACE_CALCULATOR, $enquiry->widget);
         $this->assertFalse($enquiry->can_contact);
