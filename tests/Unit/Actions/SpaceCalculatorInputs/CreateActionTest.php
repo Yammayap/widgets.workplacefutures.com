@@ -42,6 +42,6 @@ class CreateActionTest extends TestCase
         $this->assertEquals(HybridWorking::FOUR_DAYS, $input->hybrid_working);
         $this->assertEquals(Mobility::LAPTOPS_DOCKING, $input->mobility);
         $this->assertEquals(Collaboration::ALL_COLLABORATION, $input->collaboration);
-        $this->assertNotNull($input->enquiry_id);
+        $this->assertTrue($input->enquiry->is($enquiry));
     }
 }
