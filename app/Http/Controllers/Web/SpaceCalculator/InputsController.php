@@ -9,6 +9,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Http\Controllers\WebController;
+use App\Http\Requests\Web\SpaceCalculator\PostIndexRequest;
 use App\Http\Requests\Web\SpaceCalculator\PostSpaceCalculatorInputsRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -28,10 +29,10 @@ class InputsController extends WebController
     }
 
     /**
-     * @param PostSpaceCalculatorInputsRequest $request
+     * @param PostIndexRequest $request
      * @return RedirectResponse
      */
-    public function postIndex(PostSpaceCalculatorInputsRequest $request): RedirectResponse
+    public function postIndex(PostIndexRequest $request): RedirectResponse
     {
         $enquiry = CreateAndGetEnquiryAction::run();
 
