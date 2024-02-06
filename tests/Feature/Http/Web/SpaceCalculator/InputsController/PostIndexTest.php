@@ -4,6 +4,8 @@ namespace Feature\Http\Web\SpaceCalculator\InputsController;
 
 use App\Actions\Enquiries\CreateAction as CreateEnquiryAction;
 use App\Actions\SpaceCalculatorInputs\CreateAction as CreateSpaceCalculatorInputAction;
+use App\Enums\Tenant;
+use App\Enums\Widget;
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
@@ -17,7 +19,11 @@ class PostIndexTest extends TestCase
     {
         CreateEnquiryAction::shouldRun()
             ->once()
-            ->withNoArgs()
+            ->with(
+                Tenant::WFG,
+                Widget::SPACE_CALCULATOR,
+                null,
+            )
             ->andReturn($enquiry = Enquiry::factory()->create());
 
         CreateSpaceCalculatorInputAction::shouldRun()

@@ -6,6 +6,7 @@ use App\Actions\Enquiries\CreateAction;
 use App\Enums\Tenant;
 use App\Enums\Widget;
 use App\Models\Enquiry;
+use App\Models\User;
 use App\Services\TenantManager\TenantManager;
 use Tests\TestCase;
 
@@ -21,7 +22,11 @@ class CreateAndGetEnquiryTest extends TestCase
         /**
          * @var Enquiry $enquiry
          */
-        $enquiry = CreateAction::run();
+        $enquiry = CreateAction::run(
+            $tenantManager->getCurrentTenant(),
+            Widget::SPACE_CALCULATOR,
+            null
+        );
 
         $this->assertEquals(1, Enquiry::count());
 
@@ -33,7 +38,10 @@ class CreateAndGetEnquiryTest extends TestCase
 
     public function test_enquiry_is_created_and_returned_for_auth_user(): void
     {
-        $this->authenticateUser();
+        $user_1 = User::factory()->create();
+        $user_2 = User::factory()->create();
+
+        $this->authenticateUser($user_2);
 
         $tenantManager = app()->make(TenantManager::class);
         $tenantManager->setTenantFromRequest(request());
@@ -43,9 +51,13 @@ class CreateAndGetEnquiryTest extends TestCase
         /**
          * @var Enquiry $enquiry
          */
-        $enquiry = CreateAction::run();
+        $enquiry = CreateAction::run(
+            $tenantManager->getCurrentTenant(),
+            Widget::SPACE_CALCULATOR,
+            $user_2,
+        );
 
         $this->assertEquals(1, Enquiry::count());
-        $this->assertNotNull($enquiry->user_id);
+        $this->assertEquals($user_2->id, $enquiry->user_id);
     }
 }
