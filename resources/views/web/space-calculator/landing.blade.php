@@ -15,7 +15,7 @@
             </a>
         </div>
         <div>
-            <a href="{{ route('web.space-calculator.inputs') }}" title="I am new here">
+            <a href="{{ route('web.space-calculator.inputs.index') }}" title="I am new here">
                 I am new here
             </a>
         </div>

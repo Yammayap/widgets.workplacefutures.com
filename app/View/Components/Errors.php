@@ -11,9 +11,9 @@ class Errors extends Component
     /**
      * Errors constructor.
      *
-     * @param ViewErrorBag $errorBag
+     * @param ViewErrorBag $errors
      */
-    public function __construct(public ViewErrorBag $errorBag)
+    public function __construct(public readonly ViewErrorBag $errors)
     {
         //
     }
@@ -24,5 +24,13 @@ class Errors extends Component
     public function render(): View
     {
         return view('components.errors');
+    }
+
+    /**
+     * @return bool
+     */
+    public function shouldRender(): bool
+    {
+        return $this->errors->isNotEmpty();
     }
 }

@@ -6,32 +6,52 @@
 
     <p>Lorem ipsum dolor sit amet. This page is a WIP but demonstrates inputs and selects as view components below.</p>
 
-    <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate> {{-- real action url to come in next PR for posting/capturing this data --}}
-        {{-- note: The questions/labels below have been copied from the spreadsheet --}}
-        {{ csrf_field() }}
-        <x-errors />
-        <div> {{-- naming these selects the same as the enums --}}
-            <x-selects.workstyle label="Choose the sector or predominant work style that most closely matches your organisation" :selected="old('workstyle')" allowBlank />
+    <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate>
+        @csrf
+        <x-errors :errors="$errors" />
+        <div>
+            <x-forms.label for="workstyle">
+                Choose the sector or predominant work style that most closely matches your organisation
+            </x-forms.label>
+            <x-forms.select name="workstyle" id="workstyle" :selected="old('workstyle')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Workstyle::toSelectOptions()" />
         </div>
         <div>
-            <x-inputs.text name="total_people" label="How many people will be working out of this office?" type="number" :value="old('total_people')" />
+            <x-forms.label for="total_people">
+                How many people will be working out of this office?
+            </x-forms.label>
+            <x-forms.text name="total_people" id="total_people" type="number" :value="old('total_people')" />
         </div>
         <div>
-            <x-inputs.text name="growth_percentage" label="What percentage should be added for growth or flexibility if any?" type="number" :value="old('growth_percentage')" />
+            <x-forms.label for="growth_percentage">
+                What percentage should be added for growth or flexibility if any?
+            </x-forms.label>
+            <x-forms.text name="growth_percentage" id="growth_percentage" type="number" :value="old('growth_percentage')" />
         </div>
         <div>
-            <x-inputs.text name="desk_percentage" label="What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?" type="number" :value="old('desk_percentage')" />
+            <x-forms.label for="desk_percentage">
+                What percentage of the workers will be allocated a workstation that remains theirs (enter 100% if everyone has their own desk and 0% if everyone hot-desks)?
+            </x-forms.label>
+            <x-forms.text name="desk_percentage" id="desk_percentage" type="number" :value="old('desk_percentage')" />
         </div>
         <div>
-            <x-selects.hybrid-working label="What is your hybrid working policy (choose closest match)?" :selected="old('hybrid_working')" allowBlank />
+            <x-forms.label for="hybrid_working">
+                What is your hybrid working policy (choose closest match)?
+            </x-forms.label>
+            <x-forms.select name="hybrid_working" id="hybrid_working" :selected="old('hybrid_working')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\HybridWorking::toSelectOptions()" />
         </div>
         <div>
-            <x-selects.mobility label="Which of these best describes the level of mobility when in the office?" :selected="old('mobility')" allowBlank />
+            <x-forms.label for="mobility">
+                Which of these best describes the level of mobility when in the office?
+            </x-forms.label>
+            <x-forms.select name="mobility" id="mobility" :selected="old('mobility')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Mobility::toSelectOptions()" />
         </div>
         <div>
-            <x-selects.collaboration label="Which of these best describes the level of team or focus working when in the office?" :selected="old('collaboration')" allowBlank />
+            <x-forms.label for="collaboration">
+                Which of these best describes the level of team or focus working when in the office?
+            </x-forms.label>
+            <x-forms.select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
         </div>
-        <button type="submit" title="Submit Inputs">Submit Inputs</button> {{-- todo: discuss real submit button text - this is proably fine for now --}}
+        <button type="submit" title="Submit Inputs">Submit Inputs</button>
     </form>
 
 @endsection

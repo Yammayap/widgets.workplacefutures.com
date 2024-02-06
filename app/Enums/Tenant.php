@@ -74,8 +74,8 @@ enum Tenant: string implements HasLabel
     /**
      * @return string
      */
-    public function logoFilepath(): string
+    public function logoFileUrl(): string
     {
-        return 'img/tenants/logos/' . $this->logo();
+        return asset('/img/tenants/logos/' . $this->logo());
     }
 }

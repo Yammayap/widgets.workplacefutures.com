@@ -3,9 +3,12 @@
 namespace App\Enums\Widgets\SpaceCalculator;
 
 use App\Enums\Contracts\HasLabel;
+use App\Enums\Traits\ProvidesSelectOptions;
 
 enum Collaboration: string implements HasLabel
 {
+    use ProvidesSelectOptions;
+
     case INDIVIDUAL_FOCUS = 'individual-focus';
     case SOME_MEETINGS = 'some-meetings';
     case MANY_MEETINGS = 'many-meetings';

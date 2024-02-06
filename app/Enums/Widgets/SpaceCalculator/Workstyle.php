@@ -3,9 +3,12 @@
 namespace App\Enums\Widgets\SpaceCalculator;
 
 use App\Enums\Contracts\HasLabel;
+use App\Enums\Traits\ProvidesSelectOptions;
 
 enum Workstyle: string implements HasLabel
 {
+    use ProvidesSelectOptions;
+
     case SERVICE_DELIVERY = 'service-delivery';
     case CREATIVE = 'creative';
     case FINANCIAL = 'financial';
