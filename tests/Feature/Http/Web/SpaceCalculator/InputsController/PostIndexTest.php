@@ -29,6 +29,7 @@ class PostIndexTest extends TestCase
         CreateSpaceCalculatorInputAction::shouldRun()
             ->once()
             ->with(
+                $enquiry,
                 Workstyle::FINANCIAL,
                 8,
                 40,
@@ -36,7 +37,6 @@ class PostIndexTest extends TestCase
                 HybridWorking::THREE_DAYS,
                 Mobility::COMPUTER_MIXTURE,
                 Collaboration::MANY_MEETINGS,
-                $enquiry,
             );
 
         $this->post(route('web.space-calculator.inputs.post'), [

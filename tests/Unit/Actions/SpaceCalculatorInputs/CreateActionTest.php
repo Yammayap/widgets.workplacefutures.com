@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Actions\SpaceCalculator;
+namespace Tests\Unit\Actions\SpaceCalculatorInputs;
 
 use App\Actions\SpaceCalculatorInputs\CreateAction;
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
@@ -11,13 +11,16 @@ use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use Tests\TestCase;
 
-class CreateInputTest extends TestCase
+class CreateActionTest extends TestCase
 {
     public function test_input_is_created(): void
     {
         $this->assertEquals(0, SpaceCalculatorInput::count());
 
+        $enquiry = Enquiry::factory()->create();
+
         CreateAction::run(
+            $enquiry,
             Workstyle::PUBLIC_SECTOR,
             8,
             40,
@@ -25,7 +28,6 @@ class CreateInputTest extends TestCase
             HybridWorking::FOUR_DAYS,
             Mobility::LAPTOPS_DOCKING,
             Collaboration::ALL_COLLABORATION,
-            Enquiry::factory()->create(),
         );
 
         $this->assertEquals(1, SpaceCalculatorInput::count());

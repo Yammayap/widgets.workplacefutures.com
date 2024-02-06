@@ -57,6 +57,6 @@ class SpaceCalculatorInput extends Model
      */
     public function enquiry(): BelongsTo
     {
-        return $this->belongsTo(Enquiry::class, 'id', 'enquiry_id');
+        return $this->belongsTo(Enquiry::class, 'enquiry_id', 'id');
     }
 }

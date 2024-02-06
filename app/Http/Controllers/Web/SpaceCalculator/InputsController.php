@@ -51,14 +51,14 @@ class InputsController extends WebController
         );
 
         CreateSpaceCalculatorInputAction::run(
+            $enquiry,
             Workstyle::from($request->input('workstyle')),
-            $request->input('total_people'),
-            $request->input('growth_percentage'),
-            $request->input('desk_percentage'),
+            $request->integer('total_people'),
+            $request->integer('growth_percentage'),
+            $request->integer('desk_percentage'),
             HybridWorking::from($request->input('hybrid_working')),
             Mobility::from($request->input('mobility')),
             Collaboration::from($request->input('collaboration')),
-            $enquiry,
         );
 
         // todo: change redirect when ready

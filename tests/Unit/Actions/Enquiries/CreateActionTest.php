@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Actions\SpaceCalculator;
+namespace Tests\Unit\Actions\Enquiries;
 
 use App\Actions\Enquiries\CreateAction;
 use App\Enums\Tenant;
@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Services\TenantManager\TenantManager;
 use Tests\TestCase;
 
-class CreateAndGetEnquiryTest extends TestCase
+class CreateActionTest extends TestCase
 {
     public function test_enquiry_is_created_and_returned(): void
     {
@@ -40,8 +40,6 @@ class CreateAndGetEnquiryTest extends TestCase
     {
         $user_1 = User::factory()->create();
         $user_2 = User::factory()->create();
-
-        $this->authenticateUser($user_2);
 
         $tenantManager = app()->make(TenantManager::class);
         $tenantManager->setTenantFromRequest(request());
