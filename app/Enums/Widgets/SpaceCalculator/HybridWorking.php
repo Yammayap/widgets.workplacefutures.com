@@ -3,9 +3,12 @@
 namespace App\Enums\Widgets\SpaceCalculator;
 
 use App\Enums\Contracts\HasLabel;
+use App\Enums\Traits\ProvidesSelectOptions;
 
 enum HybridWorking: string implements HasLabel
 {
+    use ProvidesSelectOptions;
+
     case OFFICE = 'office-based';
     case ONE_DAY = 'one-day';
     case TWO_DAYS = 'two-days';

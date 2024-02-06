@@ -15,7 +15,7 @@
             </a>
         </div>
         <div>
-            <a href="#" title="I am new here"> {{-- in next card/PR this will link to SC input page --}}
+            <a href="{{ route('web.space-calculator.inputs.index') }}" title="I am new here">
                 I am new here
             </a>
         </div>
