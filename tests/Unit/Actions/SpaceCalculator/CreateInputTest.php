@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Actions\SpaceCalculator;
 
-use App\Actions\SpaceCalculator\CreateInputAction;
+use App\Actions\SpaceCalculatorInputs\CreateAction;
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
@@ -17,7 +17,7 @@ class CreateInputTest extends TestCase
     {
         $this->assertEquals(0, SpaceCalculatorInput::count());
 
-        CreateInputAction::run(
+        CreateAction::run(
             Workstyle::PUBLIC_SECTOR,
             8,
             40,

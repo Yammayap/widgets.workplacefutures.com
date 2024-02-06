@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Actions\SpaceCalculator;
 
-use App\Actions\SpaceCalculator\CreateAndGetEnquiryAction;
+use App\Actions\Enquiries\CreateAction;
 use App\Enums\Tenant;
 use App\Enums\Widget;
 use App\Models\Enquiry;
@@ -21,7 +21,7 @@ class CreateAndGetEnquiryTest extends TestCase
         /**
          * @var Enquiry $enquiry
          */
-        $enquiry = CreateAndGetEnquiryAction::run();
+        $enquiry = CreateAction::run();
 
         $this->assertEquals(1, Enquiry::count());
 
@@ -43,7 +43,7 @@ class CreateAndGetEnquiryTest extends TestCase
         /**
          * @var Enquiry $enquiry
          */
-        $enquiry = CreateAndGetEnquiryAction::run();
+        $enquiry = CreateAction::run();
 
         $this->assertEquals(1, Enquiry::count());
         $this->assertNotNull($enquiry->user_id);

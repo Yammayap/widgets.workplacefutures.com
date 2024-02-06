@@ -2,8 +2,8 @@
 
 namespace Feature\Http\Web\SpaceCalculator\InputsController;
 
-use App\Actions\SpaceCalculator\CreateAndGetEnquiryAction;
-use App\Actions\SpaceCalculator\CreateInputAction;
+use App\Actions\Enquiries\CreateAction as CreateEnquiryAction;
+use App\Actions\SpaceCalculatorInputs\CreateAction as CreateSpaceCalculatorInputAction;
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
@@ -15,12 +15,12 @@ class PostIndexTest extends TestCase
 {
     public function test_can_post_inputs_and_creates_one_enquiry_and_one_input(): void
     {
-        CreateAndGetEnquiryAction::shouldRun()
+        CreateEnquiryAction::shouldRun()
             ->once()
             ->withNoArgs()
             ->andReturn($enquiry = Enquiry::factory()->create());
 
-        CreateInputAction::shouldRun()
+        CreateSpaceCalculatorInputAction::shouldRun()
             ->once()
             ->with(
                 Workstyle::FINANCIAL,
@@ -47,8 +47,8 @@ class PostIndexTest extends TestCase
 
     public function test_required_fields(): void
     {
-        CreateAndGetEnquiryAction::shouldNotRun();
-        CreateInputAction::shouldNotRun();
+        CreateEnquiryAction::shouldNotRun();
+        CreateSpaceCalculatorInputAction::shouldNotRun();
 
         $this->post(route('web.space-calculator.inputs.post'), [
             //
@@ -66,8 +66,8 @@ class PostIndexTest extends TestCase
 
     public function test_other_errors(): void
     {
-        CreateAndGetEnquiryAction::shouldNotRun();
-        CreateInputAction::shouldNotRun();
+        CreateEnquiryAction::shouldNotRun();
+        CreateSpaceCalculatorInputAction::shouldNotRun();
 
         $this->post(route('web.space-calculator.inputs.post'), [
             'workstyle' => 'super_efficient',
@@ -91,8 +91,8 @@ class PostIndexTest extends TestCase
 
     public function test_minimal_amounts_on_number_fields(): void
     {
-        CreateAndGetEnquiryAction::shouldNotRun();
-        CreateInputAction::shouldNotRun();
+        CreateEnquiryAction::shouldNotRun();
+        CreateSpaceCalculatorInputAction::shouldNotRun();
 
         $this->post(route('web.space-calculator.inputs.post'), [
             'workstyle' => Workstyle::FINANCIAL->value,

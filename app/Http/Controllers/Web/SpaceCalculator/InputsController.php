@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
-use App\Actions\SpaceCalculator\CreateAndGetEnquiryAction;
-use App\Actions\SpaceCalculator\CreateInputAction;
+use App\Actions\Enquiries\CreateAction as CreateEnquiryAction;
+use App\Actions\SpaceCalculatorInputs\CreateAction as CreateSpaceCalculatorInputAction;
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\PostIndexRequest;
-use App\Http\Requests\Web\SpaceCalculator\PostSpaceCalculatorInputsRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -34,9 +33,9 @@ class InputsController extends WebController
      */
     public function postIndex(PostIndexRequest $request): RedirectResponse
     {
-        $enquiry = CreateAndGetEnquiryAction::run();
+        $enquiry = CreateEnquiryAction::run();
 
-        CreateInputAction::run(
+        CreateSpaceCalculatorInputAction::run(
             // todo: is it better to pass in enums here, or pass in strings and run "from()" functions in the action?
             Workstyle::from($request->input('workstyle')),
             $request->input('total_people'),

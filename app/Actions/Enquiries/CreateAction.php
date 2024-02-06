@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\SpaceCalculator;
+namespace App\Actions\Enquiries;
 
 use App\Enums\Widget;
 use App\Models\Enquiry;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class CreateAndGetEnquiryAction
+class CreateAction
 {
     use AsFake;
     use AsObject;
@@ -28,8 +28,8 @@ class CreateAndGetEnquiryAction
     public function handle(): Enquiry
     {
         $enquiry = new Enquiry();
-        if (!is_null(Auth::user())) {
-            $enquiry->user_id = Auth::user()->id;
+        if (Auth::user()) {
+            $enquiry->user()->associate(Auth::user()->id);
         }
         $enquiry->tenant = $this->tenantManager->getCurrentTenant();
         $enquiry->widget = Widget::SPACE_CALCULATOR;

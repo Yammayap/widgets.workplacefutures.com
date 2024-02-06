@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\SpaceCalculator;
+namespace App\Actions\SpaceCalculatorInputs;
 
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
@@ -11,7 +11,7 @@ use App\Models\SpaceCalculatorInput;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class CreateInputAction
+class CreateAction
 {
     use AsFake;
     use AsObject;
