@@ -9,4 +9,13 @@ class Calculator
     {
         //
     }
+
+    /**
+     * @param Inputs $inputs
+     * @return Output
+     */
+    public function calculate(Inputs $inputs): Output
+    {
+        return new Output();
+    }
 }
