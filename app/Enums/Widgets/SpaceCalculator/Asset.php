@@ -20,6 +20,14 @@ enum Asset: string implements HasLabel
     case TWELVE_PERSON_MEETING_ROOM = 'twelve-person-meeting-room';
     case SIXTEEN_PERSON_MEETING_ROOM = 'sixteen-person-meeting-room';
     case TWENTY_PERSON_MEETING_ROOM = 'twenty-person-meeting-room';
+    case SERVERY = 'servery';
+    case CATERING_KITCHEN_AND_STORES = 'catering-kitchens-and-stores';
+    case CANTEEN_SEATING_SPACE = 'canteen-seating-space';
+    case TEAPOINT = 'teapoint';
+    case KITCHEN_AND_BAR = 'kitchen-and-bar';
+    case GAMES_AREA = 'games-area';
+    case GAMES_ROOM = 'games-room';
+    case BREAKOUT_SEATS_OF_VARIOUS_TYPES = 'breakout-seats-of-various-types';
 
     /**
      * @return string
@@ -41,6 +49,14 @@ enum Asset: string implements HasLabel
             self::TWELVE_PERSON_MEETING_ROOM => 'Twelve Person Meeting Room',
             self::SIXTEEN_PERSON_MEETING_ROOM => 'Sixteen Person Meeting Room',
             self::TWENTY_PERSON_MEETING_ROOM => 'Twenty Person Meeting Room',
+            self::SERVERY => 'Servery',
+            self::CATERING_KITCHEN_AND_STORES => 'Catering Kitchen and Stores',
+            self::CANTEEN_SEATING_SPACE => 'Canteen Serving Space',
+            self::TEAPOINT => 'Teapoint',
+            self::KITCHEN_AND_BAR => 'Kitchen and Bar',
+            self::GAMES_AREA => 'Games Area',
+            self::GAMES_ROOM => 'Games Room',
+            self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => 'Breakout Seats of Various Types',
         };
     }
 
@@ -61,6 +77,14 @@ enum Asset: string implements HasLabel
             self::TWO_PERSON_INTERVIEW_OR_VC_ROOM => 'Pod or built room',
             self::FOUR_PERSON_MEETING_ROOM, self::EIGHT_PERSON_MEETING_ROOM, self::TWELVE_PERSON_MEETING_ROOM,
             self::SIXTEEN_PERSON_MEETING_ROOM, self::TWENTY_PERSON_MEETING_ROOM => 'Back of house meeting room',
+            self::SERVERY => 'Servery associated with a catered food offering',
+            self::CATERING_KITCHEN_AND_STORES => 'Professional kitchen serving a canteen space',
+            self::CANTEEN_SEATING_SPACE => 'Formal eating area associated with a catered food offering',
+            self::TEAPOINT => 'Smaller run of units for self-service of drinks',
+            self::KITCHEN_AND_BAR => 'Large kitchen and island unit for self-service of drinks, food prep etc',
+            self::GAMES_AREA => 'Open or semi-open games area for pool, table tennis etc',
+            self::GAMES_ROOM => 'Enclosed room for electronic games',
+            self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => 'General breakout areas with a mixture of seats and tables',
         };
     }
 
@@ -75,21 +99,27 @@ enum Asset: string implements HasLabel
             self::TWO_PERSON_INTERVIEW_OR_VC_ROOM, self::FOUR_PERSON_MEETING_ROOM, self::EIGHT_PERSON_MEETING_ROOM,
             self::TWELVE_PERSON_MEETING_ROOM, self::SIXTEEN_PERSON_MEETING_ROOM,
             self::TWENTY_PERSON_MEETING_ROOM => AreaType::COLLABORATION,
+            self::SERVERY, self::CATERING_KITCHEN_AND_STORES, self::CANTEEN_SEATING_SPACE, self::TEAPOINT,
+            self::KITCHEN_AND_BAR, self::GAMES_AREA, self::GAMES_ROOM,
+            self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => AreaType::CONGREGATION_SPACE,
         };
     }
 
     /**
-     * @return CapacityType
+     * @return CapacityType|null
      */
-    public function capacityType(): CapacityType
+    public function capacityType(): CapacityType|null
     {
         return match ($this) {
+            self::SERVERY, self::CATERING_KITCHEN_AND_STORES, self::TEAPOINT, self::KITCHEN_AND_BAR => null,
             self::PHONE_BOOTH, self::OPEN_BOOTH, self::FOCUS_BOOTH,
             self::CHILL_QUIET_SPACE => CapacityType::FOCUS_SPACE,
             self::SCRUM_SPACE, self::OPEN_COLLABORATION_TOUCHDOWN, self::MEETING_BOOTH, self::WORKSHOP,
             self::TWO_PERSON_INTERVIEW_OR_VC_ROOM, self::FOUR_PERSON_MEETING_ROOM, self::EIGHT_PERSON_MEETING_ROOM,
             self::TWELVE_PERSON_MEETING_ROOM, self::SIXTEEN_PERSON_MEETING_ROOM,
             self::TWENTY_PERSON_MEETING_ROOM => CapacityType::TEAM_MEETING,
+            self::CANTEEN_SEATING_SPACE, self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => CapacityType::BREAKOUT,
+            self::GAMES_AREA, self::GAMES_ROOM => CapacityType::RECREATION,
         };
     }
 }

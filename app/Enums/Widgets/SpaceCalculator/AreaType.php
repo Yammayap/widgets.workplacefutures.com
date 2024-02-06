@@ -8,6 +8,7 @@ enum AreaType: string implements HasLabel
 {
     case FOCUS = 'focus';
     case COLLABORATION = 'collaboration';
+    case CONGREGATION_SPACE = 'congregation-space';
     case FRONT_OF_HOUSE = 'front-of-house';
     case FACILITIES = 'facilities';
 
@@ -19,6 +20,7 @@ enum AreaType: string implements HasLabel
         return match ($this) {
             self::FOCUS => 'Focus',
             self::COLLABORATION => 'Collaboration',
+            self::CONGREGATION_SPACE => 'Congregation Space',
             self::FRONT_OF_HOUSE => 'Front of House',
             self::FACILITIES => 'Facilities',
         };
