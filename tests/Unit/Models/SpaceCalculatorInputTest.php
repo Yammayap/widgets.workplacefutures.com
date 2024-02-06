@@ -12,8 +12,15 @@ class SpaceCalculatorInputTest extends TestCase
     {
         $model = SpaceCalculatorInput::factory()->create();
 
-        $inputs = $model->transformToInputs();
+        $inputs = $model->transformToCalculatorInputs();
 
         $this->assertInstanceOf(Inputs::class, $inputs);
+        $this->assertEquals($model->workstyle, $inputs->workstyle);
+        $this->assertEquals($model->total_people, $inputs->totalPeople);
+        $this->assertEquals($model->growth_percentage, $inputs->growthPercentage);
+        $this->assertEquals($model->desk_percentage, $inputs->deskPercentage);
+        $this->assertEquals($model->hybrid_working, $inputs->hybridWorking);
+        $this->assertEquals($model->mobility, $inputs->mobility);
+        $this->assertEquals($model->collaboration, $inputs->collaboration);
     }
 }

@@ -16,7 +16,7 @@ class CalculatorTest extends TestCase
         $this->assertInstanceOf(
             Output::class,
             $calculator->calculate(
-                SpaceCalculatorInput::factory()->create()->transformToInputs(),
+                SpaceCalculatorInput::factory()->create()->transformToCalculatorInputs(),
             )
         );
 

@@ -64,16 +64,16 @@ class SpaceCalculatorInput extends Model
     /**
      * @return Inputs
      */
-    public function transformToInputs(): Inputs
+    public function transformToCalculatorInputs(): Inputs
     {
         return new Inputs(
-            $this->workstyle,
-            $this->total_people,
-            $this->growth_percentage,
-            $this->desk_percentage,
-            $this->hybrid_working,
-            $this->mobility,
-            $this->collaboration,
+            workstyle: $this->workstyle,
+            totalPeople: $this->total_people,
+            growthPercentage: $this->growth_percentage,
+            deskPercentage: $this->desk_percentage,
+            hybridWorking: $this->hybrid_working,
+            mobility: $this->mobility,
+            collaboration: $this->collaboration,
         );
     }
 }
