@@ -181,6 +181,7 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Services\TenantManager\ServiceProvider::class,
+        App\Services\SpaceCalculator\ServiceProvider::class,
     ])->toArray(),
 
     /*

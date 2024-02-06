@@ -7,6 +7,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Traits\HasUuid;
+use App\Services\SpaceCalculator\Inputs;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -58,5 +59,21 @@ class SpaceCalculatorInput extends Model
     public function enquiry(): BelongsTo
     {
         return $this->belongsTo(Enquiry::class, 'id', 'enquiry_id');
+    }
+
+    /**
+     * @return Inputs
+     */
+    public function transformToCalculatorInputs(): Inputs
+    {
+        return new Inputs(
+            workstyle: $this->workstyle,
+            totalPeople: $this->total_people,
+            growthPercentage: $this->growth_percentage,
+            deskPercentage: $this->desk_percentage,
+            hybridWorking: $this->hybrid_working,
+            mobility: $this->mobility,
+            collaboration: $this->collaboration,
+        );
     }
 }
