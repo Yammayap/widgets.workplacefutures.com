@@ -40,6 +40,19 @@ enum Asset: string implements HasLabel
     case SIXTEEN_PERSON_CONFERENCE_ROOM = 'sixteen-person-conference-room';
     case TWENTY_PERSON_CONFERENCE_ROOM = 'twenty-person-conference-room';
     case FIFTY_PERSON_CONFERENCE_ROOM = 'fifty-person-conference-room';
+    case MAIN_EQUIPMENT_ROOM = 'main-equipment-room';
+    case COMMS_ROOM_OR_SER = 'comms-room-or-ser';
+    case IT_BUILD_ROOM = 'it-build-room';
+    case PRINT_AND_COPY_AREA = 'print-and-copy-area';
+    case STATIONARY_STORE = 'stationary-store';
+    case FACILITIES_STORE = 'facilities-store';
+    case COAT_STORAGE = 'coat-storage';
+    case CLEANERS_CUPBOARD = 'cleaners-cupboard';
+    case PRAYER_ROOM = 'prayer-room';
+    case FOUR_HIGH_LOCKERS = 'four-high-lockers';
+    case GYM = 'gym';
+    case STUDIO = 'studio';
+    case SHOWERS_AND_CHANGING_AREA = 'showers-and-changing-area';
 
     /**
      * @return string
@@ -81,6 +94,19 @@ enum Asset: string implements HasLabel
             self::SIXTEEN_PERSON_CONFERENCE_ROOM => 'Sixteen Person Conference Room',
             self::TWENTY_PERSON_CONFERENCE_ROOM => 'Twenty Person Conference Room',
             self::FIFTY_PERSON_CONFERENCE_ROOM => 'Fifty Person Conference Room',
+            self::MAIN_EQUIPMENT_ROOM => 'Main Equipment Room (MER)',
+            self::COMMS_ROOM_OR_SER => 'Comms Room or SER',
+            self::IT_BUILD_ROOM => 'IT Build Room',
+            self::PRINT_AND_COPY_AREA => 'Print and Copy Area',
+            self::STATIONARY_STORE => 'Stationary Store',
+            self::FACILITIES_STORE => 'Facilities Store',
+            self::COAT_STORAGE => 'Coat Storage',
+            self::CLEANERS_CUPBOARD => 'Cleaner\'s Cupboard',
+            self::PRAYER_ROOM => 'Prayer Room',
+            self::FOUR_HIGH_LOCKERS => 'Four High Lockers',
+            self::GYM => 'Gym',
+            self::STUDIO => 'Studio',
+            self::SHOWERS_AND_CHANGING_AREA => 'Shower and Changing Area',
         };
     }
 
@@ -121,6 +147,19 @@ enum Asset: string implements HasLabel
             self::SIXTEEN_PERSON_CONFERENCE_ROOM => '16 person front of house meeting room',
             self::TWENTY_PERSON_CONFERENCE_ROOM => '20 person front of house meeting room',
             self::FIFTY_PERSON_CONFERENCE_ROOM => '50 person front of house meeting room',
+            self::MAIN_EQUIPMENT_ROOM => 'Comms room capable of taking up to 5 racks',
+            self::COMMS_ROOM_OR_SER => 'Comms room for up to 2 racks for smaller offices, patching or SER',
+            self::IT_BUILD_ROOM => 'Enclosed room for building out IT equipment including store',
+            self::PRINT_AND_COPY_AREA => 'Open or semi-open area with a multifunction device and paper storage',
+            self::STATIONARY_STORE => 'Room or set of cupboards for stationery',
+            self::FACILITIES_STORE => 'Enclosed room for general facilities use such as consumables',
+            self::COAT_STORAGE => 'Cupboard for 10 workers\' coats',
+            self::CLEANERS_CUPBOARD => 'Enclosed room suitable for housing cleaning equipment',
+            self::PRAYER_ROOM => 'Enclosed room that may double as a mother\'s and lying down room',
+            self::FOUR_HIGH_LOCKERS => 'Bank of 4-high lockers sufficient for number of open workstations',
+            self::GYM => 'Enclosed room of sufficient size for general cardio equipment, mats, small weights',
+            self::STUDIO => 'Enclosed room for general relaxation, yoga etc',
+            self::SHOWERS_AND_CHANGING_AREA => 'Additional showers and changing area to serve a gym',
         };
     }
 
@@ -131,18 +170,26 @@ enum Asset: string implements HasLabel
     {
         return match ($this) {
             self::PHONE_BOOTH, self::OPEN_BOOTH, self::FOCUS_BOOTH, self::CHILL_QUIET_SPACE => AreaType::FOCUS,
+
             self::SCRUM_SPACE, self::OPEN_COLLABORATION_TOUCHDOWN, self::MEETING_BOOTH, self::WORKSHOP,
             self::TWO_PERSON_INTERVIEW_OR_VC_ROOM, self::FOUR_PERSON_MEETING_ROOM, self::EIGHT_PERSON_MEETING_ROOM,
             self::TWELVE_PERSON_MEETING_ROOM, self::SIXTEEN_PERSON_MEETING_ROOM,
             self::TWENTY_PERSON_MEETING_ROOM => AreaType::COLLABORATION,
+
             self::SERVERY, self::CATERING_KITCHEN_AND_STORES, self::CANTEEN_SEATING_SPACE, self::TEAPOINT,
             self::KITCHEN_AND_BAR, self::GAMES_AREA, self::GAMES_ROOM,
             self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => AreaType::CONGREGATION_SPACE,
+
             self::RECEPTION_DESK_POSITIONS, self::RECEPTION_WAITING_AREA_SEATS, self::RECEPTION_STORAGE,
             self::FURNITURE_STORE, self::FRONT_OF_HOUSE_KITCHEN, self::TWO_PERSON_INTERVIEW_ROOM,
             self::FOUR_PERSON_CONFERENCE_ROOM, self::EIGHT_PERSON_CONFERENCE_ROOM, self::TWELVE_PERSON_CONFERENCE_ROOM,
             self::SIXTEEN_PERSON_CONFERENCE_ROOM, self::TWENTY_PERSON_CONFERENCE_ROOM,
             self::FIFTY_PERSON_CONFERENCE_ROOM => AreaType::FRONT_OF_HOUSE,
+
+            self::MAIN_EQUIPMENT_ROOM, self::COMMS_ROOM_OR_SER, self::IT_BUILD_ROOM, self::PRINT_AND_COPY_AREA,
+            self::STATIONARY_STORE, self::FACILITIES_STORE, self::COAT_STORAGE, self::CLEANERS_CUPBOARD,
+            self::PRAYER_ROOM, self::FOUR_HIGH_LOCKERS, self::GYM, self::STUDIO,
+            self::SHOWERS_AND_CHANGING_AREA => AreaType::FACILITIES,
         };
     }
 
@@ -154,19 +201,28 @@ enum Asset: string implements HasLabel
         return match ($this) {
             self::SERVERY, self::CATERING_KITCHEN_AND_STORES, self::TEAPOINT, self::KITCHEN_AND_BAR,
             self::RECEPTION_WAITING_AREA_SEATS, self::RECEPTION_STORAGE, self::FURNITURE_STORE,
-            self::FRONT_OF_HOUSE_KITCHEN => null,
+            self::FRONT_OF_HOUSE_KITCHEN, self::MAIN_EQUIPMENT_ROOM, self::COMMS_ROOM_OR_SER, self::IT_BUILD_ROOM,
+            self::PRINT_AND_COPY_AREA, self::STATIONARY_STORE, self::FACILITIES_STORE, self::COAT_STORAGE,
+            self::CLEANERS_CUPBOARD, self::PRAYER_ROOM, self::FOUR_HIGH_LOCKERS,
+            self::SHOWERS_AND_CHANGING_AREA => null,
+
             self::PHONE_BOOTH, self::OPEN_BOOTH, self::FOCUS_BOOTH,
             self::CHILL_QUIET_SPACE => CapacityType::FOCUS_SPACE,
+
             self::SCRUM_SPACE, self::OPEN_COLLABORATION_TOUCHDOWN, self::MEETING_BOOTH, self::WORKSHOP,
             self::TWO_PERSON_INTERVIEW_OR_VC_ROOM, self::FOUR_PERSON_MEETING_ROOM, self::EIGHT_PERSON_MEETING_ROOM,
             self::TWELVE_PERSON_MEETING_ROOM, self::SIXTEEN_PERSON_MEETING_ROOM,
             self::TWENTY_PERSON_MEETING_ROOM => CapacityType::TEAM_MEETING,
+
             self::CANTEEN_SEATING_SPACE, self::BREAKOUT_SEATS_OF_VARIOUS_TYPES => CapacityType::BREAKOUT,
-            self::GAMES_AREA, self::GAMES_ROOM => CapacityType::RECREATION,
+
+            self::GAMES_AREA, self::GAMES_ROOM, self::GYM, self::STUDIO => CapacityType::RECREATION,
+
             self::RECEPTION_DESK_POSITIONS => CapacityType::LONG_DWELL_WORKSTATION,
+
             self::TWO_PERSON_INTERVIEW_ROOM, self::FOUR_PERSON_CONFERENCE_ROOM, self::EIGHT_PERSON_CONFERENCE_ROOM,
             self::TWELVE_PERSON_CONFERENCE_ROOM, self::SIXTEEN_PERSON_CONFERENCE_ROOM,
-            self::TWENTY_PERSON_CONFERENCE_ROOM, self::FIFTY_PERSON_CONFERENCE_ROOM => CapacityType::FRONT_OF_HOUSE
+            self::TWENTY_PERSON_CONFERENCE_ROOM, self::FIFTY_PERSON_CONFERENCE_ROOM => CapacityType::FRONT_OF_HOUSE,
         };
     }
 }
