@@ -22,4 +22,10 @@ return [
             2 => 3.3,
         ],
     ],
+
+    'circulation_allowances' => [
+        'tight' => 19.65,
+        'average' => 22.76,
+        'spacious' => 25.14,
+    ],
 ];
