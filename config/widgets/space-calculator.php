@@ -5,7 +5,7 @@ use App\Enums\Widget;
 return [
     'widget' => Widget::SPACE_CALCULATOR,
 
-    'raw_space_standards' => [
+    'raw-space-standards' => [
         'tight' => [
             0 => 10,
             1 => 2.6,
