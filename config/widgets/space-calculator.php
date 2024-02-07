@@ -23,6 +23,12 @@ return [
         ],
     ],
 
+    'circulation_allowances' => [
+        'tight' => 19.65,
+        'average' => 22.76,
+        'spacious' => 25.14,
+    ],
+
     'workstyle-parameters' => [
         \App\Enums\Widgets\SpaceCalculator\Workstyle::SERVICE_DELIVERY->value => [
             'hybrid-working' => [
