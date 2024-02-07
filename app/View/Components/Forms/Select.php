@@ -25,6 +25,6 @@ class Select extends Component
      */
     public function render(): View
     {
-        return view('components.select');
+        return view('components.forms.select');
     }
 }

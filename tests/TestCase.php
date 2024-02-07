@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use App\Enums\UserStatusEnum;
+use App\Models\User;
 use App\Providers\EventServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -91,5 +93,21 @@ abstract class TestCase extends BaseTestCase
         return Mockery::on(function (mixed $argument) use ($model) {
             return $argument instanceof Model && $argument->is($model);
         });
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return User
+     */
+    protected function authenticateUser(User $user = null): User
+    {
+        if (!$user) {
+            $user = User::factory()->create();
+        }
+
+        $this->actingAs($user);
+
+        return $user;
     }
 }
