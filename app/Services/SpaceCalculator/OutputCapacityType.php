@@ -2,16 +2,16 @@
 
 namespace App\Services\SpaceCalculator;
 
-use App\Enums\Widgets\SpaceCalculator\Asset;
+use App\Enums\Widgets\SpaceCalculator\CapacityType;
 
-class OutputAsset
+class OutputCapacityType
 {
     /**
-     * @param Asset $asset
+     * @param CapacityType $capacityType
      * @param int $quantity
      */
     public function __construct(
-        public readonly Asset $asset,
+        public readonly CapacityType $capacityType,
         public readonly int $quantity,
     ) {
         //
