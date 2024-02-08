@@ -20,9 +20,11 @@ class Calculator
         // todo: real calculations!
 
         $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
+        $assets = collect();
 
         return new Output(
             areaSize: $areaSize,
+            assets: $assets,
         );
     }
 }
