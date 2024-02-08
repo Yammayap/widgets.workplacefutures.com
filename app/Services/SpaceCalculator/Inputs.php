@@ -7,16 +7,16 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 
-class Inputs
+readonly class Inputs
 {
     public function __construct(
-        public readonly Workstyle $workstyle,
-        public readonly int $totalPeople,
-        public readonly int $growthPercentage,
-        public readonly int $deskPercentage,
-        public readonly HybridWorking $hybridWorking,
-        public readonly Mobility $mobility,
-        public readonly Collaboration $collaboration,
+        public Workstyle $workstyle,
+        public int $totalPeople,
+        public int $growthPercentage,
+        public int $deskPercentage,
+        public HybridWorking $hybridWorking,
+        public Mobility $mobility,
+        public Collaboration $collaboration,
     ) {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services\SpaceCalculator;
 
-class OutputAreaSize
+readonly class OutputAreaSize
 {
     /**
      * @param int $tightSqFt
@@ -13,12 +13,12 @@ class OutputAreaSize
      * @param int $spaciousSqM
      */
     public function __construct(
-        public readonly int $tightSqFt,
-        public readonly int $tightSqM,
-        public readonly int $averageSqFt,
-        public readonly int $averageSqM,
-        public readonly int $spaciousSqFt,
-        public readonly int $spaciousSqM,
+        public int $tightSqFt,
+        public int $tightSqM,
+        public int $averageSqFt,
+        public int $averageSqM,
+        public int $spaciousSqFt,
+        public int $spaciousSqM,
     ) {
         //
     }

@@ -4,7 +4,7 @@ namespace App\Services\SpaceCalculator;
 
 use Illuminate\Support\Collection;
 
-class Output
+readonly class Output
 {
     /**
      * @param OutputAreaSize $areaSize
@@ -13,10 +13,10 @@ class Output
      * @param Collection<int, OutputAreaType> $areaTypes
      */
     public function __construct(
-        public readonly OutputAreaSize $areaSize,
-        public readonly Collection $assets,
-        public readonly Collection $capacityTypes,
-        public readonly Collection $areaTypes,
+        public OutputAreaSize $areaSize,
+        public Collection $assets,
+        public Collection $capacityTypes,
+        public Collection $areaTypes,
     ) {
     }
 }
