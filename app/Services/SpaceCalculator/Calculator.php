@@ -22,11 +22,13 @@ class Calculator
         $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
         $assets = collect();
         $capacityTypes = collect();
+        $areaTypes = collect();
 
         return new Output(
             areaSize: $areaSize,
             assets: $assets,
             capacityTypes: $capacityTypes,
+            areaTypes: $areaTypes,
         );
     }
 }
