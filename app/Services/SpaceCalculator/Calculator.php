@@ -16,6 +16,13 @@ class Calculator
      */
     public function calculate(Inputs $inputs): Output
     {
-        return new Output();
+        // adding classes with empty results for now for Larastan and tests while we are only doing the structure
+        // todo: real calculations!
+
+        $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
+
+        return new Output(
+            areaSize: $areaSize,
+        );
     }
 }

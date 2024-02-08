@@ -4,8 +4,12 @@ namespace App\Services\SpaceCalculator;
 
 class Output
 {
-    public function __construct()
-    {
-        // output vars to be set up here
+    /**
+     * @param OutputAreaSize $areaSize
+     */
+    public function __construct(
+        public readonly OutputAreaSize $areaSize,
+    ) {
+        //
     }
 }
