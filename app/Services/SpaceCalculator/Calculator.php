@@ -2,10 +2,10 @@
 
 namespace App\Services\SpaceCalculator;
 
-class Calculator
+readonly class Calculator
 {
    /** @phpstan-ignore-next-line */ // todo: set up config vars later and remove phpstan comment
-    public function __construct(private readonly Config $config)
+    public function __construct(private Config $config)
     {
         //
     }
@@ -16,6 +16,19 @@ class Calculator
      */
     public function calculate(Inputs $inputs): Output
     {
-        return new Output();
+        // adding classes with empty results for now for Larastan and tests while we are only doing the structure
+        // todo: real calculations!
+
+        $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
+        $assets = collect();
+        $capacityTypes = collect();
+        $areaTypes = collect();
+
+        return new Output(
+            areaSize: $areaSize,
+            assets: $assets,
+            capacityTypes: $capacityTypes,
+            areaTypes: $areaTypes,
+        );
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services\SpaceCalculator;
 
-class Config
+readonly class Config
 {
     public function __construct()
     {

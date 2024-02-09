@@ -2,10 +2,21 @@
 
 namespace App\Services\SpaceCalculator;
 
-class Output
+use Illuminate\Support\Collection;
+
+readonly class Output
 {
-    public function __construct()
-    {
-        // output vars to be set up here
+    /**
+     * @param OutputAreaSize $areaSize
+     * @param Collection<int, OutputAsset> $assets
+     * @param Collection<int, OutputCapacityType> $capacityTypes
+     * @param Collection<int, OutputAreaType> $areaTypes
+     */
+    public function __construct(
+        public OutputAreaSize $areaSize,
+        public Collection $assets,
+        public Collection $capacityTypes,
+        public Collection $areaTypes,
+    ) {
     }
 }
