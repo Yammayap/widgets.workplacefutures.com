@@ -66,4 +66,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Enquiry::class, 'user_id');
     }
+
+    /**
+     * @return HasMany<MagicLink>
+     */
+    public function magicLinks(): HasMany
+    {
+        return $this->hasMany(MagicLink::class, 'user_id');
+    }
 }
