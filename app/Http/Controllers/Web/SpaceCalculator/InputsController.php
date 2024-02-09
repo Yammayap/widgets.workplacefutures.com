@@ -62,6 +62,8 @@ class InputsController extends WebController
             Collaboration::from($request->input('collaboration')),
         );
 
+        // todo: discuss - what should we do if this is already set?
+        // (user may have pressed back button and submitted again) Or just reset it?
         Session::put(config('widgets.space-calculator.outputs-summary-session-id-key'), $input->uuid);
 
         return redirect()->route('web.space-calculator.outputs.index', $input->uuid);

@@ -12,6 +12,7 @@ use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PostIndexTest extends TestCase
@@ -51,6 +52,11 @@ class PostIndexTest extends TestCase
             'collaboration' => Collaboration::MANY_MEETINGS->value,
         ])->assertRedirect()
             ->assertSessionHasNoErrors();
+
+        $this->assertEquals(
+            Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')),
+            $input->uuid
+        );
     }
 
     public function test_required_fields(): void
@@ -70,6 +76,8 @@ class PostIndexTest extends TestCase
                 'mobility',
                 'collaboration',
             ]);
+
+        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
     }
 
     public function test_other_errors(): void
@@ -95,6 +103,8 @@ class PostIndexTest extends TestCase
                 'mobility',
                 'collaboration',
             ]);
+
+        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
     }
 
     public function test_minimal_amounts_on_number_fields(): void
@@ -116,5 +126,7 @@ class PostIndexTest extends TestCase
                 'growth_percentage',
                 'desk_percentage',
             ]);
+
+        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
     }
 }
