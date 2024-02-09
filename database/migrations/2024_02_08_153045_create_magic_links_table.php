@@ -19,7 +19,7 @@ return new class extends Migration
             $table->datetime('expires_at');
             $table->datetime('authenticated_at')->nullable();
             $table->ipAddress('ip_requested_from');
-            $table->ipAddress('ip_authentication_from')->nullable();
+            $table->ipAddress('ip_authenticated_from')->nullable();
             $table->string('intended_url', 255)->nullable();
         });
     }

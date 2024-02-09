@@ -26,6 +26,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  *
  * @property-read string $name
  * @property-read Collection<int, Enquiry> $enquiries
+ * @property-read Collection<int, MagicLink> $magicLinks
  */
 class User extends Authenticatable
 {

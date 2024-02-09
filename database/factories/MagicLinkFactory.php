@@ -34,9 +34,8 @@ class MagicLinkFactory extends Factory
             'expires_at' => CarbonImmutable::now()->addMinutes(5),
             'authenticated_at' => null,
             'ip_requested_from' => $ipAddress,
-            'ip_authentication_from' => $ipAddress,
-            'intended_url' => route('web.space-calculator.index'),
-            // todo: discuss - should we use a different route for intended url default?
+            'ip_authenticated_from' => null,
+            'intended_url' => null,
         ];
     }
 
