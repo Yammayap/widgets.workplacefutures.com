@@ -42,6 +42,8 @@ class MagicLink extends Model
         // todo: discuss - do we need to cast IP addresses?
     ];
 
+    public $timestamps = false;
+
     /**
      * @return BelongsTo<User, self>
      */
