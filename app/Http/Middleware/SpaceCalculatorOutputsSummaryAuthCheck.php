@@ -28,7 +28,7 @@ class SpaceCalculatorOutputsSummaryAuthCheck
 
         if (
             Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')) != $request
-                ->route()?->parameter('id')
+                ->route()?->parameter('uuid')
         ) {
             // todo: might be good to do a Laraflash message here later
             return redirect(route('web.space-calculator.index'));
