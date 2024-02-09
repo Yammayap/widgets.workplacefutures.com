@@ -14,6 +14,7 @@ use App\Http\Requests\Web\SpaceCalculator\PostIndexRequest;
 use App\Services\TenantManager\TenantManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class InputsController extends WebController
@@ -50,7 +51,7 @@ class InputsController extends WebController
             Auth::user(),
         );
 
-        CreateSpaceCalculatorInputAction::run(
+        $input = CreateSpaceCalculatorInputAction::run(
             $enquiry,
             Workstyle::from($request->input('workstyle')),
             $request->integer('total_people'),
@@ -61,7 +62,8 @@ class InputsController extends WebController
             Collaboration::from($request->input('collaboration')),
         );
 
-        // todo: change redirect when ready
-        return redirect()->route('web.space-calculator.index');
+        Session::put(config('widgets.space-calculator.outputs-summary-session-id-key'), $input->uuid);
+
+        return redirect()->route('web.space-calculator.outputs.index', $input->uuid);
     }
 }

@@ -11,6 +11,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Enquiry;
+use App\Models\SpaceCalculatorInput;
 use Tests\TestCase;
 
 class PostIndexTest extends TestCase
@@ -37,7 +38,8 @@ class PostIndexTest extends TestCase
                 HybridWorking::THREE_DAYS,
                 Mobility::COMPUTER_MIXTURE,
                 Collaboration::MANY_MEETINGS,
-            );
+            )
+            ->andReturn($input = SpaceCalculatorInput::factory()->create());
 
         $this->post(route('web.space-calculator.inputs.post'), [
             'workstyle' => Workstyle::FINANCIAL->value,

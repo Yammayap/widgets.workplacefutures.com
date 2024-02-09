@@ -21,12 +21,15 @@ class SpaceCalculatorOutputsSummaryAuthCheck
             return redirect(route('web.space-calculator.index'));
         }
 
-        if (!Session::has('space-calculator-inputs-uuid')) {
+        if (!Session::has(config('widgets.space-calculator.outputs-summary-session-id-key'))) {
             // todo: might be good to do Laraflash messages here later
             return redirect(route('web.space-calculator.index'));
         }
 
-        if (Session::get('space-calculator-inputs-uuid') != $request->route()?->parameter('id')) {
+        if (
+            Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')) != $request
+                ->route()?->parameter('id')
+        ) {
             // todo: might be good to do a Laraflash message here later
             return redirect(route('web.space-calculator.index'));
         }

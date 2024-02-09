@@ -25,7 +25,7 @@ class CreateAction
      * @param Mobility $mobility
      * @param Collaboration $collaboration
      * @param Enquiry $enquiry
-     * @return void
+     * @return SpaceCalculatorInput $input
      */
     public function handle(
         Enquiry $enquiry,
@@ -36,7 +36,7 @@ class CreateAction
         HybridWorking $hybridWorking,
         Mobility $mobility,
         Collaboration $collaboration,
-    ): void {
+    ): SpaceCalculatorInput {
         $input = new SpaceCalculatorInput();
         $input->enquiry()->associate($enquiry);
         $input->workstyle = $workstyle;
@@ -47,5 +47,7 @@ class CreateAction
         $input->mobility = $mobility;
         $input->collaboration = $collaboration;
         $input->save();
+
+        return $input;
     }
 }
