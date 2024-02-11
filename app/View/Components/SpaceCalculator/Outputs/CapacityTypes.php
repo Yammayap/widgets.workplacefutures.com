@@ -3,7 +3,6 @@
 namespace App\View\Components\SpaceCalculator\Outputs;
 
 use App\Services\SpaceCalculator\OutputCapacityType;
-use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
@@ -11,9 +10,7 @@ use Illuminate\View\Component;
 class CapacityTypes extends Component
 {
     /**
-     * Create a new component instance.
-     *
-     * @param Collection<int,OutputCapacityType> $capacityTypes
+     * @param Collection<int, OutputCapacityType> $capacityTypes
      */
     public function __construct(public readonly Collection $capacityTypes)
     {
@@ -21,9 +18,9 @@ class CapacityTypes extends Component
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * @return \Illuminate\Contracts\View\View
      */
-    public function render(): View|Closure|string
+    public function render(): View
     {
         return view('components.space-calculator.outputs.capacity-types');
     }
