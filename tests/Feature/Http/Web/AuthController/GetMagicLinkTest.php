@@ -4,7 +4,6 @@ namespace Feature\Http\Web\AuthController;
 
 use App\Models\MagicLink;
 use App\Models\User;
-use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class GetMagicLinkTest extends TestCase
@@ -13,7 +12,7 @@ class GetMagicLinkTest extends TestCase
     {
         $magicLink = MagicLink::factory()->create();
 
-        $this->get(URL::signedRoute('web.magic-link', $magicLink))
+        $this->get($magicLink->getSignedUrl())
             ->assertRedirect(route('web.space-calculator.index'));
     }
 
@@ -25,7 +24,7 @@ class GetMagicLinkTest extends TestCase
 
         $magicLink = MagicLink::factory()->create(['user_id' => $user->id]);
 
-        $this->get(URL::signedRoute('web.magic-link', $magicLink))
+        $this->get($magicLink->getSignedUrl())
             ->assertRedirect('/');
     }
 }

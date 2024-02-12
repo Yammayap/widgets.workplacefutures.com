@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Actions;
+namespace Tests\Unit\Actions\MagicLinks;
 
 use App\Actions\MagicLinks\SendAction;
 use App\Models\MagicLink;

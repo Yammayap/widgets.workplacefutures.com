@@ -7,6 +7,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\URL;
 
 /**
  * @property int $id
@@ -55,5 +56,13 @@ class MagicLink extends Model
     public function hasExpired(): bool
     {
         return $this->expires_at->isPast() && $this->authenticated_at == null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSignedUrl(): string
+    {
+        return URL::signedRoute('web.magic-link', $this);
     }
 }
