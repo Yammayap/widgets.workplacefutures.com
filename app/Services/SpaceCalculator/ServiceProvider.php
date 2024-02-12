@@ -14,7 +14,12 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->app->scoped(Calculator::class, function (Application $app) {
             return new Calculator(
-                new Config(), // vars to be passed into config here
+                new Config(
+                    config('widgets.space-calculator.raw-space-standards'),
+                    config('widgets.space-calculator.workstyle-parameters'),
+                    config('widgets.space-calculator.circulation_allowances'),
+                    config('widgets.space-calculator.asset-parameters'),
+                ),
             );
         });
     }
