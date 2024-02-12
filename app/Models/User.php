@@ -26,6 +26,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  *
  * @property-read string $name
  * @property-read Collection<int, Enquiry> $enquiries
+ * @property-read Collection<int, MagicLink> $magicLinks
  */
 class User extends Authenticatable
 {
@@ -65,5 +66,13 @@ class User extends Authenticatable
     public function enquiries(): HasMany
     {
         return $this->hasMany(Enquiry::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany<MagicLink>
+     */
+    public function magicLinks(): HasMany
+    {
+        return $this->hasMany(MagicLink::class, 'user_id');
     }
 }
