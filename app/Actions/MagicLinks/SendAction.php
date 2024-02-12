@@ -30,6 +30,6 @@ class SendAction
         $magicLink->intended_url = $intendedUrl;
         $magicLink->save();
 
-       $user->notify(new MagicLinkNotification($magicLink));
+        $user->notify(new MagicLinkNotification($magicLink));
     }
 }
