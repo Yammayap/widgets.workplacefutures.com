@@ -19,7 +19,7 @@ class ServiceProvider extends BaseServiceProvider
                     config('widgets.space-calculator.workstyle-parameters'),
                     config('widgets.space-calculator.circulation_allowances'),
                     config('widgets.space-calculator.asset-parameters'),
-                ), // vars to be passed into config here
+                ),
             );
         });
     }
