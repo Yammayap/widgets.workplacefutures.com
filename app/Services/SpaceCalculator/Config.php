@@ -4,8 +4,12 @@ namespace App\Services\SpaceCalculator;
 
 readonly class Config
 {
-    public function __construct()
-    {
-        // vars to be set up here
+    /**
+     * @param array<string, mixed> $rawSpaceStandards
+     */
+    public function __construct(
+        public array $rawSpaceStandards,
+    ) {
+        //
     }
 }
