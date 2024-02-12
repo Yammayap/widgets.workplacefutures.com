@@ -37,7 +37,11 @@ Route::group([
     ]
 ], function (): void {
 
-    // Routes....
+    Route::group(['prefix' => 'auth'], function (): void {
+        Route::get('{magicLink}', [Web\AuthController::class, 'getMagicLink'])
+            ->middleware('signed')
+            ->name('auth.magic-link');
+    });
 });
 
 /*---------------------------------------------------------------------*

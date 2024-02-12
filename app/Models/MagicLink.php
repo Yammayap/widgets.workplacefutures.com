@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\URL;
 
 /**
  * @property int $id
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $intended_url
  *
  * @property-read User|null $user
+ * @property-read string $signedUrl
  */
 class MagicLink extends Model
 {
@@ -39,7 +42,9 @@ class MagicLink extends Model
      * @var array<string, string|class-string>
      */
     protected $casts = [
-        //
+        'requested_at' => 'immutable_date',
+        'expires_at' => 'immutable_date',
+        'authenticated_at' => 'immutable_date',
     ];
 
     public $timestamps = false;
@@ -55,5 +60,15 @@ class MagicLink extends Model
     public function hasExpired(): bool
     {
         return $this->expires_at->isPast() && $this->authenticated_at == null;
+    }
+
+    /**
+     * @return Attribute<string, never>
+     */
+    public function signedUrl(): Attribute
+    {
+        return new Attribute(
+            get: fn() => URL::signedRoute('web.auth.magic-link', $this)
+        );
     }
 }
