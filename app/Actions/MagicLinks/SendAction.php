@@ -23,7 +23,7 @@ class SendAction
     public function handle(User $user, string $ipAddress, string $intendedUrl = null): void
     {
         $magicLink = new MagicLink();
-        $magicLink->user_id = $user->id;
+        $magicLink->user()->associate($user);
         $magicLink->requested_at = CarbonImmutable::now();
         $magicLink->expires_at = CarbonImmutable::now()->addMinutes(config('widgets.auth.magic-links.expiry-minutes'));
         $magicLink->ip_requested_from = $ipAddress;

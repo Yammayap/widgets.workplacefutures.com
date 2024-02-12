@@ -39,7 +39,7 @@ class SendActionTest extends TestCase
         $this->assertNotNull($magicLink->expires_at);
         $this->assertNull($magicLink->authenticated_at);
         $this->assertEquals($ipAddress, $magicLink->ip_requested_from);
-        $this->assertNull($magicLink->authenticated_at);
+        $this->assertNull($magicLink->ip_authenticated_from);
         $this->assertEquals($intendedUrl, $magicLink->intended_url);
 
         Notification::assertCount(1);

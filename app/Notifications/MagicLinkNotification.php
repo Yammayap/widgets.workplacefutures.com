@@ -42,6 +42,6 @@ class MagicLinkNotification extends Notification implements ShouldQueue
             ->greeting('Hi ' . $notifiable->name . ',')
             ->line('Click the button below to securely log in.')
             ->action('Log in', $this->magicLink->signedUrl)
-            ->line('This magic link will expire at ' . Helpers::wfgFormatDateTime($this->magicLink->expires_at) . '.');
+            ->line('This magic link will expire at ' . Helpers::formatDateTime($this->magicLink->expires_at) . '.');
     }
 }

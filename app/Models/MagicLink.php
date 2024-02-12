@@ -42,9 +42,9 @@ class MagicLink extends Model
      * @var array<string, string|class-string>
      */
     protected $casts = [
-        'requested_at' => 'date',
-        'expires_at' => 'date',
-        'authenticated_at' => 'date',
+        'requested_at' => 'immutable_date',
+        'expires_at' => 'immutable_date',
+        'authenticated_at' => 'immutable_date',
     ];
 
     public $timestamps = false;

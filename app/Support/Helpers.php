@@ -10,7 +10,7 @@ class Helpers
      * @param CarbonImmutable $datetime
      * @return string
      */
-    public static function wfgFormatDateTime(CarbonImmutable $datetime): string
+    public static function formatDateTime(CarbonImmutable $datetime): string
     {
         return $datetime->setTimezone('Europe/London')->format('d/m/Y H:i');
     }
