@@ -11,6 +11,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Enquiry;
+use App\Models\SpaceCalculatorInput;
 use Tests\TestCase;
 
 class PostIndexTest extends TestCase
@@ -37,7 +38,8 @@ class PostIndexTest extends TestCase
                 HybridWorking::THREE_DAYS,
                 Mobility::COMPUTER_MIXTURE,
                 Collaboration::MANY_MEETINGS,
-            );
+            )
+            ->andReturn($input = SpaceCalculatorInput::factory()->create());
 
         $this->post(route('web.space-calculator.inputs.post'), [
             'workstyle' => Workstyle::FINANCIAL->value,
@@ -48,7 +50,8 @@ class PostIndexTest extends TestCase
             'mobility' => Mobility::COMPUTER_MIXTURE->value,
             'collaboration' => Collaboration::MANY_MEETINGS->value,
         ])->assertRedirect()
-            ->assertSessionHasNoErrors();
+            ->assertSessionHasNoErrors()
+            ->assertSessionHas(config('widgets.space-calculator.input-session-key'), $input->uuid);
     }
 
     public function test_required_fields(): void
@@ -67,7 +70,7 @@ class PostIndexTest extends TestCase
                 'hybrid_working',
                 'mobility',
                 'collaboration',
-            ]);
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 
     public function test_other_errors(): void
@@ -92,7 +95,7 @@ class PostIndexTest extends TestCase
                 'hybrid_working',
                 'mobility',
                 'collaboration',
-            ]);
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 
     public function test_minimal_amounts_on_number_fields(): void
@@ -113,6 +116,6 @@ class PostIndexTest extends TestCase
                 'total_people',
                 'growth_percentage',
                 'desk_percentage',
-            ]);
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 }

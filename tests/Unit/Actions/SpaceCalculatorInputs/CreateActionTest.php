@@ -19,7 +19,7 @@ class CreateActionTest extends TestCase
 
         $enquiry = Enquiry::factory()->create();
 
-        CreateAction::run(
+        $input = CreateAction::run(
             $enquiry,
             Workstyle::PUBLIC_SECTOR,
             8,
@@ -31,8 +31,6 @@ class CreateActionTest extends TestCase
         );
 
         $this->assertEquals(1, SpaceCalculatorInput::count());
-
-        $input = SpaceCalculatorInput::query()->first();
 
         $this->assertNotNull($input);
         $this->assertEquals(Workstyle::PUBLIC_SECTOR, $input->workstyle);

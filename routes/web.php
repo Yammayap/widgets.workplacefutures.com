@@ -20,6 +20,12 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
         Route::post('/', [Web\SpaceCalculator\InputsController::class, 'postIndex'])
             ->name('space-calculator.inputs.post');
     });
+
+    Route::group(['prefix' => 'results'], function (): void {
+        Route::get('{spaceCalculatorInput}/summary', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
+            ->middleware('guard_space_calculator_output')
+            ->name('space-calculator.outputs.index');
+    });
 });
 
 /*---------------------------------------------------------------------*

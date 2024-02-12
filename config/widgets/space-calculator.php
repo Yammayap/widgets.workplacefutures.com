@@ -5,6 +5,8 @@ use App\Enums\Widget;
 return [
     'widget' => Widget::SPACE_CALCULATOR,
 
+    'input-session-key' => 'space-calculator-inputs-uuid',
+
     'raw-space-standards' => [
         'tight' => [
             0 => 10,

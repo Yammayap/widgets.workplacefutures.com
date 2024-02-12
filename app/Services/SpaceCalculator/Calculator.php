@@ -2,10 +2,10 @@
 
 namespace App\Services\SpaceCalculator;
 
-readonly class Calculator
+class Calculator
 {
    /** @phpstan-ignore-next-line */ // todo: set up config vars later and remove phpstan comment
-    public function __construct(private Config $config)
+    public function __construct(private readonly Config $config)
     {
         //
     }
