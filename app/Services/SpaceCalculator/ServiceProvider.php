@@ -16,6 +16,9 @@ class ServiceProvider extends BaseServiceProvider
             return new Calculator(
                 new Config(
                     config('widgets.space-calculator.raw-space-standards'),
+                    config('widgets.space-calculator.workstyle-parameters'),
+                    config('widgets.space-calculator.circulation_allowances'),
+                    config('widgets.space-calculator.asset-parameters'),
                 ), // vars to be passed into config here
             );
         });
