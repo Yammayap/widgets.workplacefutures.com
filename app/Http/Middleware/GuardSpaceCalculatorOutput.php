@@ -31,9 +31,7 @@ class GuardSpaceCalculatorOutput
          */
         $model = $request->route()?->parameter('spaceCalculatorInput');
 
-        if (
-            Session::get(config('widgets.space-calculator.input-session-key')) != $model->uuid
-        ) {
+        if (Session::get(config('widgets.space-calculator.input-session-key')) !== $model->uuid) {
             return redirect(route('web.space-calculator.index'));
         }
 
