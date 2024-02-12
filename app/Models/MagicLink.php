@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasUuid;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\URL;
  * @property string|null $intended_url
  *
  * @property-read User|null $user
+ * @property-read string $signedUrl
  */
 class MagicLink extends Model
 {
@@ -59,10 +61,12 @@ class MagicLink extends Model
     }
 
     /**
-     * @return string
+     * @return Attribute<string, never>
      */
-    public function getSignedUrl(): string
+    public function signedUrl(): Attribute
     {
-        return URL::signedRoute('web.magic-link', $this);
+        return new Attribute(
+            get: fn() => URL::signedRoute('web.magic-link', $this)
+        );
     }
 }

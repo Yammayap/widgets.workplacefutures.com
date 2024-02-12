@@ -12,7 +12,7 @@ class GetMagicLinkTest extends TestCase
     {
         $magicLink = MagicLink::factory()->create();
 
-        $this->get($magicLink->getSignedUrl())
+        $this->get($magicLink->signedUrl)
             ->assertRedirect(route('web.space-calculator.index'));
     }
 
@@ -24,7 +24,7 @@ class GetMagicLinkTest extends TestCase
 
         $magicLink = MagicLink::factory()->create(['user_id' => $user->id]);
 
-        $this->get($magicLink->getSignedUrl())
+        $this->get($magicLink->signedUrl)
             ->assertRedirect('/');
     }
 }
