@@ -5,8 +5,6 @@ use App\Enums\Widget;
 return [
     'widget' => Widget::SPACE_CALCULATOR,
 
-    // todo: discuss - best place for this? (constant in model or something else?)
-    // todo: discuss - if this is best place then discuss best config key name
     'input-session-key' => 'space-calculator-inputs-uuid',
 
     'raw-space-standards' => [
