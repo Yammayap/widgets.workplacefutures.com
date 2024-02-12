@@ -12,7 +12,6 @@ use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
-use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class PostIndexTest extends TestCase
@@ -51,12 +50,8 @@ class PostIndexTest extends TestCase
             'mobility' => Mobility::COMPUTER_MIXTURE->value,
             'collaboration' => Collaboration::MANY_MEETINGS->value,
         ])->assertRedirect()
-            ->assertSessionHasNoErrors();
-
-        $this->assertEquals(
-            Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')),
-            $input->uuid
-        );
+            ->assertSessionHasNoErrors()
+            ->assertSessionHas(config('widgets.space-calculator.input-session-key'), $input->uuid);
     }
 
     public function test_required_fields(): void
@@ -75,9 +70,7 @@ class PostIndexTest extends TestCase
                 'hybrid_working',
                 'mobility',
                 'collaboration',
-            ]);
-
-        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 
     public function test_other_errors(): void
@@ -102,9 +95,7 @@ class PostIndexTest extends TestCase
                 'hybrid_working',
                 'mobility',
                 'collaboration',
-            ]);
-
-        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 
     public function test_minimal_amounts_on_number_fields(): void
@@ -125,8 +116,6 @@ class PostIndexTest extends TestCase
                 'total_people',
                 'growth_percentage',
                 'desk_percentage',
-            ]);
-
-        $this->assertNull(Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')));
+            ])->assertSessionMissing(config('widgets.space-calculator.input-session-key'));
     }
 }

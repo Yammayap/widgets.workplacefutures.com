@@ -63,7 +63,9 @@ class Kernel extends HttpKernel
 
         'set_tenant' => \App\Http\Middleware\SetTenant::class,
         // todo: discuss - better name for this middleware?
-        'space_calculator_outputs_summary_auth_check' =>
-            \App\Http\Middleware\SpaceCalculatorOutputsSummaryAuthCheck::class,
+        'guard_space_calculator_output' =>
+            \App\Http\Middleware\GuardSpaceCalculatorOutput::class,
+
+         // space_calculator_outputs_summary_auth_check
     ];
 }

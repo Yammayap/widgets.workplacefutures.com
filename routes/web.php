@@ -22,8 +22,8 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
     });
 
     Route::group(['prefix' => 'results'], function (): void {
-        Route::get('{uuid}/summary', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
-            ->middleware('space_calculator_outputs_summary_auth_check')
+        Route::get('{spaceCalculatorInput}/summary', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
+            ->middleware('guard_space_calculator_output')
             ->name('space-calculator.outputs.index');
     });
 });

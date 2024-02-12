@@ -2,13 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SpaceCalculatorInput;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class SpaceCalculatorOutputsSummaryAuthCheck
+class GuardSpaceCalculatorOutput
 {
     /**
      * @param Request $request
@@ -21,16 +22,18 @@ class SpaceCalculatorOutputsSummaryAuthCheck
             return redirect(route('web.space-calculator.index'));
         }
 
-        if (!Session::has(config('widgets.space-calculator.outputs-summary-session-id-key'))) {
-            // todo: might be good to do Laraflash messages here later
+        if (!Session::has(config('widgets.space-calculator.input-session-key'))) {
             return redirect(route('web.space-calculator.index'));
         }
 
+        /**
+         * @var SpaceCalculatorInput $model
+         */
+        $model = $request->route()?->parameter('spaceCalculatorInput');
+
         if (
-            Session::get(config('widgets.space-calculator.outputs-summary-session-id-key')) != $request
-                ->route()?->parameter('uuid')
+            Session::get(config('widgets.space-calculator.input-session-key')) != $model->uuid
         ) {
-            // todo: might be good to do a Laraflash message here later
             return redirect(route('web.space-calculator.index'));
         }
 
