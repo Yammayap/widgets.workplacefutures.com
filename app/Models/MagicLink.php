@@ -42,7 +42,9 @@ class MagicLink extends Model
      * @var array<string, string|class-string>
      */
     protected $casts = [
-        //
+        'requested_at' => 'date',
+        'expires_at' => 'date',
+        'authenticated_at' => 'date',
     ];
 
     public $timestamps = false;
@@ -66,7 +68,7 @@ class MagicLink extends Model
     public function signedUrl(): Attribute
     {
         return new Attribute(
-            get: fn() => URL::signedRoute('web.magic-link', $this)
+            get: fn() => URL::signedRoute('web.auth.magic-link', $this)
         );
     }
 }
