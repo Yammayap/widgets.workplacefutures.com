@@ -1,6 +1,6 @@
 <div>
     <h2>Questions and answers</h2>
-    <ul> {{-- todo: discuss wording of this - perhaps defer until we have designs? (Trying to keep this short for now) --}}
+    <ul>
         <li>
             Q1: Workstyle: {{ $inputs->workstyle->label() }}
         </li>
