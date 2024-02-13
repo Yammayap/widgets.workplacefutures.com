@@ -76,6 +76,13 @@ class Calculator
             'area-adjuster'
         )) / 100;
 
+        // grey box totals
+        $privateOffices = $undiversifiedOfficeAllocation + $diversifiedOfficeAllocation;
+        $openPlanDesks = $undiversifiedDeskAllocation + $diversifiedDeskAllocation;
+        $openPlanTouchdownSpaces = $diversifiedTouchdownAllocation; // this one could be simplified
+        $totalOpenPlan = $openPlanDesks + $openPlanTouchdownSpaces;
+        $totalWorkstations = $privateOffices + $totalOpenPlan;
+
         // end of calculations - empty outputs returned below
 
         $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
