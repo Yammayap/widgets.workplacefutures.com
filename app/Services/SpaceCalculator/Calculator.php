@@ -24,7 +24,6 @@ class Calculator
             $inputs->totalPeople + Percentage::of($inputs->growthPercentage, $inputs->totalPeople)
         );
 
-        // todo: discuss - not sure if this needs to be rounded up here or not? (I don't think so?)
         $percentageToAccommodate = Arr::get(
             Arr::get(
                 $this->config->workstyleParameters,
@@ -35,13 +34,17 @@ class Calculator
 
         $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
-        // todo: discuss - should we round up $percentageToAccommodate here?
         $diversifiedAllocation = round(
             Percentage::of(
                 $percentageToAccommodate,
                 $peopleWorkingPlusGrowth - $undiversifiedAllocation
             )
         );
+
+        $mobility_adjuster = Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value);
+
+        $collaboration_adjuster = Arr::get($this->config->collaborationAdjusters, $inputs->collaboration->value);
+
 
         // end of calculations - empty outputs returned below
 

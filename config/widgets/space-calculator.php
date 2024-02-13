@@ -154,6 +154,22 @@ return [
         ],
     ],
 
+    'mobility-adjusters' => [
+        \App\Enums\Widgets\SpaceCalculator\Mobility::SPECIFIC_DESKS->value => -50,
+        \App\Enums\Widgets\SpaceCalculator\Mobility::COMPUTER_MIXTURE->value => -25,
+        \App\Enums\Widgets\SpaceCalculator\Mobility::LAPTOPS_DOCKING->value => 0,
+        \App\Enums\Widgets\SpaceCalculator\Mobility::LAPTOPS_TOUCHDOWN->value => 25,
+        \App\Enums\Widgets\SpaceCalculator\Mobility::LAPTOPS_ANYWHERE->value => 50,
+    ],
+
+    'collaboration-adjusters' => [
+        \App\Enums\Widgets\SpaceCalculator\Collaboration::INDIVIDUAL_FOCUS->value => -25,
+        \App\Enums\Widgets\SpaceCalculator\Collaboration::SOME_MEETINGS->value => -12.5,
+        \App\Enums\Widgets\SpaceCalculator\Collaboration::MANY_MEETINGS->value => 0,
+        \App\Enums\Widgets\SpaceCalculator\Collaboration::AGILE->value => 12.5,
+        \App\Enums\Widgets\SpaceCalculator\Collaboration::ALL_COLLABORATION->value => 25,
+    ],
+
     'asset-parameters' => [
         \App\Enums\Widgets\SpaceCalculator\Asset::PHONE_BOOTH->value => [
             'space-standards' => [
