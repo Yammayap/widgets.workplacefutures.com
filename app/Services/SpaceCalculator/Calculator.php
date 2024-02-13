@@ -20,31 +20,37 @@ class Calculator
     {
         // step one: calculations here - workstations sheet
 
+        // NOTE: percentages as integers - so 36% in the spreadsheet - would be 0.36 here
+
         $peopleWorkingPlusGrowth = round(
             $inputs->totalPeople + Percentage::of($inputs->growthPercentage, $inputs->totalPeople)
         );
 
-        $percentageToAccommodate = Arr::get(
+        $percentageToAccommodate = (Arr::get(
             Arr::get(
                 $this->config->workstyleParameters,
                 $inputs->workstyle->value
             ),
             'hybrid-working.' . $inputs->hybridWorking->value
-        );
+        )) / 100;
 
         $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
-        $diversifiedAllocation = round(
-            Percentage::of(
+        $diversifiedAllocation = round((Percentage::of(
                 $percentageToAccommodate,
                 $peopleWorkingPlusGrowth - $undiversifiedAllocation
-            )
-        );
+            )) * 100);
 
-        $mobility_adjuster = Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value);
+        $mobilityAdjuster = (Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value)) / 100;
 
-        $collaboration_adjuster = Arr::get($this->config->collaborationAdjusters, $inputs->collaboration->value);
+        $collaborationAdjuster = (Arr::get($this->config->collaborationAdjusters, $inputs->collaboration->value)) / 100;
 
+        $privateOfficeFactor = (Arr::get(
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'workstations.private-offices'
+        )) / 100;
+
+        $adjustedPrivateOfficeFactor = $privateOfficeFactor * (1 - $collaborationAdjuster);
 
         // end of calculations - empty outputs returned below
 
