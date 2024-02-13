@@ -37,9 +37,9 @@ class Calculator
         $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
         $diversifiedAllocation = round((Percentage::of(
-                $percentageToAccommodate,
-                $peopleWorkingPlusGrowth - $undiversifiedAllocation
-            )) * 100);
+            $percentageToAccommodate,
+            $peopleWorkingPlusGrowth - $undiversifiedAllocation
+        )) * 100);
 
         $mobilityAdjuster = (Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value)) / 100;
 
@@ -51,6 +51,30 @@ class Calculator
         )) / 100;
 
         $adjustedPrivateOfficeFactor = $privateOfficeFactor * (1 - $collaborationAdjuster);
+
+        $touchdownFactor = (Arr::get(
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'workstations.use-of-touchdown'
+        )) / 100;
+
+        $undiversifiedOfficeAllocation = round($undiversifiedAllocation * $adjustedPrivateOfficeFactor);
+
+        $undiversifiedDeskAllocation = round($undiversifiedAllocation * (1 - $adjustedPrivateOfficeFactor));
+
+        $diversifiedTouchdownAllocation = round($diversifiedAllocation * $touchdownFactor * (1 + $mobilityAdjuster));
+
+        $diversifiedDeskAllocation = round(
+            ($diversifiedAllocation - $diversifiedTouchdownAllocation) * (1 - $privateOfficeFactor)
+        );
+
+        $diversifiedOfficeAllocation = round(
+            ($diversifiedAllocation - $diversifiedTouchdownAllocation) * $privateOfficeFactor
+        );
+
+        $spaceStandardAdjuster = (Arr::get(
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'area-adjuster'
+        )) / 100;
 
         // end of calculations - empty outputs returned below
 
