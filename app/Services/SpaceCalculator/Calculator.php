@@ -83,6 +83,31 @@ class Calculator
         $totalOpenPlan = $openPlanDesks + $openPlanTouchdownSpaces;
         $totalWorkstations = $privateOffices + $totalOpenPlan;
 
+        // Adjusted space standards (All multiplied by $spaceStandardAdjuster)
+        $ASStandardsTightA = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'tight.0');
+        $ASStandardsTightB = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'tight.1');
+        $ASStandardsTightC = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'tight.2');
+        $ASStandardsAverageA = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'average.0');
+        $ASStandardsAverageB = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'average.1');
+        $ASStandardsAverageC = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'average.2');
+        $ASStandardsSpaciousA = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'spacious.0');
+        $ASStandardsSpaciousB = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'spacious.1');
+        $ASStandardsSpaciousC = $spaceStandardAdjuster * Arr::get($this->config->rawSpaceStandards, 'spacious.2');
+
+        // Allocations
+        $allocationsTightA = $privateOffices * $ASStandardsTightA;
+        $allocationsTightB = $openPlanDesks * $ASStandardsTightB;
+        $allocationsTightC = $openPlanTouchdownSpaces * $ASStandardsTightC;
+        $allocationsTightTotal = $allocationsTightA + $allocationsTightB + $allocationsTightC;
+        $allocationsAverageA = $privateOffices * $ASStandardsAverageA;
+        $allocationsAverageB = $openPlanDesks * $ASStandardsAverageB;
+        $allocationsAverageC = $openPlanTouchdownSpaces * $ASStandardsAverageC;
+        $allocationsAverageTotal = $allocationsAverageA + $allocationsAverageB + $allocationsAverageC;
+        $allocationsSpaciousA = $privateOffices * $ASStandardsSpaciousA;
+        $allocationsSpaciousB = $openPlanDesks * $ASStandardsSpaciousB;
+        $allocationsSpaciousC = $openPlanTouchdownSpaces * $ASStandardsSpaciousC;
+        $allocationsSpaciousTotal = $allocationsSpaciousA + $allocationsSpaciousB + $allocationsSpaciousC;
+
         // end of calculations - empty outputs returned below
 
         $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
