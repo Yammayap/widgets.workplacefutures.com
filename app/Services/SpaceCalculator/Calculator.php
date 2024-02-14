@@ -2,7 +2,10 @@
 
 namespace App\Services\SpaceCalculator;
 
+use App\Enums\Widgets\SpaceCalculator\Asset;
+use App\Enums\Widgets\SpaceCalculator\CapacityType;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Mattiasgeniar\Percentage\Percentage;
 
 class Calculator
@@ -18,9 +21,9 @@ class Calculator
      */
     public function calculate(Inputs $inputs): Output
     {
-        // step one: calculations here - workstations sheet
-
         // NOTE: percentages as integers - so 36% in the spreadsheet - would be 0.36 here
+
+        // step one: calculations here - workstations sheet
 
         $peopleWorkingPlusGrowth = round(
             $inputs->totalPeople + Percentage::of($inputs->growthPercentage, $inputs->totalPeople)
@@ -107,6 +110,220 @@ class Calculator
         $allocationsSpaciousB = $openPlanDesks * $ASStandardsSpaciousB;
         $allocationsSpaciousC = $openPlanTouchdownSpaces * $ASStandardsSpaciousC;
         $allocationsSpaciousTotal = $allocationsSpaciousA + $allocationsSpaciousB + $allocationsSpaciousC;
+
+        // step two: calculations here - assets sheet
+
+        $assetCalculations = (new Collection(Asset::cases()))
+            ->keyBy(function (Asset $asset) {
+                return $asset->value;
+            })
+            ->map(function (Asset $asset) use (
+                $inputs,
+                $collaborationAdjuster,
+                $totalWorkstations,
+                $spaceStandardAdjuster
+            ) {
+
+                $seatsOrUnitsPerHundred = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'workstyle-parameters',
+                    ),
+                    $inputs->workstyle->value,
+                );
+
+                // returns either P (plus), M (minus) or null
+                $focusAdjusterMethod = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'focus-adjuster',
+                );
+
+                $focusAdjuster = $focusAdjusterMethod == 'P' ? 1 + $collaborationAdjuster
+                    : ($focusAdjusterMethod == 'M' ? 1 - $collaborationAdjuster
+                        : 1);
+
+                $adjustedSeatsOrUnitsPerHundred = $seatsOrUnitsPerHundred * $focusAdjuster;
+
+                $thresholdPopulation = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'threshold-population',
+                );
+                $populationOverThreshold = $totalWorkstations > $thresholdPopulation;
+
+                $nominalSeatsOrUnitsCount = $adjustedSeatsOrUnitsPerHundred / 100 * $totalWorkstations
+                    * $populationOverThreshold;
+
+                $impliedUnitCountUnitMultiple = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'unit-multiple',
+                );
+                $impliedUnitCount = $nominalSeatsOrUnitsCount / $impliedUnitCountUnitMultiple;
+
+                // This is either U (up) or D (down)
+                $roundedUnitsType = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'rounding',
+                );
+                $roundedUnits = $roundedUnitsType == 'U' ? (int) ceil($impliedUnitCount)
+                    : (int) floor($impliedUnitCount);
+
+                $quantityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'maximum-quantity',
+                );
+                $quantity = $quantityConfig == null ? $roundedUnits : (min($roundedUnits, $quantityConfig));
+
+                $adjustedSpaceTightConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'tight',
+                );
+                $adjustedSpaceTight = $quantity * $adjustedSpaceTightConfig * $spaceStandardAdjuster;
+
+                $adjustedSpaceAverageConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'average',
+                );
+                $adjustedSpaceAverage = $quantity * $adjustedSpaceAverageConfig * $spaceStandardAdjuster;
+
+                $adjustedSpaceSpaciousConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'spacious',
+                );
+                $adjustedSpaceSpacious = $quantity * $adjustedSpaceSpaciousConfig * $spaceStandardAdjuster;
+
+                $longDwellWorkstationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'long-dwell-workstation',
+                );
+                $longDwellWorkstationCapacity = $quantity * $longDwellWorkstationCapacityConfig;
+
+                $shortDwellWorkstationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'short-dwell-workstation',
+                );
+                $shortDwellWorkstationCapacity = $quantity * $shortDwellWorkstationCapacityConfig;
+
+                $focusSpaceCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'focus-space',
+                );
+                $focusSpaceCapacity = $quantity * $focusSpaceCapacityConfig;
+
+                $breakoutCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'breakout',
+                );
+                $breakoutCapacity = $quantity * $breakoutCapacityConfig;
+
+                $recreationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'recreation',
+                );
+                $recreationCapacity = $quantity * $recreationCapacityConfig;
+
+                $teamMeetingCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'team-meeting',
+                );
+                $teamMeetingCapacity = $quantity * $teamMeetingCapacityConfig;
+
+                $frontOfHouseMeetingCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'front-of-house-meeting',
+                );
+                $frontOfHouseMeetingCapacity = $quantity * $frontOfHouseMeetingCapacityConfig;
+
+                return new AssetCalculation(
+                    seatsOrUnitsPerHundred: $seatsOrUnitsPerHundred,
+                    focusAdjuster: $focusAdjuster,
+                    adjustedSeatsOrUnitsPerHundred: $adjustedSeatsOrUnitsPerHundred,
+                    populationOverThreshold: $populationOverThreshold,
+                    nominalSeatsOrUnitsCount: $nominalSeatsOrUnitsCount,
+                    impliedUnitCount: $impliedUnitCount,
+                    roundedUnits: $roundedUnits,
+                    quantity: $quantity,
+                    adjustedSpaceTight: $adjustedSpaceTight,
+                    adjustedSpaceAverage: $adjustedSpaceAverage,
+                    adjustedSpaceSpacious: $adjustedSpaceSpacious,
+                    longDwellWorkstationCapacity: $longDwellWorkstationCapacity,
+                    shortDwellWorkstationCapacity: $shortDwellWorkstationCapacity,
+                    focusSpaceCapacity: $focusSpaceCapacity,
+                    breakoutCapacity: $breakoutCapacity,
+                    recreationCapacity: $recreationCapacity,
+                    teamMeetingCapacity: $teamMeetingCapacity,
+                    frontOfHouseMeetingCapacity: $frontOfHouseMeetingCapacity,
+                );
+            });
+
+        // Net areas (sm) - done for adjusted space calculations and capacity by type calculations
+
+        $netAreaTotals = collect();
+        $netAreaTotals['adjusted-space'] = collect();
+        $netAreaTotals['capacity-by-type'] = collect();
+
+        $netAreaTotals['adjusted-space']['tight'] = $assetCalculations->sum('adjustedSpaceTight');
+        $netAreaTotals['adjusted-space']['average'] = $assetCalculations->sum('adjustedSpaceAverage');
+        $netAreaTotals['adjusted-space']['spacious'] = $assetCalculations->sum('adjustedSpaceSpacious');
+
+        $netAreaTotals['capacity-by-type'][CapacityType::LONG_DWELL_WORKSTATION->value] = $assetCalculations
+            ->sum('longDwellWorkstationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::SHORT_DWELL_WORKSTATION->value] = $assetCalculations
+            ->sum('shortDwellWorkstationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::FOCUS_SPACE->value] = $assetCalculations
+            ->sum('focusSpaceCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::BREAKOUT->value] = $assetCalculations
+            ->sum('breakoutCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::RECREATION->value] = $assetCalculations
+            ->sum('recreationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::TEAM_MEETING->value] = $assetCalculations
+            ->sum('teamMeetingCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::FRONT_OF_HOUSE->value] = $assetCalculations
+            ->sum('frontOfHouseMeetingCapacity');
 
         // end of calculations - empty outputs returned below
 
