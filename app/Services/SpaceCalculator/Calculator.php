@@ -214,6 +214,69 @@ class Calculator
                 );
                 $adjustedSpaceSpacious = $quantity * $adjustedSpaceSpaciousConfig * $spaceStandardAdjuster;
 
+                $longDwellWorkstationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'long-dwell-workstation',
+                );
+                $longDwellWorkstationCapacity = $quantity * $longDwellWorkstationCapacityConfig;
+
+                $shortDwellWorkstationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'short-dwell-workstation',
+                );
+                $shortDwellWorkstationCapacity = $quantity * $shortDwellWorkstationCapacityConfig;
+
+                $focusSpaceCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'focus-space',
+                );
+                $focusSpaceCapacity = $quantity * $focusSpaceCapacityConfig;
+
+                $breakoutCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'breakout',
+                );
+                $breakoutCapacity = $quantity * $breakoutCapacityConfig;
+
+                $recreationCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'recreation',
+                );
+                $recreationCapacity = $quantity * $recreationCapacityConfig;
+
+                $teamMeetingCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'team-meeting',
+                );
+                $teamMeetingCapacity = $quantity * $teamMeetingCapacityConfig;
+
+                $frontOfHouseMeetingCapacityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'front-of-house-meeting',
+                );
+                $frontOfHouseMeetingCapacity = $quantity * $frontOfHouseMeetingCapacityConfig;
+
                 return new AssetCalculation(
                     seatsOrUnitsPerHundred: $seatsOrUnitsPerHundred,
                     focusAdjuster: $focusAdjuster,
@@ -226,16 +289,15 @@ class Calculator
                     adjustedSpaceTight: $adjustedSpaceTight,
                     adjustedSpaceAverage: $adjustedSpaceAverage,
                     adjustedSpaceSpacious: $adjustedSpaceSpacious,
-                    longDwellWorkstationCapacity: 0,
-                    shortDwellWorkstationCapacity: 0,
-                    focusSpaceCapacity: 0,
-                    breakoutCapacity: 0,
-                    recreationCapacity: 0,
-                    teamMeetingCapacity: 0,
-                    frontOfHouseMeetingCapacity: 0,
+                    longDwellWorkstationCapacity: $longDwellWorkstationCapacity,
+                    shortDwellWorkstationCapacity: $shortDwellWorkstationCapacity,
+                    focusSpaceCapacity: $focusSpaceCapacity,
+                    breakoutCapacity: $breakoutCapacity,
+                    recreationCapacity: $recreationCapacity,
+                    teamMeetingCapacity: $teamMeetingCapacity,
+                    frontOfHouseMeetingCapacity: $frontOfHouseMeetingCapacity,
                 );
             });
-        //dd($assetCalculations);
 
         // end of calculations - empty outputs returned below
 
