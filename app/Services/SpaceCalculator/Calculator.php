@@ -2,6 +2,7 @@
 
 namespace App\Services\SpaceCalculator;
 
+use App\Enums\Widgets\SpaceCalculator\AreaType;
 use App\Enums\Widgets\SpaceCalculator\Asset;
 use App\Enums\Widgets\SpaceCalculator\CapacityType;
 use Illuminate\Support\Arr;
@@ -279,6 +280,7 @@ class Calculator
                 $frontOfHouseMeetingCapacity = $quantity * $frontOfHouseMeetingCapacityConfig;
 
                 return new AssetCalculation(
+                    areaType: $asset->areaType(),
                     seatsOrUnitsPerHundred: $seatsOrUnitsPerHundred,
                     focusAdjuster: $focusAdjuster,
                     adjustedSeatsOrUnitsPerHundred: $adjustedSeatsOrUnitsPerHundred,
@@ -302,6 +304,7 @@ class Calculator
 
         // Net areas (sm) - done for adjusted space calculations and capacity by type calculations
 
+        // todo: discuss best way to format this data
         $netAreaTotals = collect();
         $netAreaTotals['adjusted-space'] = collect();
         $netAreaTotals['capacity-by-type'] = collect();
@@ -325,9 +328,88 @@ class Calculator
         $netAreaTotals['capacity-by-type'][CapacityType::FRONT_OF_HOUSE->value] = $assetCalculations
             ->sum('frontOfHouseMeetingCapacity');
 
+        // step three: calculations here - area calculations sheet
+        /* Note: These are used for 2 outputs...
+         * 1. The square foot text in the pink box
+         * 2. The space/second pie chart - looks like it uses the "tight" column
+         */
+
+        // todo: discuss best way to format this data
+        $spaceAmounts = collect();
+        $spaceAmounts['workstation'] = collect();
+        $spaceAmounts['focus'] = collect();
+        $spaceAmounts['collaboration'] = collect();
+        $spaceAmounts['congregation'] = collect();
+        $spaceAmounts['front-of-house'] = collect();
+        $spaceAmounts['facilities'] = collect();
+
+        $spaceAmounts['workstation']['tight'] = $allocationsTightTotal;
+        $spaceAmounts['workstation']['average'] = $allocationsAverageTotal;
+        $spaceAmounts['workstation']['spacious'] = $allocationsSpaciousTotal;
+
+        $focusAssets = $assetCalculations->where('areaType', AreaType::FOCUS);
+        $spaceAmounts['focus']['tight'] = $focusAssets->sum('adjustedSpaceTight');
+        $spaceAmounts['focus']['average'] = $focusAssets->sum('adjustedSpaceAverage');
+        $spaceAmounts['focus']['spacious'] = $focusAssets->sum('adjustedSpaceSpacious');
+
+        $collaborationAssets = $assetCalculations->where('areaType', AreaType::COLLABORATION);
+        $spaceAmounts['collaboration']['tight'] = $collaborationAssets->sum('adjustedSpaceTight');
+        $spaceAmounts['collaboration']['average'] = $collaborationAssets->sum('adjustedSpaceAverage');
+        $spaceAmounts['collaboration']['spacious'] = $collaborationAssets->sum('adjustedSpaceSpacious');
+
+        $congregationAssets = $assetCalculations->where('areaType', AreaType::CONGREGATION_SPACE);
+        $spaceAmounts['congregation']['tight'] = $congregationAssets->sum('adjustedSpaceTight');
+        $spaceAmounts['congregation']['average'] = $congregationAssets->sum('adjustedSpaceAverage');
+        $spaceAmounts['congregation']['spacious'] = $congregationAssets->sum('adjustedSpaceSpacious');
+
+        $frontOfHouseAssets = $assetCalculations->where('areaType', AreaType::FRONT_OF_HOUSE);
+        $spaceAmounts['front-of-house']['tight'] = $frontOfHouseAssets->sum('adjustedSpaceTight');
+        $spaceAmounts['front-of-house']['average'] = $frontOfHouseAssets->sum('adjustedSpaceAverage');
+        $spaceAmounts['front-of-house']['spacious'] = $frontOfHouseAssets->sum('adjustedSpaceSpacious');
+
+        $facilitiesAssets = $assetCalculations->where('areaType', AreaType::FACILITIES);
+        $spaceAmounts['facilities']['tight'] = $facilitiesAssets->sum('adjustedSpaceTight');
+        $spaceAmounts['facilities']['average'] = $facilitiesAssets->sum('adjustedSpaceAverage');
+        $spaceAmounts['facilities']['spacious'] = $facilitiesAssets->sum('adjustedSpaceSpacious');
+
+        $netAreaAllocations = collect();
+        $netAreaAllocations['tight'] = $spaceAmounts->sum('tight');
+        $netAreaAllocations['average'] = $spaceAmounts->sum('average');
+        $netAreaAllocations['spacious'] = $spaceAmounts->sum('spacious');
+
+        //dd($netAreaAllocations);
+
+        $tightSpaceGrossSmPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'tight'),
+            $netAreaAllocations['tight']
+        );
+        $tightSpaceGrossSmAmount = $netAreaAllocations['tight'] + $tightSpaceGrossSmPercentage;
+        $tightSquareFootAmount = round((($tightSpaceGrossSmAmount * 10.76) / 100)) * 100;
+
+        $averageSpaceGrossSmPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'average'),
+            $netAreaAllocations['average']
+        );
+        $averageSpaceGrossSmAmount = $netAreaAllocations['average'] + $averageSpaceGrossSmPercentage;
+        $averageSquareFootAmount = round((($averageSpaceGrossSmAmount * 10.76) / 100)) * 100;
+
+        $spaciousSpaceGrossSmPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'spacious'),
+            $netAreaAllocations['spacious']
+        );
+        $spaciousSpaceGrossSmAmount = $netAreaAllocations['spacious'] + $spaciousSpaceGrossSmPercentage;
+        $spaciousSquareFootAmount = round((($spaciousSpaceGrossSmAmount * 10.76) / 100)) * 100;
+
         // end of calculations - empty outputs returned below
 
-        $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
+        $areaSize = new OutputAreaSize(
+            (int)$tightSquareFootAmount,
+            (int)round($tightSpaceGrossSmAmount),
+            (int)$averageSquareFootAmount,
+            (int)round($averageSpaceGrossSmAmount),
+            (int)$spaciousSquareFootAmount,
+            (int)round($spaciousSpaceGrossSmAmount),
+        );
         $assets = collect();
         $capacityTypes = collect();
         $areaTypes = collect();
