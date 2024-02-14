@@ -379,9 +379,34 @@ class Calculator
 
         //dd($netAreaAllocations);
 
+        $tightSpaceGrossSquareMetresPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'tight'),
+            $netAreaAllocations['tight']
+        );
+        $tightSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['tight'] + $tightSpaceGrossSquareMetresPercentage);
+
+        $averageSpaceGrossSquareMetresPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'average'),
+            $netAreaAllocations['average']
+        );
+        $averageSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['average'] + $averageSpaceGrossSquareMetresPercentage);
+
+        $spaciousSpaceGrossSquareMetresPercentage = Percentage::of(
+            Arr::get($this->config->circulationAllowances, 'spacious'),
+            $netAreaAllocations['spacious']
+        );
+        $spaciousSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['spacious'] + $spaciousSpaceGrossSquareMetresPercentage);
+
         // end of calculations - empty outputs returned below
 
-        $areaSize = new OutputAreaSize(0, 0, 0, 0, 0, 0);
+        $areaSize = new OutputAreaSize(
+            0,
+            $tightSpaceGrossSquareMetresAmount,
+            0,
+            $averageSpaceGrossSquareMetresAmount,
+            0,
+            $spaciousSpaceGrossSquareMetresAmount
+        );
         $assets = collect();
         $capacityTypes = collect();
         $areaTypes = collect();
