@@ -2,9 +2,12 @@
 
 namespace App\Services\SpaceCalculator;
 
+use App\Enums\Widgets\SpaceCalculator\AreaType;
+
 readonly class AssetCalculation
 {
     /**
+     * @param AreaType $areaType
      * @param float $seatsOrUnitsPerHundred
      * @param float $focusAdjuster
      * @param float|null $adjustedSeatsOrUnitsPerHundred
@@ -25,6 +28,7 @@ readonly class AssetCalculation
      * @param int|null $frontOfHouseMeetingCapacity
      */
     public function __construct(
+        public AreaType $areaType,
         public float $seatsOrUnitsPerHundred,
         public float $focusAdjuster,
         public float|null $adjustedSeatsOrUnitsPerHundred,
