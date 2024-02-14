@@ -116,7 +116,12 @@ class Calculator
             ->keyBy(function (Asset $asset) {
                 return $asset->value;
             })
-            ->map(function (Asset $asset) use ($inputs, $collaborationAdjuster, $totalWorkstations) {
+            ->map(function (Asset $asset) use (
+                $inputs,
+                $collaborationAdjuster,
+                $totalWorkstations,
+                $spaceStandardAdjuster
+            ) {
 
                 $seatsOrUnitsPerHundred = Arr::get(
                     Arr::get(
@@ -173,6 +178,42 @@ class Calculator
                 $roundedUnits = $roundedUnitsType == 'U' ? (int) ceil($impliedUnitCount)
                     : (int) floor($impliedUnitCount);
 
+                $quantityConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'maximum-quantity',
+                );
+                $quantity = $quantityConfig == null ? $roundedUnits : (min($roundedUnits, $quantityConfig));
+
+                $adjustedSpaceTightConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'tight',
+                );
+                $adjustedSpaceTight = $quantity * $adjustedSpaceTightConfig * $spaceStandardAdjuster;
+
+                $adjustedSpaceAverageConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'average',
+                );
+                $adjustedSpaceAverage = $quantity * $adjustedSpaceAverageConfig * $spaceStandardAdjuster;
+
+                $adjustedSpaceSpaciousConfig = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'space-standards',
+                    ),
+                    'spacious',
+                );
+                $adjustedSpaceSpacious = $quantity * $adjustedSpaceSpaciousConfig * $spaceStandardAdjuster;
+
                 return new AssetCalculation(
                     seatsOrUnitsPerHundred: $seatsOrUnitsPerHundred,
                     focusAdjuster: $focusAdjuster,
@@ -181,10 +222,10 @@ class Calculator
                     nominalSeatsOrUnitsCount: $nominalSeatsOrUnitsCount,
                     impliedUnitCount: $impliedUnitCount,
                     roundedUnits: $roundedUnits,
-                    quantity: 0,
-                    adjustedSpaceTight: 0,
-                    adjustedSpaceAverage: 0,
-                    adjustedSpaceSpacious: 0,
+                    quantity: $quantity,
+                    adjustedSpaceTight: $adjustedSpaceTight,
+                    adjustedSpaceAverage: $adjustedSpaceAverage,
+                    adjustedSpaceSpacious: $adjustedSpaceSpacious,
                     longDwellWorkstationCapacity: 0,
                     shortDwellWorkstationCapacity: 0,
                     focusSpaceCapacity: 0,
