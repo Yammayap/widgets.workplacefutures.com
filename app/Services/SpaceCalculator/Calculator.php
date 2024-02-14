@@ -3,6 +3,7 @@
 namespace App\Services\SpaceCalculator;
 
 use App\Enums\Widgets\SpaceCalculator\Asset;
+use App\Enums\Widgets\SpaceCalculator\CapacityType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Mattiasgeniar\Percentage\Percentage;
@@ -298,6 +299,31 @@ class Calculator
                     frontOfHouseMeetingCapacity: $frontOfHouseMeetingCapacity,
                 );
             });
+
+        // Net areas (sm) - done for adjusted space calculations and capacity by type calculations
+
+        $netAreaTotals = collect();
+        $netAreaTotals['adjusted-space'] = collect();
+        $netAreaTotals['capacity-by-type'] = collect();
+
+        $netAreaTotals['adjusted-space']['tight'] = $assetCalculations->sum('adjustedSpaceTight');
+        $netAreaTotals['adjusted-space']['average'] = $assetCalculations->sum('adjustedSpaceAverage');
+        $netAreaTotals['adjusted-space']['spacious'] = $assetCalculations->sum('adjustedSpaceSpacious');
+
+        $netAreaTotals['capacity-by-type'][CapacityType::LONG_DWELL_WORKSTATION->value] = $assetCalculations
+            ->sum('longDwellWorkstationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::SHORT_DWELL_WORKSTATION->value] = $assetCalculations
+            ->sum('shortDwellWorkstationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::FOCUS_SPACE->value] = $assetCalculations
+            ->sum('focusSpaceCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::BREAKOUT->value] = $assetCalculations
+            ->sum('breakoutCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::RECREATION->value] = $assetCalculations
+            ->sum('recreationCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::TEAM_MEETING->value] = $assetCalculations
+            ->sum('teamMeetingCapacity');
+        $netAreaTotals['capacity-by-type'][CapacityType::FRONT_OF_HOUSE->value] = $assetCalculations
+            ->sum('frontOfHouseMeetingCapacity');
 
         // end of calculations - empty outputs returned below
 
