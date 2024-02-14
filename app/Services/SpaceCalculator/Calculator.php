@@ -377,8 +377,6 @@ class Calculator
         $netAreaAllocations['average'] = $spaceAmounts->sum('average');
         $netAreaAllocations['spacious'] = $spaceAmounts->sum('spacious');
 
-        //dd($netAreaAllocations);
-
         $tightSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'tight'),
             $netAreaAllocations['tight']
@@ -400,8 +398,29 @@ class Calculator
         $spaciousSpaceGrossSmAmount = $netAreaAllocations['spacious'] + $spaciousSpaceGrossSmPercentage;
         $spaciousSquareFootAmount = round((($spaciousSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
-        // end of calculations - empty outputs returned below
+        // step four: calculations here - capacity calculations sheet
 
+        // todo: discuss tidy up - possible DTO
+        $capacityAllocations = collect();
+        $capacityAllocations[CapacityType::LONG_DWELL_WORKSTATION->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::LONG_DWELL_WORKSTATION->value] + $privateOffices + $openPlanDesks;
+        $capacityAllocations[CapacityType::SHORT_DWELL_WORKSTATION->value] = $openPlanTouchdownSpaces + $netAreaTotals
+            ['capacity-by-type'][CapacityType::SHORT_DWELL_WORKSTATION->value];
+        $capacityAllocations[CapacityType::FOCUS_SPACE->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::FOCUS_SPACE->value];
+        $capacityAllocations[CapacityType::BREAKOUT->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::BREAKOUT->value];
+        $capacityAllocations[CapacityType::RECREATION->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::RECREATION->value];
+        $capacityAllocations[CapacityType::TEAM_MEETING->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::TEAM_MEETING->value];
+        $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value] = $netAreaTotals['capacity-by-type']
+            [CapacityType::FRONT_OF_HOUSE->value];
+        $capacityAllocationsTotal = $capacityAllocations->sum();
+
+        // end of calculations - outputs returned below
+
+        // todo: potentially tidy up later
         $areaSize = new OutputAreaSize(
             (int)$tightSquareFootAmount,
             (int)round($tightSpaceGrossSmAmount),
@@ -410,8 +429,37 @@ class Calculator
             (int)$spaciousSquareFootAmount,
             (int)round($spaciousSpaceGrossSmAmount),
         );
-        $assets = collect();
-        $capacityTypes = collect();
+        $assets = collect(); // todo: investigate assets macro - could this be done via map() function?
+        $capacityTypes = collect([
+            new OutputCapacityType(
+                CapacityType::LONG_DWELL_WORKSTATION,
+                $capacityAllocations[CapacityType::LONG_DWELL_WORKSTATION->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::SHORT_DWELL_WORKSTATION,
+                $capacityAllocations[CapacityType::SHORT_DWELL_WORKSTATION->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::FOCUS_SPACE,
+                $capacityAllocations[CapacityType::FOCUS_SPACE->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::BREAKOUT,
+                $capacityAllocations[CapacityType::BREAKOUT->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::RECREATION,
+                $capacityAllocations[CapacityType::RECREATION->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::TEAM_MEETING,
+                $capacityAllocations[CapacityType::TEAM_MEETING->value]
+            ),
+            new OutputCapacityType(
+                CapacityType::FRONT_OF_HOUSE,
+                $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value]
+            ),
+        ]);
         $areaTypes = collect();
 
         return new Output(
