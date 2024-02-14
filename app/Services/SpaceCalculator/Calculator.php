@@ -379,33 +379,36 @@ class Calculator
 
         //dd($netAreaAllocations);
 
-        $tightSpaceGrossSquareMetresPercentage = Percentage::of(
+        $tightSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'tight'),
             $netAreaAllocations['tight']
         );
-        $tightSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['tight'] + $tightSpaceGrossSquareMetresPercentage);
+        $tightSpaceGrossSmAmount = $netAreaAllocations['tight'] + $tightSpaceGrossSmPercentage;
+        $tightSquareFootAmount = round((($tightSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
-        $averageSpaceGrossSquareMetresPercentage = Percentage::of(
+        $averageSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'average'),
             $netAreaAllocations['average']
         );
-        $averageSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['average'] + $averageSpaceGrossSquareMetresPercentage);
+        $averageSpaceGrossSmAmount = $netAreaAllocations['average'] + $averageSpaceGrossSmPercentage;
+        $averageSquareFootAmount = round((($averageSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
-        $spaciousSpaceGrossSquareMetresPercentage = Percentage::of(
+        $spaciousSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'spacious'),
             $netAreaAllocations['spacious']
         );
-        $spaciousSpaceGrossSquareMetresAmount = (int) round($netAreaAllocations['spacious'] + $spaciousSpaceGrossSquareMetresPercentage);
+        $spaciousSpaceGrossSmAmount = $netAreaAllocations['spacious'] + $spaciousSpaceGrossSmPercentage;
+        $spaciousSquareFootAmount = round((($spaciousSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
         // end of calculations - empty outputs returned below
 
         $areaSize = new OutputAreaSize(
-            0,
-            $tightSpaceGrossSquareMetresAmount,
-            0,
-            $averageSpaceGrossSquareMetresAmount,
-            0,
-            $spaciousSpaceGrossSquareMetresAmount
+            (int)$tightSquareFootAmount,
+            (int)round($tightSpaceGrossSmAmount),
+            (int)$averageSquareFootAmount,
+            (int)round($averageSpaceGrossSmAmount),
+            (int)$spaciousSquareFootAmount,
+            (int)round($spaciousSpaceGrossSmAmount),
         );
         $assets = collect();
         $capacityTypes = collect();
