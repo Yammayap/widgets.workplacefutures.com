@@ -116,15 +116,71 @@ class Calculator
             ->keyBy(function (Asset $asset) {
                 return $asset->value;
             })
-            ->map(function (Asset $asset) {
+            ->map(function (Asset $asset) use ($inputs, $collaborationAdjuster, $totalWorkstations) {
+
+                $seatsOrUnitsPerHundred = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'workstyle-parameters',
+                    ),
+                    $inputs->workstyle->value,
+                );
+
+                // returns either P (plus), M (minus) or null
+                $focusAdjusterMethod = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'focus-adjuster',
+                );
+
+                $focusAdjuster = $focusAdjusterMethod == 'P' ? 1 + $collaborationAdjuster
+                    : ($focusAdjusterMethod == 'M' ? 1 - $collaborationAdjuster
+                        : 1);
+
+                $adjustedSeatsOrUnitsPerHundred = $seatsOrUnitsPerHundred * $focusAdjuster;
+
+                $thresholdPopulation = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'threshold-population',
+                );
+                $populationOverThreshold = $totalWorkstations > $thresholdPopulation;
+
+                $nominalSeatsOrUnitsCount = $adjustedSeatsOrUnitsPerHundred / 100 * $totalWorkstations
+                    * $populationOverThreshold;
+
+                $impliedUnitCountUnitMultiple = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'capacity-and-multiples',
+                    ),
+                    'unit-multiple',
+                );
+                $impliedUnitCount = $nominalSeatsOrUnitsCount / $impliedUnitCountUnitMultiple;
+
+                // This is either U (up) or D (down)
+                $roundedUnitsType = Arr::get(
+                    Arr::get(
+                        Arr::get($this->config->assetParameters, $asset->value),
+                        'use-parameters',
+                    ),
+                    'rounding',
+                );
+                $roundedUnits = $roundedUnitsType == 'U' ? (int) ceil($impliedUnitCount)
+                    : (int) floor($impliedUnitCount);
+
                 return new AssetCalculation(
-                    seatsOrUnitsPerHundred: 0,
-                    focusAdjuster: 0,
-                    adjustedSeatsOrUnitsPerHundred: 0,
-                    populationOverThreshold: false,
-                    nominalSeatsOrUnitsCount: 0,
-                    impliedUnitCount: 0,
-                    roundedUnits: 0,
+                    seatsOrUnitsPerHundred: $seatsOrUnitsPerHundred,
+                    focusAdjuster: $focusAdjuster,
+                    adjustedSeatsOrUnitsPerHundred: $adjustedSeatsOrUnitsPerHundred,
+                    populationOverThreshold: $populationOverThreshold,
+                    nominalSeatsOrUnitsCount: $nominalSeatsOrUnitsCount,
+                    impliedUnitCount: $impliedUnitCount,
+                    roundedUnits: $roundedUnits,
                     quantity: 0,
                     adjustedSpaceTight: 0,
                     adjustedSpaceAverage: 0,
@@ -138,6 +194,7 @@ class Calculator
                     frontOfHouseMeetingCapacity: 0,
                 );
             });
+        //dd($assetCalculations);
 
         // end of calculations - empty outputs returned below
 

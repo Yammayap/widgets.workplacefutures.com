@@ -5,13 +5,13 @@ namespace App\Services\SpaceCalculator;
 readonly class AssetCalculation
 {
     /**
-     * @param float|null $seatsOrUnitsPerHundred
+     * @param float $seatsOrUnitsPerHundred
      * @param float $focusAdjuster
      * @param float|null $adjustedSeatsOrUnitsPerHundred
      * @param bool $populationOverThreshold
      * @param float|null $nominalSeatsOrUnitsCount
      * @param float|null $impliedUnitCount
-     * @param int|null $roundedUnits
+     * @param int $roundedUnits
      * @param int|null $quantity
      * @param float|null $adjustedSpaceTight
      * @param float|null $adjustedSpaceAverage
@@ -25,13 +25,13 @@ readonly class AssetCalculation
      * @param int|null $frontOfHouseMeetingCapacity
      */
     public function __construct(
-        public float|null $seatsOrUnitsPerHundred,
+        public float $seatsOrUnitsPerHundred,
         public float $focusAdjuster,
         public float|null $adjustedSeatsOrUnitsPerHundred,
         public bool $populationOverThreshold,
         public float|null $nominalSeatsOrUnitsCount,
         public float|null $impliedUnitCount,
-        public int|null $roundedUnits,
+        public int $roundedUnits,
         public int|null $quantity,
         public float|null $adjustedSpaceTight,
         public float|null $adjustedSpaceAverage,
