@@ -2,7 +2,9 @@
 
 namespace App\Services\SpaceCalculator;
 
+use App\Enums\Widgets\SpaceCalculator\Asset;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Mattiasgeniar\Percentage\Percentage;
 
 class Calculator
@@ -18,9 +20,9 @@ class Calculator
      */
     public function calculate(Inputs $inputs): Output
     {
-        // step one: calculations here - workstations sheet
-
         // NOTE: percentages as integers - so 36% in the spreadsheet - would be 0.36 here
+
+        // step one: calculations here - workstations sheet
 
         $peopleWorkingPlusGrowth = round(
             $inputs->totalPeople + Percentage::of($inputs->growthPercentage, $inputs->totalPeople)
@@ -107,6 +109,35 @@ class Calculator
         $allocationsSpaciousB = $openPlanDesks * $ASStandardsSpaciousB;
         $allocationsSpaciousC = $openPlanTouchdownSpaces * $ASStandardsSpaciousC;
         $allocationsSpaciousTotal = $allocationsSpaciousA + $allocationsSpaciousB + $allocationsSpaciousC;
+
+        // step two: calculations here - assets sheet
+
+        $assetCalculations = (new Collection(Asset::cases()))
+            ->keyBy(function (Asset $asset) {
+                return $asset->value;
+            })
+            ->map(function (Asset $asset) {
+                return new AssetCalculation(
+                    seatsOrUnitsPerHundred: 0,
+                    focusAdjuster: 0,
+                    adjustedSeatsOrUnitsPerHundred: 0,
+                    populationOverThreshold: false,
+                    nominalSeatsOrUnitsCount: 0,
+                    impliedUnitCount: 0,
+                    roundedUnits: 0,
+                    quantity: 0,
+                    adjustedSpaceTight: 0,
+                    adjustedSpaceAverage: 0,
+                    adjustedSpaceSpacious: 0,
+                    longDwellWorkstationCapacity: 0,
+                    shortDwellWorkstationCapacity: 0,
+                    focusSpaceCapacity: 0,
+                    breakoutCapacity: 0,
+                    recreationCapacity: 0,
+                    teamMeetingCapacity: 0,
+                    frontOfHouseMeetingCapacity: 0,
+                );
+            });
 
         // end of calculations - empty outputs returned below
 
