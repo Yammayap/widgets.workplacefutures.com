@@ -270,13 +270,113 @@ class CalculatorTest extends TestCase
         $this->assertEquals(1, $outputs->assets[Asset::SHOWERS_AND_CHANGING_AREA->value]->quantity);
     }
 
+    public function test_output_with_inputs_set_three(): void
+    {
+        $calculator = app()->make(Calculator::class);
+
+        $outputs = $calculator->calculate(new Inputs(
+            Workstyle::CREATIVE,
+            18,
+            150,
+            50,
+            HybridWorking::THREE_DAYS,
+            Mobility::LAPTOPS_DOCKING,
+            Collaboration::AGILE,
+        ));
+
+        $this->assertEquals(3300, $outputs->areaSize->tightSqFt);
+        $this->assertEquals(304, $outputs->areaSize->tightSqM);
+        $this->assertEquals(3800, $outputs->areaSize->averageSqFt);
+        $this->assertEquals(350, $outputs->areaSize->averageSqM);
+        $this->assertEquals(4500, $outputs->areaSize->spaciousSqFt);
+        $this->assertEquals(423, $outputs->areaSize->spaciousSqM);
+
+        $this->assertCount(7, $outputs->capacityTypes);
+        $this->assertEquals(83, $outputs->capacityTypes->sum('quantity'));
+        $this->assertEquals(CapacityType::LONG_DWELL_WORKSTATION, $outputs->capacityTypes[0]->capacityType);
+        $this->assertEquals(31, $outputs->capacityTypes[0]->quantity);
+        $this->assertEquals(CapacityType::SHORT_DWELL_WORKSTATION, $outputs->capacityTypes[1]->capacityType);
+        $this->assertEquals(2, $outputs->capacityTypes[1]->quantity);
+        $this->assertEquals(CapacityType::FOCUS_SPACE, $outputs->capacityTypes[2]->capacityType);
+        $this->assertEquals(10, $outputs->capacityTypes[2]->quantity);
+        $this->assertEquals(CapacityType::BREAKOUT, $outputs->capacityTypes[3]->capacityType);
+        $this->assertEquals(5, $outputs->capacityTypes[3]->quantity);
+        $this->assertEquals(CapacityType::RECREATION, $outputs->capacityTypes[4]->capacityType);
+        $this->assertEquals(0, $outputs->capacityTypes[4]->quantity);
+        $this->assertEquals(CapacityType::TEAM_MEETING, $outputs->capacityTypes[5]->capacityType);
+        $this->assertEquals(25, $outputs->capacityTypes[5]->quantity);
+        $this->assertEquals(CapacityType::FRONT_OF_HOUSE, $outputs->capacityTypes[6]->capacityType);
+        $this->assertEquals(10, $outputs->capacityTypes[6]->quantity);
+
+        $this->assertCount(6, $outputs->areaTypes); // note: first one likely to change
+        $this->assertEquals('workstations', $outputs->areaTypes[0]->areaType);
+        $this->assertEquals(91.55136000000002, $outputs->areaTypes[0]->quantity);
+        $this->assertEquals(AreaType::FOCUS, $outputs->areaTypes[1]->areaType);
+        $this->assertEquals(22.3368, $outputs->areaTypes[1]->quantity);
+        $this->assertEquals(AreaType::COLLABORATION, $outputs->areaTypes[2]->areaType);
+        $this->assertEquals(51.08928000000001, $outputs->areaTypes[2]->quantity);
+        $this->assertEquals(AreaType::CONGREGATION_SPACE, $outputs->areaTypes[3]->areaType);
+        $this->assertEquals(17.712000000000003, $outputs->areaTypes[3]->quantity);
+        $this->assertEquals(AreaType::FRONT_OF_HOUSE, $outputs->areaTypes[4]->areaType);
+        $this->assertEquals(43.63386624, $outputs->areaTypes[4]->quantity);
+        $this->assertEquals(AreaType::FACILITIES, $outputs->areaTypes[5]->areaType);
+        $this->assertEquals(27.896400000000003, $outputs->areaTypes[5]->quantity);
+
+        $pluckedAssets = $outputs->assets->pluck('asset');
+        $this->assertCount(23, $outputs->assets);
+        $this->assertContains(WorkstationType::PRIVATE_OFFICES, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[WorkstationType::PRIVATE_OFFICES->value]->quantity);
+        $this->assertContains(WorkstationType::OPEN_PLAN_DESKS, $pluckedAssets);
+        $this->assertEquals(30, $outputs->assets[WorkstationType::OPEN_PLAN_DESKS->value]->quantity);
+        $this->assertContains(WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS, $pluckedAssets);
+        $this->assertEquals(2, $outputs->assets[WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS->value]->quantity);
+        $this->assertContains(Asset::PHONE_BOOTH, $pluckedAssets);
+        $this->assertEquals(3, $outputs->assets[Asset::PHONE_BOOTH->value]->quantity);
+        $this->assertContains(Asset::OPEN_BOOTH, $pluckedAssets);
+        $this->assertEquals(3, $outputs->assets[Asset::OPEN_BOOTH->value]->quantity);
+        $this->assertContains(Asset::FOCUS_BOOTH, $pluckedAssets);
+        $this->assertEquals(2, $outputs->assets[Asset::FOCUS_BOOTH->value]->quantity);
+        $this->assertContains(Asset::CHILL_QUIET_SPACE, $pluckedAssets);
+        $this->assertEquals(2, $outputs->assets[Asset::CHILL_QUIET_SPACE->value]->quantity);
+        $this->assertContains(Asset::SCRUM_SPACE, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::SCRUM_SPACE->value]->quantity);
+        $this->assertContains(Asset::OPEN_COLLABORATION_TOUCHDOWN, $pluckedAssets);
+        $this->assertEquals(5, $outputs->assets[Asset::OPEN_COLLABORATION_TOUCHDOWN->value]->quantity);
+        $this->assertContains(Asset::TWO_PERSON_INTERVIEW_OR_VC_ROOM, $pluckedAssets);
+        $this->assertEquals(2, $outputs->assets[Asset::TWO_PERSON_INTERVIEW_OR_VC_ROOM->value]->quantity);
+        $this->assertContains(Asset::EIGHT_PERSON_MEETING_ROOM, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::EIGHT_PERSON_MEETING_ROOM->value]->quantity);
+        $this->assertContains(Asset::TEAPOINT, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::TEAPOINT->value]->quantity);
+        $this->assertContains(Asset::BREAKOUT_SEATS_OF_VARIOUS_TYPES, $pluckedAssets);
+        $this->assertEquals(5, $outputs->assets[Asset::BREAKOUT_SEATS_OF_VARIOUS_TYPES->value]->quantity);
+        $this->assertContains(Asset::RECEPTION_WAITING_AREA_SEATS, $pluckedAssets);
+        $this->assertEquals(2, $outputs->assets[Asset::RECEPTION_WAITING_AREA_SEATS->value]->quantity);
+        $this->assertContains(Asset::RECEPTION_STORAGE, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::RECEPTION_STORAGE->value]->quantity);
+        $this->assertContains(Asset::TWO_PERSON_INTERVIEW_ROOM, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::TWO_PERSON_INTERVIEW_ROOM->value]->quantity);
+        $this->assertContains(Asset::EIGHT_PERSON_CONFERENCE_ROOM, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::EIGHT_PERSON_CONFERENCE_ROOM->value]->quantity);
+        $this->assertContains(Asset::COMMS_ROOM_OR_SER, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::COMMS_ROOM_OR_SER->value]->quantity);
+        $this->assertContains(Asset::PRINT_AND_COPY_AREA, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::PRINT_AND_COPY_AREA->value]->quantity);
+        $this->assertContains(Asset::FACILITIES_STORE, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::FACILITIES_STORE->value]->quantity);
+        $this->assertContains(Asset::COAT_STORAGE, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::COAT_STORAGE->value]->quantity);
+        $this->assertContains(Asset::CLEANERS_CUPBOARD, $pluckedAssets);
+        $this->assertEquals(1, $outputs->assets[Asset::CLEANERS_CUPBOARD->value]->quantity);
+        $this->assertContains(Asset::FOUR_HIGH_LOCKERS, $pluckedAssets);
+        $this->assertEquals(3, $outputs->assets[Asset::FOUR_HIGH_LOCKERS->value]->quantity);
+    }
+
     /*
      * tests to do
      *
-     * output set 3
      * output set 4
      * output set 5
-     * output set 6
      * name: test_output_with_inputs_set_NUMBER_HERE
      *
      */
