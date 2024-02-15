@@ -497,27 +497,21 @@ class Calculator
         $assets = collect();
 
         if ($privateOffices != 0) {
-            $assets->push(
-                new OutputAsset(
-                    WorkstationType::PRIVATE_OFFICES,
-                    (int) round($privateOffices),
-                )
+            $assets[WorkstationType::PRIVATE_OFFICES->value] = new OutputAsset(
+                WorkstationType::PRIVATE_OFFICES,
+                (int) round($privateOffices),
             );
         }
         if ($openPlanDesks != 0) {
-            $assets->push(
-                new OutputAsset(
-                    WorkstationType::OPEN_PLAN_DESKS,
-                    (int) round($openPlanDesks),
-                )
+            $assets[WorkstationType::OPEN_PLAN_DESKS->value] = new OutputAsset(
+                WorkstationType::OPEN_PLAN_DESKS,
+                (int) round($openPlanDesks),
             );
         }
         if ($openPlanTouchdownSpaces != 0) {
-            $assets->push(
-                new OutputAsset(
-                    WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS,
-                    (int) round($openPlanTouchdownSpaces),
-                )
+            $assets[WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS->value] = new OutputAsset(
+                WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS,
+                (int) round($openPlanTouchdownSpaces),
             );
         }
         $assets = $assets->merge(
