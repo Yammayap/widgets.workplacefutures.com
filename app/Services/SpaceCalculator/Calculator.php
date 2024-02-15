@@ -31,35 +31,35 @@ class Calculator
         );
 
         $percentageToAccommodate = (Arr::get(
-                Arr::get(
-                    $this->config->workstyleParameters,
-                    $inputs->workstyle->value
-                ),
-                'hybrid-working.' . $inputs->hybridWorking->value
-            )) / 100;
+            Arr::get(
+                $this->config->workstyleParameters,
+                $inputs->workstyle->value
+            ),
+            'hybrid-working.' . $inputs->hybridWorking->value
+        )) / 100;
 
         $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
         $diversifiedAllocation = round((Percentage::of(
-                $percentageToAccommodate,
-                $peopleWorkingPlusGrowth - $undiversifiedAllocation
-            )) * 100);
+            $percentageToAccommodate,
+            $peopleWorkingPlusGrowth - $undiversifiedAllocation
+        )) * 100);
 
         $mobilityAdjuster = (Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value)) / 100;
 
         $collaborationAdjuster = (Arr::get($this->config->collaborationAdjusters, $inputs->collaboration->value)) / 100;
 
         $privateOfficeFactor = (Arr::get(
-                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-                'workstations.private-offices'
-            )) / 100;
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'workstations.private-offices'
+        )) / 100;
 
         $adjustedPrivateOfficeFactor = $privateOfficeFactor * (1 - $collaborationAdjuster);
 
         $touchdownFactor = (Arr::get(
-                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-                'workstations.use-of-touchdown'
-            )) / 100;
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'workstations.use-of-touchdown'
+        )) / 100;
 
         $undiversifiedOfficeAllocation = round($undiversifiedAllocation * $adjustedPrivateOfficeFactor);
 
@@ -76,9 +76,9 @@ class Calculator
         );
 
         $spaceStandardAdjuster = (Arr::get(
-                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-                'area-adjuster'
-            )) / 100;
+            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+            'area-adjuster'
+        )) / 100;
 
         // grey box totals
         $privateOffices = $undiversifiedOfficeAllocation + $diversifiedOfficeAllocation;
