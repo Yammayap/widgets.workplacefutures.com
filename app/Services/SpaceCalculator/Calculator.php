@@ -407,15 +407,15 @@ class Calculator
         $capacityAllocations[CapacityType::SHORT_DWELL_WORKSTATION->value] = $openPlanTouchdownSpaces + $netAreaTotals
             ['capacity-by-type'][CapacityType::SHORT_DWELL_WORKSTATION->value];
         $capacityAllocations[CapacityType::FOCUS_SPACE->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::FOCUS_SPACE->value];
+        [CapacityType::FOCUS_SPACE->value];
         $capacityAllocations[CapacityType::BREAKOUT->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::BREAKOUT->value];
+        [CapacityType::BREAKOUT->value];
         $capacityAllocations[CapacityType::RECREATION->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::RECREATION->value];
+        [CapacityType::RECREATION->value];
         $capacityAllocations[CapacityType::TEAM_MEETING->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::TEAM_MEETING->value];
+        [CapacityType::TEAM_MEETING->value];
         $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::FRONT_OF_HOUSE->value];
+        [CapacityType::FRONT_OF_HOUSE->value];
         $capacityAllocationsTotal = $capacityAllocations->sum();
 
         // end of calculations - outputs returned below
@@ -460,7 +460,39 @@ class Calculator
                 $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value]
             ),
         ]);
-        $areaTypes = collect();
+        // todo: We may need to ask them about this but looks like the 2nd pie chart is the tight space data
+        $areaTypes = collect([
+            new OutputAreaType( // todo: consider how this works and $isEnum var when making the pie chart
+                'workstations',
+                $spaceAmounts['workstation']['tight'],
+                false,
+            ),
+            new OutputAreaType(
+                AreaType::FOCUS,
+                $spaceAmounts['focus']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::COLLABORATION,
+                $spaceAmounts['collaboration']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::CONGREGATION_SPACE,
+                $spaceAmounts['congregation']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::FRONT_OF_HOUSE,
+                $spaceAmounts['front-of-house']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::FACILITIES,
+                $spaceAmounts['facilities']['tight'],
+                true,
+            ),
+        ]);
 
         return new Output(
             areaSize: $areaSize,
