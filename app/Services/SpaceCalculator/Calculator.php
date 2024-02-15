@@ -31,35 +31,35 @@ class Calculator
         );
 
         $percentageToAccommodate = (Arr::get(
-            Arr::get(
-                $this->config->workstyleParameters,
-                $inputs->workstyle->value
-            ),
-            'hybrid-working.' . $inputs->hybridWorking->value
-        )) / 100;
+                Arr::get(
+                    $this->config->workstyleParameters,
+                    $inputs->workstyle->value
+                ),
+                'hybrid-working.' . $inputs->hybridWorking->value
+            )) / 100;
 
         $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
         $diversifiedAllocation = round((Percentage::of(
-            $percentageToAccommodate,
-            $peopleWorkingPlusGrowth - $undiversifiedAllocation
-        )) * 100);
+                $percentageToAccommodate,
+                $peopleWorkingPlusGrowth - $undiversifiedAllocation
+            )) * 100);
 
         $mobilityAdjuster = (Arr::get($this->config->mobilityAdjusters, $inputs->mobility->value)) / 100;
 
         $collaborationAdjuster = (Arr::get($this->config->collaborationAdjusters, $inputs->collaboration->value)) / 100;
 
         $privateOfficeFactor = (Arr::get(
-            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-            'workstations.private-offices'
-        )) / 100;
+                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+                'workstations.private-offices'
+            )) / 100;
 
         $adjustedPrivateOfficeFactor = $privateOfficeFactor * (1 - $collaborationAdjuster);
 
         $touchdownFactor = (Arr::get(
-            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-            'workstations.use-of-touchdown'
-        )) / 100;
+                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+                'workstations.use-of-touchdown'
+            )) / 100;
 
         $undiversifiedOfficeAllocation = round($undiversifiedAllocation * $adjustedPrivateOfficeFactor);
 
@@ -76,9 +76,9 @@ class Calculator
         );
 
         $spaceStandardAdjuster = (Arr::get(
-            Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
-            'area-adjuster'
-        )) / 100;
+                Arr::get($this->config->workstyleParameters, $inputs->workstyle->value),
+                'area-adjuster'
+            )) / 100;
 
         // grey box totals
         $privateOffices = $undiversifiedOfficeAllocation + $diversifiedOfficeAllocation;
@@ -407,15 +407,15 @@ class Calculator
         $capacityAllocations[CapacityType::SHORT_DWELL_WORKSTATION->value] = $openPlanTouchdownSpaces + $netAreaTotals
             ['capacity-by-type'][CapacityType::SHORT_DWELL_WORKSTATION->value];
         $capacityAllocations[CapacityType::FOCUS_SPACE->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::FOCUS_SPACE->value];
+        [CapacityType::FOCUS_SPACE->value];
         $capacityAllocations[CapacityType::BREAKOUT->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::BREAKOUT->value];
+        [CapacityType::BREAKOUT->value];
         $capacityAllocations[CapacityType::RECREATION->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::RECREATION->value];
+        [CapacityType::RECREATION->value];
         $capacityAllocations[CapacityType::TEAM_MEETING->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::TEAM_MEETING->value];
+        [CapacityType::TEAM_MEETING->value];
         $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value] = $netAreaTotals['capacity-by-type']
-            [CapacityType::FRONT_OF_HOUSE->value];
+        [CapacityType::FRONT_OF_HOUSE->value];
         $capacityAllocationsTotal = $capacityAllocations->sum();
 
         // end of calculations - outputs returned below
@@ -460,7 +460,39 @@ class Calculator
                 $capacityAllocations[CapacityType::FRONT_OF_HOUSE->value]
             ),
         ]);
-        $areaTypes = collect();
+        // todo: We may need to ask them about this but looks like the 2nd pie chart is the tight space data
+        $areaTypes = collect([
+            new OutputAreaType( // todo: consider how this works and $isEnum var when making the pie chart
+                'workstations',
+                $spaceAmounts['workstation']['tight'],
+                false,
+            ),
+            new OutputAreaType(
+                AreaType::FOCUS,
+                $spaceAmounts['focus']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::COLLABORATION,
+                $spaceAmounts['collaboration']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::CONGREGATION_SPACE,
+                $spaceAmounts['congregation']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::FRONT_OF_HOUSE,
+                $spaceAmounts['front-of-house']['tight'],
+                true,
+            ),
+            new OutputAreaType(
+                AreaType::FACILITIES,
+                $spaceAmounts['facilities']['tight'],
+                true,
+            ),
+        ]);
 
         return new Output(
             areaSize: $areaSize,

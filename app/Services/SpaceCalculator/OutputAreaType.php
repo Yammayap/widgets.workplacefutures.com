@@ -7,12 +7,14 @@ use App\Enums\Widgets\SpaceCalculator\AreaType;
 readonly class OutputAreaType
 {
     /**
-     * @param AreaType $areaType
-     * @param int $quantity
+     * @param AreaType|string $areaType
+     * @param float $quantity
+     * @param bool $isEnum
      */
     public function __construct(
-        public AreaType $areaType,
-        public int $quantity,
+        public AreaType|string $areaType,
+        public float $quantity,
+        public bool $isEnum,
     ) {
         //
     }
