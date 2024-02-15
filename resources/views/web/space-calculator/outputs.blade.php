@@ -12,7 +12,7 @@
 
    <x-space-calculator.outputs.area-types :areaTypes="$outputs->areaTypes" />
 
-   <x-space-calculator.outputs.assets :areaTypes="$outputs->assets" />
+   <x-space-calculator.outputs.assets :assets="$outputs->assets" />
 
    {{-- todo: real text and action in the form --}}
    <form method="post" action="#">

@@ -5,6 +5,7 @@ namespace App\Services\SpaceCalculator;
 use App\Enums\Widgets\SpaceCalculator\AreaType;
 use App\Enums\Widgets\SpaceCalculator\Asset;
 use App\Enums\Widgets\SpaceCalculator\CapacityType;
+use App\Enums\Widgets\SpaceCalculator\WorkstationType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Mattiasgeniar\Percentage\Percentage;
@@ -429,7 +430,6 @@ class Calculator
             (int)$spaciousSquareFootAmount,
             (int)round($spaciousSpaceGrossSmAmount),
         );
-        $assets = collect(); // todo: investigate assets macro - could this be done via map() function?
         $capacityTypes = collect([
             new OutputCapacityType(
                 CapacityType::LONG_DWELL_WORKSTATION,
@@ -493,6 +493,40 @@ class Calculator
                 true,
             ),
         ]);
+
+        $assets = collect();
+
+        if ($privateOffices != 0) {
+            $assets[WorkstationType::PRIVATE_OFFICES->value] = new OutputAsset(
+                WorkstationType::PRIVATE_OFFICES,
+                (int) round($privateOffices),
+            );
+        }
+        if ($openPlanDesks != 0) {
+            $assets[WorkstationType::OPEN_PLAN_DESKS->value] = new OutputAsset(
+                WorkstationType::OPEN_PLAN_DESKS,
+                (int) round($openPlanDesks),
+            );
+        }
+        if ($openPlanTouchdownSpaces != 0) {
+            $assets[WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS->value] = new OutputAsset(
+                WorkstationType::OPEN_PLAN_TOUCHDOWN_DESKS,
+                (int) round($openPlanTouchdownSpaces),
+            );
+        }
+        $assets = $assets->merge(
+            $assetCalculations->where('quantity', '!=', 0)
+                ->map(function (AssetCalculation $assetCalculation, string $key): OutputAsset {
+                    /**
+                     * @var int $quantity
+                     */
+                    $quantity = $assetCalculation->quantity;
+                    return new OutputAsset(
+                        Asset::from($key),
+                        $quantity,
+                    );
+                })
+        );
 
         return new Output(
             areaSize: $areaSize,
