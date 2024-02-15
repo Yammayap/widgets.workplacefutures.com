@@ -520,16 +520,19 @@ class Calculator
                 )
             );
         }
-        /*$assets = $assets->merge(
+        $assets = $assets->merge(
             $assetCalculations->where('quantity', '!=', 0)
-                ->map(function(AssetCalculation $assetCalculation, string $key): OutputAsset {
+                ->map(function (AssetCalculation $assetCalculation, string $key): OutputAsset {
+                    /**
+                     * @var int $quantity
+                     */
+                    $quantity = $assetCalculation->quantity;
                     return new OutputAsset(
                         Asset::from($key),
-                        $assetCalculation->quantity,
+                        $quantity,
                     );
                 })
-        );*/
-//dd($assets);
+        );
 
         return new Output(
             areaSize: $areaSize,
