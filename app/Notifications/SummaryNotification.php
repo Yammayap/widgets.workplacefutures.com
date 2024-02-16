@@ -49,7 +49,7 @@ class SummaryNotification extends Notification implements ShouldQueue
             // If it was a user we could link to the portal
             // If it was a guest then it will be different and their sessions may have expired
 
-            ->action('Lorem ipsum', route('space-calculator.index'));
+            ->action('Lorem ipsum', route('web.space-calculator.index'));
 
             // todo: WFG may like to have some marketing text in this email
     }
