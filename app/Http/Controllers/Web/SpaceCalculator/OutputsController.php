@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
+use App\Actions\Enquiries\AttachToUserAction;
 use App\Actions\MagicLinks\SendAction;
+use App\Actions\Users\CreateAction;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
+use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
+use App\Notifications\SummaryNotification;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -56,15 +60,20 @@ class OutputsController extends WebController
         }
 
         if (!$user) {
-            // create new user here and put into $user var - new action
-            dd('WIP 2');
+            $user = CreateAction::run($request->input('email'));
         }
 
-        /*
-         * more to do here
-         * 1. Update the enquiry (get via inputs) user id - new action
-         * 2. Send the user the summary notification
+        /**
+         * @var Enquiry $enquiry
          */
+        $enquiry = $spaceCalculatorInput->enquiry()
+            ->select('id', 'user_id')
+            ->first();
+
+        AttachToUserAction::run($enquiry, $user);
+
+        // todo: discuss - should this be part of the previous action? Pass in a boolean to send the email?
+        $user->notify(new SummaryNotification($enquiry));
 
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
     }
