@@ -26,12 +26,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name'       => $this->faker->firstName,
-            'last_name'        => $this->faker->lastName,
-            'email'            => $this->faker->unique()->safeEmail,
-            'company_name'     => null,
-            'phone'            => null,
-            'marketing_opt_in' => false,
+            'first_name'            => $this->faker->firstName,
+            'last_name'             => $this->faker->lastName,
+            'email'                 => $this->faker->unique()->safeEmail,
+            'company_name'          => null,
+            'phone'                 => null,
+            'marketing_opt_in'      => false,
+            'has_completed_profile' => false,
         ];
     }
 
