@@ -122,13 +122,64 @@ class PostIndexTest extends TestCase
         Notification::assertCount(0);
     }
 
-    /*
-     * more to test
-     *
-     * copied from get test...
-     * test_auth_user_gets_redirected_away
-     * test_without_session_redirects_away
-     * test_try_to_access_results_for_inputs_when_different_uuid_is_in_session
-     *
-     */
+    public function test_auth_user_gets_redirected_away(): void
+    {
+        Notification::fake();
+
+        $this->authenticateUser();
+
+        $inputs = SpaceCalculatorInput::factory()->create();
+
+        SendAction::shouldNotRun();
+        CreateAction::shouldNotRun();
+        AttachToUserAction::shouldNotRun();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+                'email' => $this->faker->email,
+            ])
+            ->assertRedirect(route('web.space-calculator.index'));
+
+        Notification::assertCount(0);
+    }
+
+    public function test_without_session_redirects_away(): void
+    {
+        Notification::fake();
+
+        $inputs = SpaceCalculatorInput::factory()->create();
+
+        SendAction::shouldNotRun();
+        CreateAction::shouldNotRun();
+        AttachToUserAction::shouldNotRun();
+
+        $this->post(route('web.space-calculator.outputs.index.post', $inputs), [
+                'email' => $this->faker->email,
+            ])
+            ->assertRedirect(route('web.space-calculator.index'));
+
+        Notification::assertCount(0);
+    }
+
+    public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
+    {
+        Notification::fake();
+
+        $this->authenticateUser();
+
+        $inputs = SpaceCalculatorInput::factory()->create();
+
+        SendAction::shouldNotRun();
+        CreateAction::shouldNotRun();
+        AttachToUserAction::shouldNotRun();
+
+        // todo: discuss - is there a way we can exclude the faker uuid from being $inputs->uuid?
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
+            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+                'email' => $this->faker->email,
+            ])
+            ->assertRedirect(route('web.space-calculator.index'));
+
+        Notification::assertCount(0);
+    }
 }
