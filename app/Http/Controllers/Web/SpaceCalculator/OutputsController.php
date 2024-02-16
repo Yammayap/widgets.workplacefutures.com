@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
+use App\Actions\MagicLinks\SendAction;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
 use App\Models\SpaceCalculatorInput;
@@ -39,14 +40,19 @@ class OutputsController extends WebController
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {
 
+        /**
+         * @var User|null $user
+         */
         $user = User::query()->where('email', $request->input('email'))->first();
 
         if ($user && $user->has_completed_profile) {
-            /*
-             * 1. run magic link action
-             * 2. return redirect to new /auth/sent page telling user to click link in the email
-             */
-            dd('WIP 1');
+            // todo: This intended route is just a placeholder, it will likely change
+            SendAction::run(
+                $user,
+                $request->ip(),
+                route('web.space-calculator.outputs.detailed', $spaceCalculatorInput)
+            );
+            return redirect(route('web.auth.sent'));
         }
 
         if (!$user) {
@@ -61,5 +67,14 @@ class OutputsController extends WebController
          */
 
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
+    }
+
+    /**
+     * @param SpaceCalculatorInput $spaceCalculatorInput
+     * @return View
+     */
+    public function getDetailed(SpaceCalculatorInput $spaceCalculatorInput): View
+    {
+        dd('placeholder route - will change');
     }
 }
