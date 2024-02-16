@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 class Questions extends Component
 {
     /**
-     * @param \App\Models\SpaceCalculatorInput $inputs
+     * @param SpaceCalculatorInput $inputs
      */
     public function __construct(public readonly SpaceCalculatorInput $inputs)
     {
@@ -17,7 +17,7 @@ class Questions extends Component
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function render(): View
     {

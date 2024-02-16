@@ -9,12 +9,10 @@ readonly class OutputAreaType
     /**
      * @param AreaType|string $areaType
      * @param float $quantity
-     * @param bool $isEnum
      */
     public function __construct(
         public AreaType|string $areaType,
         public float $quantity,
-        public bool $isEnum,
     ) {
         //
     }
