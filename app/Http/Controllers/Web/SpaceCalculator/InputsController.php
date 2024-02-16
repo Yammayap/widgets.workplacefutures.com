@@ -10,7 +10,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use App\Http\Controllers\WebController;
-use App\Http\Requests\Web\SpaceCalculator\PostIndexRequest;
+use App\Http\Requests\Web\SpaceCalculator\Inputs\PostIndexRequest;
 use App\Services\TenantManager\TenantManager;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;

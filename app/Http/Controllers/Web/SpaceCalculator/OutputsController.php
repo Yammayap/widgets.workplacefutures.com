@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
 use App\Http\Controllers\WebController;
+use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
 use App\Models\SpaceCalculatorInput;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
@@ -27,14 +28,15 @@ class OutputsController extends WebController
 
     /**
      * @param Calculator $calculator
+     * @param PostIndexRequest $request
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return RedirectResponse
      */
     public function postIndex(
         Calculator $calculator,
+        PostIndexRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
-    ): RedirectResponse
-    {
-        dd('here');
+    ): RedirectResponse {
+        dd('here', $request->all());
     }
 }
