@@ -33,13 +33,11 @@ class OutputsController extends WebController
     }
 
     /**
-     * @param Calculator $calculator
      * @param PostIndexRequest $request
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return RedirectResponse
      */
     public function postIndex(
-        Calculator $calculator,
         PostIndexRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {

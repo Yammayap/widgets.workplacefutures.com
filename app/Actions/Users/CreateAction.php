@@ -23,13 +23,12 @@ class CreateAction
          */
         $emailNames = strstr($email, '@', true);
         $name = explode('.', $emailNames);
-        $user->first_name = Arr::get($name, 0);
-        $user->last_name = Arr::get($name, 1, '');
+        $user->first_name = ucfirst(Arr::get($name, 0));
+        $user->last_name = ucfirst(Arr::get($name, 1, ''));
 
         $user->email = $email;
         $user->marketing_opt_in = false;
-        $user->save();
-
+        $user->has_completed_profile = false;
         $user->save();
 
         return $user;
