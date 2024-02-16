@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 class AreaSize extends Component
 {
     /**
-     * @param \App\Services\SpaceCalculator\OutputAreaSize $areaSize
+     * @param OutputAreaSize $areaSize
      */
     public function __construct(public readonly OutputAreaSize $areaSize)
     {
@@ -17,7 +17,7 @@ class AreaSize extends Component
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function render(): View
     {

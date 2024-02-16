@@ -27,7 +27,7 @@ class Calculator
 
         // step one: calculations here - workstations sheet
 
-        $peopleWorkingPlusGrowth = round(
+        $peopleWorkingPlusGrowth = (int) round(
             $inputs->totalPeople + Percentage::of($inputs->growthPercentage, $inputs->totalPeople)
         );
 
@@ -39,9 +39,9 @@ class Calculator
             'hybrid-working.' . $inputs->hybridWorking->value
         )) / 100;
 
-        $undiversifiedAllocation = round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
+        $undiversifiedAllocation = (int) round(Percentage::of($inputs->deskPercentage, $peopleWorkingPlusGrowth));
 
-        $diversifiedAllocation = round((Percentage::of(
+        $diversifiedAllocation = (int) round((Percentage::of(
             $percentageToAccommodate,
             $peopleWorkingPlusGrowth - $undiversifiedAllocation
         )) * 100);
@@ -62,17 +62,18 @@ class Calculator
             'workstations.use-of-touchdown'
         )) / 100;
 
-        $undiversifiedOfficeAllocation = round($undiversifiedAllocation * $adjustedPrivateOfficeFactor);
+        $undiversifiedOfficeAllocation = (int) round($undiversifiedAllocation * $adjustedPrivateOfficeFactor);
 
-        $undiversifiedDeskAllocation = round($undiversifiedAllocation * (1 - $adjustedPrivateOfficeFactor));
+        $undiversifiedDeskAllocation = (int) round($undiversifiedAllocation * (1 - $adjustedPrivateOfficeFactor));
 
-        $diversifiedTouchdownAllocation = round($diversifiedAllocation * $touchdownFactor * (1 + $mobilityAdjuster));
+        $diversifiedTouchdownAllocation = (int) round($diversifiedAllocation * $touchdownFactor *
+            (1 + $mobilityAdjuster));
 
-        $diversifiedDeskAllocation = round(
+        $diversifiedDeskAllocation = (int) round(
             ($diversifiedAllocation - $diversifiedTouchdownAllocation) * (1 - $privateOfficeFactor)
         );
 
-        $diversifiedOfficeAllocation = round(
+        $diversifiedOfficeAllocation = (int) round(
             ($diversifiedAllocation - $diversifiedTouchdownAllocation) * $privateOfficeFactor
         );
 
@@ -84,7 +85,7 @@ class Calculator
         // grey box totals
         $privateOffices = $undiversifiedOfficeAllocation + $diversifiedOfficeAllocation;
         $openPlanDesks = $undiversifiedDeskAllocation + $diversifiedDeskAllocation;
-        $openPlanTouchdownSpaces = $diversifiedTouchdownAllocation; // this one could be simplified
+        $openPlanTouchdownSpaces = $diversifiedTouchdownAllocation;
         $totalOpenPlan = $openPlanDesks + $openPlanTouchdownSpaces;
         $totalWorkstations = $privateOffices + $totalOpenPlan;
 
@@ -116,7 +117,7 @@ class Calculator
         // step two: calculations here - assets sheet
 
         $assetCalculations = (new Collection(Asset::cases()))
-            ->keyBy(function (Asset $asset) {
+            ->keyBy(function (Asset $asset): string {
                 return $asset->value;
             })
             ->map(function (Asset $asset) use (
@@ -124,7 +125,7 @@ class Calculator
                 $collaborationAdjuster,
                 $totalWorkstations,
                 $spaceStandardAdjuster
-            ) {
+            ): AssetCalculation {
 
                 $seatsOrUnitsPerHundred = Arr::get(
                     Arr::get(
@@ -305,7 +306,6 @@ class Calculator
 
         // Net areas (sm) - done for adjusted space calculations and capacity by type calculations
 
-        // todo: discuss best way to format this data
         $netAreaTotals = collect();
         $netAreaTotals['adjusted-space'] = collect();
         $netAreaTotals['capacity-by-type'] = collect();
@@ -383,21 +383,21 @@ class Calculator
             $netAreaAllocations['tight']
         );
         $tightSpaceGrossSmAmount = $netAreaAllocations['tight'] + $tightSpaceGrossSmPercentage;
-        $tightSquareFootAmount = round((($tightSpaceGrossSmAmount * 10.76) / 100)) * 100;
+        $tightSquareFootAmount = (int) round((($tightSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
         $averageSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'average'),
             $netAreaAllocations['average']
         );
         $averageSpaceGrossSmAmount = $netAreaAllocations['average'] + $averageSpaceGrossSmPercentage;
-        $averageSquareFootAmount = round((($averageSpaceGrossSmAmount * 10.76) / 100)) * 100;
+        $averageSquareFootAmount = (int) round((($averageSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
         $spaciousSpaceGrossSmPercentage = Percentage::of(
             Arr::get($this->config->circulationAllowances, 'spacious'),
             $netAreaAllocations['spacious']
         );
         $spaciousSpaceGrossSmAmount = $netAreaAllocations['spacious'] + $spaciousSpaceGrossSmPercentage;
-        $spaciousSquareFootAmount = round((($spaciousSpaceGrossSmAmount * 10.76) / 100)) * 100;
+        $spaciousSquareFootAmount = (int) round((($spaciousSpaceGrossSmAmount * 10.76) / 100)) * 100;
 
         // step four: calculations here - capacity calculations sheet
 
@@ -421,14 +421,14 @@ class Calculator
 
         // end of calculations - outputs returned below
 
-        // todo: potentially tidy up later
         $areaSize = new OutputAreaSize(
-            (int)$tightSquareFootAmount,
-            (int)round($tightSpaceGrossSmAmount),
-            (int)$averageSquareFootAmount,
-            (int)round($averageSpaceGrossSmAmount),
-            (int)$spaciousSquareFootAmount,
-            (int)round($spaciousSpaceGrossSmAmount),
+            // named attributes here (same as done for asset calculations - blue text)
+            (int) $tightSquareFootAmount,
+            (int) round($tightSpaceGrossSmAmount),
+            (int) $averageSquareFootAmount,
+            (int) round($averageSpaceGrossSmAmount),
+            (int) $spaciousSquareFootAmount,
+            (int) round($spaciousSpaceGrossSmAmount),
         );
         $capacityTypes = collect([
             new OutputCapacityType(
@@ -462,35 +462,29 @@ class Calculator
         ]);
         // todo: We may need to ask them about this but looks like the 2nd pie chart is the tight space data
         $areaTypes = collect([
-            new OutputAreaType( // todo: consider how this works and $isEnum var when making the pie chart
+            new OutputAreaType( // todo: consider how this works when making the pie chart
                 'workstations',
                 $spaceAmounts['workstation']['tight'],
-                false,
             ),
             new OutputAreaType(
                 AreaType::FOCUS,
                 $spaceAmounts['focus']['tight'],
-                true,
             ),
             new OutputAreaType(
                 AreaType::COLLABORATION,
                 $spaceAmounts['collaboration']['tight'],
-                true,
             ),
             new OutputAreaType(
                 AreaType::CONGREGATION_SPACE,
                 $spaceAmounts['congregation']['tight'],
-                true,
             ),
             new OutputAreaType(
                 AreaType::FRONT_OF_HOUSE,
                 $spaceAmounts['front-of-house']['tight'],
-                true,
             ),
             new OutputAreaType(
                 AreaType::FACILITIES,
                 $spaceAmounts['facilities']['tight'],
-                true,
             ),
         ]);
 

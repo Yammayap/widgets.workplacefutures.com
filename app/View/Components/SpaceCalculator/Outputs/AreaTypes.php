@@ -18,7 +18,7 @@ class AreaTypes extends Component
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View
+     * @return View
      */
     public function render(): View
     {
