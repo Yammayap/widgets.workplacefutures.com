@@ -21,11 +21,17 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
             ->name('space-calculator.inputs.post');
     });
 
-    Route::group(['prefix' => 'results'], function (): void {
-        Route::get('{spaceCalculatorInput}/summary', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
-            ->middleware('guard_space_calculator_output')
-            ->name('space-calculator.outputs.index');
-    });
+    Route::group(
+        [
+        'prefix' => 'results/{spaceCalculatorInput}/summary',
+        'middleware' => 'guard_space_calculator_output'],
+        function (): void {
+            Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
+                ->name('space-calculator.outputs.index');
+            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postIndex'])
+                ->name('space-calculator.outputs.index.post');
+        }
+    );
 });
 
 /*---------------------------------------------------------------------*

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\SpaceCalculator;
 use App\Http\Controllers\WebController;
 use App\Models\SpaceCalculatorInput;
 use App\Services\SpaceCalculator\Calculator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class OutputsController extends WebController
@@ -22,5 +23,18 @@ class OutputsController extends WebController
             'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
             'inputs' => $spaceCalculatorInput,
         ]);
+    }
+
+    /**
+     * @param Calculator $calculator
+     * @param SpaceCalculatorInput $spaceCalculatorInput
+     * @return RedirectResponse
+     */
+    public function postIndex(
+        Calculator $calculator,
+        SpaceCalculatorInput $spaceCalculatorInput
+    ): RedirectResponse
+    {
+        dd('here');
     }
 }
