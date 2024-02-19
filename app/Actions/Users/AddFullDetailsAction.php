@@ -17,8 +17,8 @@ class AddFullDetailsAction
      * @param User $user
      * @param string $firstName
      * @param string $lastName
-     * @param string $companyName
-     * @param string $phone
+     * @param string|null $companyName
+     * @param string|null $phone
      * @param bool $marketingOptIn
      * @return void
      */
@@ -26,14 +26,16 @@ class AddFullDetailsAction
         User $user,
         string $firstName,
         string $lastName,
-        string $companyName,
-        string $phone,
+        string|null $companyName,
+        string|null $phone,
         bool $marketingOptIn,
     ): void {
         $user->first_name = $firstName;
         $user->last_name = $lastName;
         $user->company_name = $companyName;
-        $user->phone = new PhoneNumber($phone, Str::startsWith($phone, '+') ? null : 'GB');
+        if ($phone != null) {
+            $user->phone = new PhoneNumber($phone, Str::startsWith($phone, '+') ? null : 'GB');
+        }
         $user->marketing_opt_in = $marketingOptIn;
         $user->has_completed_profile = true;
         $user->save();

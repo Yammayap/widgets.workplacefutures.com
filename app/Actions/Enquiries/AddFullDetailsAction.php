@@ -13,11 +13,11 @@ class AddFullDetailsAction
 
     /**
      * @param Enquiry $enquiry
-     * @param string $message
+     * @param string|null $message
      * @param bool $canContact
      * @return void
      */
-    public function handle(Enquiry $enquiry, string $message, bool $canContact): void
+    public function handle(Enquiry $enquiry, string|null $message = null, bool $canContact): void
     {
         $enquiry->message = $message;
         $enquiry->can_contact = $canContact;
