@@ -6,6 +6,7 @@ use App\Actions\Enquiries\AttachToUserAction;
 use App\Actions\MagicLinks\SendAction;
 use App\Actions\Users\CreateAction;
 use App\Http\Controllers\WebController;
+use App\Http\Requests\Web\SpaceCalculator\Summary\PostFullDetailsRequest;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
@@ -69,8 +70,10 @@ class OutputsController extends WebController
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
     }
 
-    public function postFullDetails(): RedirectResponse
-    {
+    public function postFullDetails(
+        PostFullDetailsRequest $request,
+        SpaceCalculatorInput $spaceCalculatorInput
+    ): RedirectResponse {
         dd('in post full details');
     }
 

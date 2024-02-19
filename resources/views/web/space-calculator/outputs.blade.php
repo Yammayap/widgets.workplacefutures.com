@@ -35,8 +35,8 @@
             <x-forms.text type="text" name="company_name" id="company_name" :value="old('company_name')" />
          </div>
          <div>
-            <x-forms.label for="telephone">Telephone Number</x-forms.label>
-            <x-forms.text type="tel" name="telephone" id="telephone" :value="old('telephone')" />
+            <x-forms.label for="phone">Telephone Number</x-forms.label>
+            <x-forms.text type="tel" name="phone" id="phone" :value="old('phone')" />
          </div>
          <div>
             <x-forms.label for="message">Message</x-forms.label>
