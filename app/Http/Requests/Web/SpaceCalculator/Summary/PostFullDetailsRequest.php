@@ -4,6 +4,7 @@ namespace App\Http\Requests\Web\SpaceCalculator\Summary;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
+use Propaganistas\LaravelPhone\Rules\Phone;
 
 class PostFullDetailsRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class PostFullDetailsRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
             'company_name' => ['nullable', 'string', 'max:150'],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'phone' => ['nullable', (new Phone())->international()->country('GB')],
 
             // todo: discuss - Should the message rule have a max of 65535?
             // This link - https://shorturl.at/pqLRV - says we don't have to?

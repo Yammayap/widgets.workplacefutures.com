@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Web\SpaceCalculator;
 
+use App\Actions\Enquiries\AddFullDetailsAction as AddFullDetailsToEnquiryAction;
 use App\Actions\Enquiries\AttachToUserAction;
 use App\Actions\MagicLinks\SendAction;
+use App\Actions\Users\AddFullDetailsAction as AddFullDetailsToUserAction;
 use App\Actions\Users\CreateAction;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostFullDetailsRequest;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
+use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
 use App\Notifications\SummaryNotification;
@@ -70,11 +73,36 @@ class OutputsController extends WebController
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
     }
 
+    /**
+     * @param PostFullDetailsRequest $request
+     * @param SpaceCalculatorInput $spaceCalculatorInput
+     * @return RedirectResponse
+     */
     public function postFullDetails(
         PostFullDetailsRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {
-        dd('in post full details');
+
+        $enquiry = $spaceCalculatorInput->enquiry;
+
+        AddFullDetailsToUserAction::run(
+            $enquiry->user,
+            $request->input('first_name'),
+            $request->input('last_name'),
+            $request->input('company_name'),
+            $request->input('phone'),
+            $request->boolean('marketing_opt_in'),
+        );
+
+        AddFullDetailsToEnquiryAction::run(
+            $enquiry,
+            $request->input('message'),
+            $request->boolean('can_contact'),
+        );
+
+        TransmitToHubSpotJob::dispatch($enquiry);
+
+        return redirect(route('web.space-calculator.outputs.detailed', $spaceCalculatorInput));
     }
 
     /**
