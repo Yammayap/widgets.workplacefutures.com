@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Web\SpaceCalculator;
+namespace App\Http\Requests\Web\SpaceCalculator\Inputs;
 
 use App\Enums\Widgets\SpaceCalculator\Collaboration;
 use App\Enums\Widgets\SpaceCalculator\HybridWorking;
