@@ -24,25 +24,33 @@
          <x-errors :errors="$errors" />
          <div>
             <x-forms.label for="first_name">First name</x-forms.label>
-            <x-forms.text type="text" name="first_name" id="first_name" value="{{ old('first_name') }}" />
+            <x-forms.text type="text" name="first_name" id="first_name" :value="old('first_name')" />
          </div>
          <div>
             <x-forms.label for="last_name">Last name</x-forms.label>
-            <x-forms.text type="text" name="last_name" id="last_name" value="{{ old('last_name') }}" />
+            <x-forms.text type="text" name="last_name" id="last_name" :value="old('last_name')" />
          </div>
          <div>
             <x-forms.label for="company_name">Company name</x-forms.label>
-            <x-forms.text type="text" name="company_name" id="company_name" value="{{ old('company_name') }}" />
+            <x-forms.text type="text" name="company_name" id="company_name" :value="old('company_name')" />
          </div>
          <div>
             <x-forms.label for="telephone">Telephone Number</x-forms.label>
-            <x-forms.text type="tel" name="telephone" id="telephone" value="{{ old('telephone') }}" />
+            <x-forms.text type="tel" name="telephone" id="telephone" :value="old('telephone')" />
          </div>
          <div>
             <x-forms.label for="message">Message</x-forms.label>
-            <x-forms.textarea name="message" id="message" value="{{ old('message') }}" />
+            <x-forms.textarea name="message" id="message" :value="old('message')" />
          </div>
-         {{-- checkboxes next --}}
+         <div> {{-- todo: real text for marketing opt-in - is this something WFG need to define? --}}
+            <x-forms.checkbox name="marketing_opt_in" id="marketing_opt_in" :checked="old('marketing_opt_in', false)" value="1" label="Marketing Opt-in" />
+         </div>
+         <div>
+            <x-forms.checkbox name="can_contact" id="can_contact" :checked="old('can_contact', false)" value="1" label="Happy for a consultant to get in touch?" />
+         </div>
+         <div>
+            <button type="submit" title="Capture full details">Capture full details</button>
+         </div>
       </form>
    @else
       <form method="post" action="{{ route('web.space-calculator.outputs.index.post', $inputs) }}">
