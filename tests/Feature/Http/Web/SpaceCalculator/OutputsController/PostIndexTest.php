@@ -20,11 +20,12 @@ class PostIndexTest extends TestCase
         $inputs = SpaceCalculatorInput::factory()->create();
 
         SendAction::shouldRun()
-            ->once(); // todo: discuss - with() not working
-            /*->with(
-                $user,
-                $this->faker->ipv4
-            );*/
+            ->once() // todo: discuss - with() not working
+            ->with(
+                $this->mockArgModel($user),
+                '127.0.0.1',
+                route('web.space-calculator.outputs.detailed', $inputs),
+            );
 
         CreateAction::shouldNotRun();
         AttachToUserAction::shouldNotRun();
@@ -49,11 +50,11 @@ class PostIndexTest extends TestCase
         CreateAction::shouldNotRun();
 
         AttachToUserAction::shouldRun()
-            ->once(); // todo: discuss with() not working here too
-            /*->with(
-                $enquiry,
-                $user,
-            );*/
+            ->once()
+            ->with(
+                $this->mockArgModel($enquiry),
+                $this->mockArgModel($user),
+            );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
@@ -81,10 +82,15 @@ class PostIndexTest extends TestCase
 
         CreateAction::shouldRun()
             ->once()
-            ->andReturn(new User());
+            ->with('john@yammayap.com')
+            ->andReturn($newUser = User::factory()->create());
 
         AttachToUserAction::shouldRun()
-            ->once();
+            ->once()
+            ->with(
+                $this->mockArgModel($enquiry),
+                $this->mockArgModel($newUser),
+            );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
