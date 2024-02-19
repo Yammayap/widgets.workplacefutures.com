@@ -28,6 +28,7 @@ class OutputsController extends WebController
         return view('web.space-calculator.outputs', [
             'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
             'inputs' => $spaceCalculatorInput,
+            'user' => $spaceCalculatorInput->enquiry->user,
         ]);
     }
 
@@ -66,6 +67,11 @@ class OutputsController extends WebController
         $user->notify(new SummaryNotification($spaceCalculatorInput->enquiry));
 
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
+    }
+
+    public function postFullDetails(): RedirectResponse
+    {
+        dd('in post full details');
     }
 
     /**
