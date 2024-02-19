@@ -2,8 +2,10 @@
 
 @section('page')
 
-    {{-- todo: this is all dummy content - to be replaced --}}
-    <h2>Check your emails</h2>
-    <p>We have emailed you a magic link to enable you to log in.</p>
+    <p>We've sent a magic link to {{ $user ? $user->email : 'your email address' }}. Please click this link to sign in to your account.</p>
+
+    <p>The link will expire in {{ config('widgets.magic-links.expiry-minutes') }} minutes.</p>
+
+    <p><strong>Please check your email now.</strong></p>
 
 @endsection

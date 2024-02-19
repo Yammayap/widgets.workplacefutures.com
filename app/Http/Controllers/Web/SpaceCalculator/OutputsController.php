@@ -7,7 +7,6 @@ use App\Actions\MagicLinks\SendAction;
 use App\Actions\Users\CreateAction;
 use App\Http\Controllers\WebController;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
-use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
 use App\Notifications\SummaryNotification;
@@ -54,6 +53,7 @@ class OutputsController extends WebController
                 $request->ip(),
                 route('web.space-calculator.outputs.detailed', $spaceCalculatorInput)
             );
+            $request->session()->flash('auth-sent-user', $user);
             return redirect(route('web.auth.sent'));
         }
 
@@ -61,17 +61,9 @@ class OutputsController extends WebController
             $user = CreateAction::run($request->input('email'));
         }
 
-        /**
-         * @var Enquiry $enquiry
-         */
-        $enquiry = $spaceCalculatorInput->enquiry()
-            ->select('id', 'user_id')
-            ->first();
+        AttachToUserAction::run($spaceCalculatorInput->enquiry, $user);
 
-        AttachToUserAction::run($enquiry, $user);
-
-        // todo: discuss - should this be part of the previous action? Pass in a boolean to send the email?
-        $user->notify(new SummaryNotification($enquiry));
+        $user->notify(new SummaryNotification($spaceCalculatorInput->enquiry));
 
         return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
     }

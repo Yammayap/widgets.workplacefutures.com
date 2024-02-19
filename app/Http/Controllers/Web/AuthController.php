@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\WebController;
 use App\Models\MagicLink;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class AuthController extends WebController
@@ -25,8 +26,10 @@ class AuthController extends WebController
      */
     public function getSent(): View
     {
-        // todo: discuss - do we want to show any entered details here or just a generic message? (see view)
+        $this->metaTitle('Authentication Required');
 
-        return view('web.auth.sent');
+        return view('web.auth.sent', [
+            'user' => Session::has('auth-sent-user') ? Session::get('auth-sent-user') : null,
+        ]);
     }
 }

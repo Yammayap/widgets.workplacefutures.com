@@ -173,7 +173,6 @@ class PostIndexTest extends TestCase
         CreateAction::shouldNotRun();
         AttachToUserAction::shouldNotRun();
 
-        // todo: discuss - is there a way we can exclude the faker uuid from being $inputs->uuid?
         $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
                 'email' => $this->faker->email,

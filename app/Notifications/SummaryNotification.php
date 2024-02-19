@@ -43,8 +43,6 @@ class SummaryNotification extends Notification implements ShouldQueue
             ->line('Thank you for using the space calculator with ' . $this->enquiry->tenant->label()
                 . '. Your results are attached to this email.')
 
-            // In the line above, using $enquiry model to avoid Larastan error
-
             // todo: discuss - the action is a placeholder route, where would it link?
             // If it was a user we could link to the portal
             // If it was a guest then it will be different and their sessions may have expired
