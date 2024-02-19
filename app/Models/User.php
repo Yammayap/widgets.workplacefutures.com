@@ -24,6 +24,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property string|null $company_name
  * @property PhoneNumber|null $phone
  * @property boolean $marketing_opt_in
+ * @property boolean $has_completed_profile
  *
  * @property-read string $name
  * @property-read Collection<int, Enquiry> $enquiries
@@ -48,8 +49,9 @@ class User extends Authenticatable
      * @var array<string, string|class-string>
      */
     protected $casts = [
-        'marketing_opt_in' => 'boolean',
-        'phone'            => E164PhoneNumberCast::class,
+        'marketing_opt_in'      => 'boolean',
+        'has_completed_profile' => 'boolean',
+        'phone'                 => E164PhoneNumberCast::class,
     ];
 
     /**

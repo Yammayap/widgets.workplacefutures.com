@@ -6,6 +6,7 @@
         "ext-intl": "*",
         "ext-pdo": "*",
         "artesaos/seotools": "^1.2",
+        "doctrine/dbal": "^3.8",
         "gbuckingham89/laraflash": "^4.5",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.41",
