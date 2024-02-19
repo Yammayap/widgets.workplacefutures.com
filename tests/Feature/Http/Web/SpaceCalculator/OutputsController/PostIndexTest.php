@@ -20,7 +20,7 @@ class PostIndexTest extends TestCase
         $inputs = SpaceCalculatorInput::factory()->create();
 
         SendAction::shouldRun()
-            ->once() // todo: discuss - with() not working
+            ->once()
             ->with(
                 $this->mockArgModel($user),
                 '127.0.0.1',
