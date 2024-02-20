@@ -82,7 +82,7 @@ class OutputsController extends WebController
      * @return RedirectResponse
      */
     public function postProfile(
-        PostProfileRequest   $request,
+        PostProfileRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {
 

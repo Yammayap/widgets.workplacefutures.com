@@ -50,11 +50,9 @@ class PostProfileTest extends TestCase
             ->assertRedirect(route('web.space-calculator.outputs.detailed', $inputs))
             ->assertSessionHasNoErrors();
 
-        Queue::assertCount(1);
-        Queue::assertPushed(TransmitToHubSpotJob::class);
-        Queue::assertPushed(function (TransmitToHubSpotJob $job) use ($enquiry) {
+        Queue::assertPushed(function (TransmitToHubSpotJob $job) use ($enquiry): bool {
             return $job->enquiry->id === $enquiry->id;
-        });
+        }, 1);
     }
 
     public function test_posts_ok_with_more_data(): void
@@ -99,8 +97,9 @@ class PostProfileTest extends TestCase
             ->assertRedirect(route('web.space-calculator.outputs.detailed', $inputs))
             ->assertSessionHasNoErrors();
 
-        Queue::assertCount(1);
-        Queue::assertPushed(TransmitToHubSpotJob::class);
+        Queue::assertPushed(function (TransmitToHubSpotJob $job) use ($enquiry): bool {
+            return $job->enquiry->id === $enquiry->id;
+        }, 1);
     }
 
     public function test_required_fields(): void
@@ -125,7 +124,6 @@ class PostProfileTest extends TestCase
             ]);
 
         Queue::assertNothingPushed();
-        Queue::assertNotPushed(TransmitToHubSpotJob::class);
     }
 
     public function test_other_errors(): void
@@ -157,7 +155,6 @@ class PostProfileTest extends TestCase
             ]);
 
         Queue::assertNothingPushed();
-        Queue::assertNotPushed(TransmitToHubSpotJob::class);
     }
 
     public function test_auth_user_gets_redirected_away(): void
@@ -181,7 +178,6 @@ class PostProfileTest extends TestCase
             ->assertRedirect();
 
         Queue::assertNothingPushed();
-        Queue::assertNotPushed(TransmitToHubSpotJob::class);
     }
 
     public function test_without_session_redirects_away(): void
@@ -202,7 +198,6 @@ class PostProfileTest extends TestCase
             ->assertRedirect();
 
         Queue::assertNothingPushed();
-        Queue::assertNotPushed(TransmitToHubSpotJob::class);
     }
 
     public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
@@ -224,6 +219,5 @@ class PostProfileTest extends TestCase
             ->assertRedirect();
 
         Queue::assertNothingPushed();
-        Queue::assertNotPushed(TransmitToHubSpotJob::class);
     }
 }
