@@ -1,3 +1,3 @@
 <div>
-    <textarea {{ $attributes }}>{{ $value }}</textarea>
+    <textarea {{ $attributes }}>{{ $slot }}</textarea>
 </div>

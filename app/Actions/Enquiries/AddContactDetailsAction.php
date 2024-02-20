@@ -6,7 +6,7 @@ use App\Models\Enquiry;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 
-class AddFullDetailsAction
+class AddContactDetailsAction
 {
     use AsFake;
     use AsObject;
@@ -17,7 +17,7 @@ class AddFullDetailsAction
      * @param bool $canContact
      * @return void
      */
-    public function handle(Enquiry $enquiry, string|null $message = null, bool $canContact = false): void
+    public function handle(Enquiry $enquiry, ?string $message, bool $canContact): void
     {
         $enquiry->message = $message;
         $enquiry->can_contact = $canContact;

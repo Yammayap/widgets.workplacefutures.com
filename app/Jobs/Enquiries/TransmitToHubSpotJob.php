@@ -19,7 +19,7 @@ class TransmitToHubSpotJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(Enquiry $enquiry) /** @phpstan-ignore-line  */
+    public function __construct(public readonly Enquiry $enquiry)
     {
         //
     }

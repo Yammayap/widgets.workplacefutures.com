@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Actions\Enquiries;
 
-use App\Actions\Enquiries\AddFullDetailsAction;
+use App\Actions\Enquiries\AddContactDetailsAction;
 use App\Models\Enquiry;
 use Tests\TestCase;
 
@@ -12,10 +12,7 @@ class AddFullDetailsActionTest extends TestCase
     {
         $enquiry = Enquiry::factory()->create();
 
-        $this->assertNull($enquiry->message);
-        $this->assertFalse($enquiry->can_contact);
-
-        AddFullDetailsAction::run(
+        AddContactDetailsAction::run(
             $enquiry,
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             true

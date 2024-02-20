@@ -2,13 +2,15 @@
 
 namespace Tests\Feature\Http\Web\SpaceCalculator\OutputsController;
 
-use App\Actions\Enquiries\AddFullDetailsAction as AddFullDetailsToEnquiryAction;
-use App\Actions\Users\AddFullDetailsAction as AddFullDetailsToUserAction;
+use App\Actions\Enquiries\AddContactDetailsAction;
+use App\Actions\Users\UpdateProfileAction;
 use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
 use Illuminate\Support\Facades\Queue;
+use Mockery;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use Tests\TestCase;
 
 class PostFullDetailsTest extends TestCase
@@ -21,7 +23,7 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldRun()
+        UpdateProfileAction::shouldRun()
             ->once()
             ->with(
                 $this->mockArgModel($user),
@@ -32,7 +34,7 @@ class PostFullDetailsTest extends TestCase
                 false
             );
 
-        AddFullDetailsToEnquiryAction::shouldRun()
+        AddContactDetailsAction::shouldRun()
             ->once()
             ->with(
                 $this->mockArgModel($enquiry),
@@ -41,17 +43,18 @@ class PostFullDetailsTest extends TestCase
             );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 'first_name' => 'Liam',
                 'last_name' => 'Gallagher',
             ])
             ->assertRedirect(route('web.space-calculator.outputs.detailed', $inputs))
             ->assertSessionHasNoErrors();
 
-        // todo: discuss - asserting queues for first time here, anything else we should test for?
-        // or maybe add to it later when we have the job doing more?
         Queue::assertCount(1);
         Queue::assertPushed(TransmitToHubSpotJob::class);
+        Queue::assertPushed(function (TransmitToHubSpotJob $job) use ($enquiry) {
+            return $job->enquiry->id === $enquiry->id;
+        });
     }
 
     public function test_posts_ok_with_more_data(): void
@@ -62,18 +65,20 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldRun()
+        UpdateProfileAction::shouldRun()
             ->once()
             ->with(
                 $this->mockArgModel($user),
                 'Liam',
                 'Gallagher',
                 'Oasis Co',
-                '07787878787',
+                Mockery::on(function (PhoneNumber $arg) {
+                    return $arg->formatE164() === '+447787878787';
+                }),
                 true,
             );
 
-        AddFullDetailsToEnquiryAction::shouldRun()
+        AddContactDetailsAction::shouldRun()
             ->once()
             ->with(
                 $this->mockArgModel($enquiry),
@@ -82,11 +87,11 @@ class PostFullDetailsTest extends TestCase
             );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 'first_name' => 'Liam',
                 'last_name' => 'Gallagher',
                 'company_name' => 'Oasis Co',
-                'phone' => '07787878787',
+                'phone' => new PhoneNumber('+447787878787', null),
                 'marketing_opt_in' => true,
                 'message' => 'Lorem ipsum dolor sit amet',
                 'can_contact' => true,
@@ -106,11 +111,11 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldNotRun();
-        AddFullDetailsToEnquiryAction::shouldNotRun();
+        UpdateProfileAction::shouldNotRun();
+        AddContactDetailsAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 //
             ])
             ->assertRedirect()
@@ -131,11 +136,11 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldNotRun();
-        AddFullDetailsToEnquiryAction::shouldNotRun();
+        UpdateProfileAction::shouldNotRun();
+        AddContactDetailsAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 'first_name' => 'Liam',
                 'last_name' => 'Gallagher',
                 'company_name' => 'Oasis Co',
@@ -165,11 +170,11 @@ class PostFullDetailsTest extends TestCase
 
         $this->authenticateUser($user);
 
-        AddFullDetailsToUserAction::shouldNotRun();
-        AddFullDetailsToEnquiryAction::shouldNotRun();
+        UpdateProfileAction::shouldNotRun();
+        AddContactDetailsAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 'first_name' => 'Liam',
                 'last_name' => 'Gallagher',
             ])
@@ -187,10 +192,10 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldNotRun();
-        AddFullDetailsToEnquiryAction::shouldNotRun();
+        UpdateProfileAction::shouldNotRun();
+        AddContactDetailsAction::shouldNotRun();
 
-        $this->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+        $this->post(route('web.space-calculator.outputs.profile.post', $inputs), [
                 'first_name' => 'Liam',
                 'last_name' => 'Gallagher',
             ])
@@ -208,11 +213,11 @@ class PostFullDetailsTest extends TestCase
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        AddFullDetailsToUserAction::shouldNotRun();
-        AddFullDetailsToEnquiryAction::shouldNotRun();
+        UpdateProfileAction::shouldNotRun();
+        AddContactDetailsAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
-            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.profile.post', $inputs), [
             'first_name' => 'Liam',
             'last_name' => 'Gallagher',
         ])

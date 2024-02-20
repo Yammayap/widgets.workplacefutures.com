@@ -3,12 +3,11 @@
 namespace App\Actions\Users;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 use Lorisleiva\Actions\Concerns\AsFake;
 use Lorisleiva\Actions\Concerns\AsObject;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
-class AddFullDetailsAction
+class UpdateProfileAction
 {
     use AsFake;
     use AsObject;
@@ -18,7 +17,7 @@ class AddFullDetailsAction
      * @param string $firstName
      * @param string $lastName
      * @param string|null $companyName
-     * @param string|null $phone
+     * @param PhoneNumber|null $phone
      * @param bool $marketingOptIn
      * @return void
      */
@@ -26,16 +25,14 @@ class AddFullDetailsAction
         User $user,
         string $firstName,
         string $lastName,
-        string|null $companyName = null,
-        string|null $phone = null,
-        bool $marketingOptIn = false,
+        ?string $companyName,
+        ?PhoneNumber $phone,
+        bool $marketingOptIn,
     ): void {
         $user->first_name = $firstName;
         $user->last_name = $lastName;
         $user->company_name = $companyName;
-        if ($phone != null) {
-            $user->phone = new PhoneNumber($phone, Str::startsWith($phone, '+') ? null : 'GB');
-        }
+        $user->phone = $phone;
         $user->marketing_opt_in = $marketingOptIn;
         $user->has_completed_profile = true;
         $user->save();

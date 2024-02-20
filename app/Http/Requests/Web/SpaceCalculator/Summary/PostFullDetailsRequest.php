@@ -20,11 +20,7 @@ class PostFullDetailsRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:50'],
             'company_name' => ['nullable', 'string', 'max:150'],
             'phone' => ['nullable', (new Phone())->international()->country('GB')],
-
-            // todo: discuss - Should the message rule have a max of 65535?
-            // This link - https://shorturl.at/pqLRV - says we don't have to?
-            'message' => ['nullable', 'string'],
-
+            'message' => ['nullable', 'string', 'max:65535'],
             'marketing_opt_in' => ['nullable', 'boolean'],
             'can_contact' => ['nullable', 'boolean'],
         ];

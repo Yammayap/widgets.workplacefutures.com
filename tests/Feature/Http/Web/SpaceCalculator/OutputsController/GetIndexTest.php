@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Http\Web\SpaceCalculator\OutputsController;
+namespace Tests\Feature\Http\Web\SpaceCalculator\OutputsController;
 
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
@@ -30,7 +30,7 @@ class GetIndexTest extends TestCase
             ->assertOk()
             ->assertViewIs('web.space-calculator.outputs')
             ->assertSeeText('Get results PDF')
-            ->assertDontSeeText('Capture full details');
+            ->assertDontSeeText('View detailed results');
     }
 
     public function test_see_capture_full_details_form_after_posting_pdf_form_for_user_who_has_incomplete_profile(): void
@@ -52,7 +52,7 @@ class GetIndexTest extends TestCase
             ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
             ->assertOk()
             ->assertViewIs('web.space-calculator.outputs')
-            ->assertSeeText('Capture full details')
+            ->assertSeeText('View detailed results')
             ->assertDontSeeText('Get results PDF');
     }
 
