@@ -98,14 +98,127 @@ class PostFullDetailsTest extends TestCase
         Queue::assertPushed(TransmitToHubSpotJob::class);
     }
 
-    /*
-     * more...
-     *
-     * required_fields
-     * other errors (invalid phone, booleans)
-     * auth_user_gets_redirected_away
-     * without_session_redirects_away
-     * try_to_access_results_for_inputs_when_different_uuid_is_in_session
-     *
-     */
+    public function test_required_fields(): void
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        AddFullDetailsToUserAction::shouldNotRun();
+        AddFullDetailsToEnquiryAction::shouldNotRun();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+                //
+            ])
+            ->assertRedirect()
+            ->assertSessionHasErrors([
+                'first_name',
+                'last_name',
+            ]);
+
+        Queue::assertNothingPushed();
+        Queue::assertNotPushed(TransmitToHubSpotJob::class);
+    }
+
+    public function test_other_errors(): void
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        AddFullDetailsToUserAction::shouldNotRun();
+        AddFullDetailsToEnquiryAction::shouldNotRun();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+                'first_name' => 'Liam',
+                'last_name' => 'Gallagher',
+                'company_name' => 'Oasis Co',
+                'phone' => 'This is a string',
+                'marketing_opt_in' => 'true',
+                'message' => 'Lorem ipsum dolor sit amet',
+                'can_contact' => 'false',
+            ])
+            ->assertRedirect()
+            ->assertSessionHasErrors([
+                'phone',
+                'marketing_opt_in',
+                'can_contact',
+            ]);
+
+        Queue::assertNothingPushed();
+        Queue::assertNotPushed(TransmitToHubSpotJob::class);
+    }
+
+    public function test_auth_user_gets_redirected_away(): void
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->authenticateUser($user);
+
+        AddFullDetailsToUserAction::shouldNotRun();
+        AddFullDetailsToEnquiryAction::shouldNotRun();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+                'first_name' => 'Liam',
+                'last_name' => 'Gallagher',
+            ])
+            ->assertRedirect();
+
+        Queue::assertNothingPushed();
+        Queue::assertNotPushed(TransmitToHubSpotJob::class);
+    }
+
+    public function test_without_session_redirects_away(): void
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        AddFullDetailsToUserAction::shouldNotRun();
+        AddFullDetailsToEnquiryAction::shouldNotRun();
+
+        $this->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+                'first_name' => 'Liam',
+                'last_name' => 'Gallagher',
+            ])
+            ->assertRedirect();
+
+        Queue::assertNothingPushed();
+        Queue::assertNotPushed(TransmitToHubSpotJob::class);
+    }
+
+    public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        AddFullDetailsToUserAction::shouldNotRun();
+        AddFullDetailsToEnquiryAction::shouldNotRun();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
+            ->post(route('web.space-calculator.outputs.full-details.post', $inputs), [
+            'first_name' => 'Liam',
+            'last_name' => 'Gallagher',
+        ])
+            ->assertRedirect();
+
+        Queue::assertNothingPushed();
+        Queue::assertNotPushed(TransmitToHubSpotJob::class);
+    }
 }
