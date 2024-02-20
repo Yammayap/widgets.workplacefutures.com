@@ -58,12 +58,13 @@ Route::group([
 
         Route::get('sent', [Web\AuthController::class, 'getSent'])
             ->name('auth.sent');
-
-        Route::get('{magicLink}', [Web\AuthController::class, 'getMagicLink'])
-            ->middleware('signed')
-            ->name('auth.magic-link');
     });
 });
+
+// both guests and users - here to avoid clash with auth/sent
+Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
+    ->middleware('signed')
+    ->name('auth.magic-link');
 
 /*---------------------------------------------------------------------*
  *----------------------- AUTHENTICATED ROUTES ------------------------*

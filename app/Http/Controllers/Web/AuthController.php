@@ -4,21 +4,40 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\WebController;
 use App\Models\MagicLink;
+use App\Models\User;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class AuthController extends WebController
 {
     /**
+     * @param Request $request
      * @param MagicLink $magicLink
      * @return RedirectResponse
      */
-    public function getMagicLink(MagicLink $magicLink): RedirectResponse
+    public function getMagicLink(Request $request, MagicLink $magicLink): RedirectResponse
     {
-        // This is a placeholder for now - magic links will link to here
+        if (Auth::check()) {
+            Session::flush();
+        }
 
-        return redirect(route('web.space-calculator.index'));
+        if ($magicLink->isValid($request->ip())) {
+            $magicLink->authenticated_at = CarbonImmutable::now();
+            $magicLink->ip_authenticated_from = $request->ip();
+            $magicLink->save();
+            /**
+             * @var User $user
+             */
+            $user = $magicLink->user;
+            Auth::login($user);
+            return redirect($magicLink->getIntendedUrl());
+        }
+
+        return redirect(route('web.home.index'));
     }
 
     /**
