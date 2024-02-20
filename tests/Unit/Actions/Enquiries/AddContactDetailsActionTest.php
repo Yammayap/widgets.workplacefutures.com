@@ -6,7 +6,7 @@ use App\Actions\Enquiries\AddContactDetailsAction;
 use App\Models\Enquiry;
 use Tests\TestCase;
 
-class AddFullDetailsActionTest extends TestCase
+class AddContactDetailsActionTest extends TestCase
 {
     public function test_enquiry_is_attached_to_a_user(): void
     {

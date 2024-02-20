@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 use Propaganistas\LaravelPhone\Rules\Phone;
 
-class PostFullDetailsRequest extends FormRequest
+class PostProfileRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -13,7 +13,7 @@ use Mockery;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Tests\TestCase;
 
-class PostFullDetailsTest extends TestCase
+class PostProfileTest extends TestCase
 {
     public function test_posts_ok_with_minimal_data(): void
     {

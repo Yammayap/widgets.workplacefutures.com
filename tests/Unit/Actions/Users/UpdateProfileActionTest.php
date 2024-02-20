@@ -7,7 +7,7 @@ use App\Models\User;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Tests\TestCase;
 
-class AddFullDetailsActionTest extends TestCase
+class UpdateProfileActionTest extends TestCase
 {
     public function test_user_profile_is_updated(): void
     {

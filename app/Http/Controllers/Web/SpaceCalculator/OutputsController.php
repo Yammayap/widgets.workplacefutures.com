@@ -8,8 +8,8 @@ use App\Actions\MagicLinks\SendAction;
 use App\Actions\Users\CreateAction;
 use App\Actions\Users\UpdateProfileAction;
 use App\Http\Controllers\WebController;
-use App\Http\Requests\Web\SpaceCalculator\Summary\PostFullDetailsRequest;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
+use App\Http\Requests\Web\SpaceCalculator\Summary\PostProfileRequest;
 use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
@@ -76,12 +76,13 @@ class OutputsController extends WebController
     }
 
     /**
-     * @param PostFullDetailsRequest $request
+     * @param PostProfileRequest $request
      * @param SpaceCalculatorInput $spaceCalculatorInput
+     *
      * @return RedirectResponse
      */
     public function postProfile(
-        PostFullDetailsRequest $request,
+        PostProfileRequest   $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {
 
