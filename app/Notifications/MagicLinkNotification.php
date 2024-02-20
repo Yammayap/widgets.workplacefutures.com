@@ -38,7 +38,10 @@ class MagicLinkNotification extends Notification implements ShouldQueue
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Log in to ' . config('app.name'))
+            // todo: discuss - best way to make this subject unique - I think adding a timestamp but best way?
+            // This is to avoid email threading as per advice on the Postmark link (see Trello card)
+            ->subject('[' . $this->magicLink->requested_at->format('d/m/Y H:i') . '] - Log in to '
+                . config('app.name'))
             ->greeting('Hi ' . $notifiable->name . ',')
             ->line('Click the button below to securely log in.')
             ->action('Log in', $this->magicLink->signedUrl)
