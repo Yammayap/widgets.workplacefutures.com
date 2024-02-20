@@ -28,7 +28,7 @@ class AddFullDetailsAction
         string $lastName,
         string|null $companyName,
         string|null $phone,
-        bool $marketingOptIn,
+        bool $marketingOptIn = false,
     ): void {
         $user->first_name = $firstName;
         $user->last_name = $lastName;
