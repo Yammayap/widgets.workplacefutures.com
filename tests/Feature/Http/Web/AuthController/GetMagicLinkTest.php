@@ -2,39 +2,28 @@
 
 namespace Tests\Feature\Http\Web\AuthController;
 
+use App\Actions\MagicLinks\LoginAction;
 use App\Models\MagicLink;
-use App\Models\User;
 use Tests\TestCase;
 
 class GetMagicLinkTest extends TestCase
 {
-    public function test_can_access_route_as_guest(): void
+    public function test_can_access_route_as_guest_with_different_intended_url(): void
     {
-        $magicLink = MagicLink::factory()->create(['ip_requested_from' => '127.0.0.1']);
-
-        $this->get($magicLink->signedUrl)
-            ->assertRedirect(route('web.home.index'));
-
-        $this->assertAuthenticated();
-    }
-
-    public function test_already_logged_in_user_is_switched_and_session_flushed(): void
-    {
-        $user = User::factory()->create();
-        $user_2 = User::factory()->create();
-
-        $this->authenticateUser($user);
-
         $magicLink = MagicLink::factory()->create([
-            'user_id' => $user_2->id,
-            'ip_requested_from' => '127.0.0.1'
+            'ip_requested_from' => '127.0.0.1',
+            'intended_url' => route('web.space-calculator.inputs.index'),
         ]);
 
-        $this->withSession(['theTest' => 'testVar'])
-            ->get($magicLink->signedUrl)
-            ->assertRedirect(route('web.home.index'))
-            ->assertSessionMissing('theTest');
+        LoginAction::shouldRun()
+            ->once()
+            ->with(
+                '127.0.0.1',
+                $this->mockArgModel($magicLink),
+            )
+            ->andReturn(redirect($magicLink->getIntendedUrl()));
 
-        $this->assertAuthenticatedAs($user_2);
+        $this->get($magicLink->signedUrl)
+            ->assertRedirect(route('web.space-calculator.inputs.index'));
     }
 }
