@@ -26,7 +26,7 @@ class LoginAction
         if (Auth::check()) {
             Session::flush();
         }
-        
+
         if ($magicLink->isValid($ipAddress)) {
             $magicLink->authenticated_at = CarbonImmutable::now();
             $magicLink->ip_authenticated_from = $ipAddress;
