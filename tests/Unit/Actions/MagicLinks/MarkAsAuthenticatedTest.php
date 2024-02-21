@@ -4,9 +4,10 @@ namespace Tests\Unit\Actions\MagicLinks;
 
 use App\Actions\MagicLinks\MarkAsAuthenticated;
 use App\Models\MagicLink;
+use Carbon\CarbonImmutable;
 use Tests\TestCase;
 
-class LoginActionTest extends TestCase
+class MarkAsAuthenticatedTest extends TestCase
 {
     public function test_user_logs_in(): void
     {
@@ -18,7 +19,8 @@ class LoginActionTest extends TestCase
         );
 
         $magicLink->refresh();
-        $this->assertNotNull($magicLink->authenticated_at);
+        $this->freezeSecond();
+        $this->assertEquals(CarbonImmutable::now(), $magicLink->authenticated_at);
         $this->assertEquals('127.0.0.1', $magicLink->ip_authenticated_from);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web;
 use App\Actions\MagicLinks\MarkAsAuthenticated;
 use App\Http\Controllers\WebController;
 use App\Models\MagicLink;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,12 +26,7 @@ class AuthController extends WebController
 
         MarkAsAuthenticated::run($magicLink, $request->ip());
 
-        /**
-         * @var User $user
-         */
-        $user = $magicLink->user;
-
-        Auth::login($user);
+        Auth::login($magicLink->user);
 
         if ($magicLink->intended_url != null) {
             return redirect($magicLink->intended_url);

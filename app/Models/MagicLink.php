@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\URL;
  * @property string|null $ip_authenticated_from
  * @property string|null $intended_url
  *
- * @property-read User|null $user
+ * @property-read User $user
  * @property-read string $signedUrl
  */
 class MagicLink extends Model

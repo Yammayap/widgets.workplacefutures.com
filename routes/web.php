@@ -75,5 +75,6 @@ Route::group([
     ]
 ], function (): void {
 
-    // Routes....
+    Route::get('portal', [Web\PortalController::class, 'getIndex'])
+        ->name('portal');
 });
