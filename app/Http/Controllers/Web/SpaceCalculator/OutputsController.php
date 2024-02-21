@@ -118,11 +118,18 @@ class OutputsController extends WebController
     }
 
     /**
+     * @param Calculator $calculator
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return View
      */
-    public function getDetailed(SpaceCalculatorInput $spaceCalculatorInput): View
+    public function getDetailed(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
     {
-        dd('placeholder route - will change');
+        $this->metaTitle('Space Calculator Detailed Results');
+
+        return view('web.space-calculator.detailed-results', [
+            'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
+            'inputs' => $spaceCalculatorInput,
+            'user' => $spaceCalculatorInput->enquiry->user,
+        ]);
     }
 }
