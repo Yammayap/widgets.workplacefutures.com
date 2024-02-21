@@ -71,27 +71,4 @@ class MagicLink extends Model
             get: fn() => URL::signedRoute('web.auth.magic-link', $this)
         );
     }
-
-    /**
-     * @param string|null $ipAddress
-     * @return bool
-     */
-    public function isValid(string|null $ipAddress): bool
-    {
-        return $this->expires_at->isFuture()
-            && $this->authenticated_at == null
-            && $ipAddress == $this->ip_requested_from;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIntendedUrl(): string
-    {
-        if ($this->intended_url != null) {
-            return $this->intended_url;
-        }
-
-        return route('web.home.index');
-    }
 }

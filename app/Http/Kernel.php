@@ -62,10 +62,8 @@ class Kernel extends HttpKernel
         // 'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'set_tenant' => \App\Http\Middleware\SetTenant::class,
-        // todo: discuss - better name for this middleware?
         'guard_space_calculator_output' =>
             \App\Http\Middleware\GuardSpaceCalculatorOutput::class,
-
-         // space_calculator_outputs_summary_auth_check
+        'verify_magic_link' => \App\Http\Middleware\VerifyMagicLink::class,
     ];
 }

@@ -63,7 +63,7 @@ Route::group([
 
 // both guests and users - here to avoid clash with auth/sent
 Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
-    ->middleware('signed')
+    ->middleware(['signed', 'verify_magic_link'])
     ->name('auth.magic-link');
 
 /*---------------------------------------------------------------------*

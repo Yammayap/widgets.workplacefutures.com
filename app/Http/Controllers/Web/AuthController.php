@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Actions\MagicLinks\LoginAction;
+use App\Actions\MagicLinks\MarkAsAuthenticated;
 use App\Http\Controllers\WebController;
 use App\Models\MagicLink;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
@@ -19,7 +21,24 @@ class AuthController extends WebController
      */
     public function getMagicLink(Request $request, MagicLink $magicLink): RedirectResponse
     {
-        return LoginAction::run($request->ip(), $magicLink);
+        if (Auth::check()) {
+            Session::flush();
+        }
+
+        MarkAsAuthenticated::run($magicLink, $request->ip());
+
+        /**
+         * @var User $user
+         */
+        $user = $magicLink->user;
+
+        Auth::login($user);
+
+        if ($magicLink->intended_url != null) {
+            return redirect($magicLink->intended_url);
+        }
+
+        return redirect(route('web.home.index'));
     }
 
     /**
