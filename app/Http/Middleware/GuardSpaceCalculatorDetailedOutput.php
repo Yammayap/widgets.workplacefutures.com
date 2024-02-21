@@ -27,7 +27,11 @@ class GuardSpaceCalculatorDetailedOutput
         if (!Auth::check()) {
             $user = $model->enquiry->user;
 
-            if ($user && !$user->has_completed_profile) {
+            if (!$user) {
+                return redirect(route('web.space-calculator.index'));
+            }
+
+            if (!$user->has_completed_profile) {
                 return redirect(route('web.space-calculator.index'));
             }
 
