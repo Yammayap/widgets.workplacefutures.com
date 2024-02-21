@@ -161,6 +161,6 @@ class OutputsController extends WebController
             return redirect(route('web.auth.sent'));
         }
 
-        return redirect('web.portal.index');
+        return redirect(route('web.portal.index'));
     }
 }
