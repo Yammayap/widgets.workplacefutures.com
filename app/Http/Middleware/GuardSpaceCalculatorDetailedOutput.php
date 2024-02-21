@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuardSpaceCalculatorOutput
+class GuardSpaceCalculatorDetailedOutput
 {
     /**
      * @param Request $request
@@ -18,8 +18,10 @@ class GuardSpaceCalculatorOutput
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            return redirect(route('web.portal.index'));
+        dd('in detailed output middleware');
+
+        if (Auth::check()) { // todo: change this the prospect portal route when built
+            return redirect(route('web.space-calculator.index'));
         }
 
         if (!Session::has(config('widgets.space-calculator.input-session-key'))) {

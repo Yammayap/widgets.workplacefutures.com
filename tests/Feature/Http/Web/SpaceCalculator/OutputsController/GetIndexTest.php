@@ -66,7 +66,7 @@ class GetIndexTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
-            ->assertRedirect(route('web.space-calculator.index'));
+            ->assertRedirect(route('web.portal.index'));
     }
 
     public function test_without_session_redirects_away(): void
@@ -82,8 +82,6 @@ class GetIndexTest extends TestCase
     public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
     {
         $this->mock(Calculator::class);
-
-        $this->authenticateUser();
 
         $inputs_1 = SpaceCalculatorInput::factory()->create();
         $inputs_2 = SpaceCalculatorInput::factory()->create();

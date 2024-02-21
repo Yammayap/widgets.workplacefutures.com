@@ -144,7 +144,7 @@ class PostIndexTest extends TestCase
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
                 'email' => $this->faker->email,
             ])
-            ->assertRedirect(route('web.space-calculator.index'));
+            ->assertRedirect(route('web.portal.index'));
 
         Notification::assertCount(0);
     }
@@ -170,8 +170,6 @@ class PostIndexTest extends TestCase
     public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
     {
         Notification::fake();
-
-        $this->authenticateUser();
 
         $inputs = SpaceCalculatorInput::factory()->create();
 

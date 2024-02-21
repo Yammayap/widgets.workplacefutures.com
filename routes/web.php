@@ -40,7 +40,10 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
                 ->name('space-calculator.outputs.profile.post');
         });
 
-        Route::group(['prefix' => 'detailed'], function (): void {
+        Route::group([
+            'prefix' => 'detailed',
+            'middleware' => 'guard_space_calculator_detailed_output'
+        ], function (): void {
 
             Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getDetailed'])
                 ->name('space-calculator.outputs.detailed');
