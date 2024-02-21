@@ -35,6 +35,9 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
 
             Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postIndex'])
                 ->name('space-calculator.outputs.index.post');
+
+            Route::post('/profile', [Web\SpaceCalculator\OutputsController::class, 'postProfile'])
+                ->name('space-calculator.outputs.profile.post');
         });
 
         Route::group(['prefix' => 'detailed'], function (): void {
