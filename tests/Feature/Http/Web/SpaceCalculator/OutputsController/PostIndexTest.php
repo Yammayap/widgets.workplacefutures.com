@@ -27,8 +27,14 @@ class PostIndexTest extends TestCase
                 route('web.space-calculator.outputs.detailed', $inputs),
             );
 
+        AttachToUserAction::shouldRun()
+            ->once()
+            ->with(
+                $this->mockArgModel($inputs->enquiry),
+                $this->mockArgModel($user),
+            );
+
         CreateAction::shouldNotRun();
-        AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [

@@ -54,6 +54,7 @@ class OutputsController extends WebController
         $user = User::query()->where('email', $request->input('email'))->first();
 
         if ($user && $user->has_completed_profile) {
+            AttachToUserAction::run($spaceCalculatorInput->enquiry, $user);
             // todo: This intended route is just a placeholder, it will likely change
             SendAction::run(
                 $user,
