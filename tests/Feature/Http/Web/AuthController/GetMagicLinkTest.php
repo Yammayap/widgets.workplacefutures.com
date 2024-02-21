@@ -88,7 +88,7 @@ class GetMagicLinkTest extends TestCase
         MarkAsAuthenticated::shouldNotRun();
 
         $this->get($magicLink->signedUrl)
-            ->assertRedirect(route('web.portal'));
+            ->assertRedirect(route('web.portal.index'));
 
         $this->assertGuest();
     }
@@ -104,7 +104,7 @@ class GetMagicLinkTest extends TestCase
         MarkAsAuthenticated::shouldNotRun();
 
         $this->get($magicLink->signedUrl)
-            ->assertRedirect(route('web.portal'));
+            ->assertRedirect(route('web.portal.index'));
 
         $this->assertGuest();
     }
@@ -120,7 +120,7 @@ class GetMagicLinkTest extends TestCase
         MarkAsAuthenticated::shouldNotRun();
 
         $this->get($magicLink->signedUrl)
-            ->assertRedirect(route('web.portal'));
+            ->assertRedirect(route('web.portal.index'));
 
         $this->assertGuest();
     }

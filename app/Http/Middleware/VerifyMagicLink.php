@@ -26,15 +26,15 @@ class VerifyMagicLink
         }
 
         if ($magicLink->expires_at->isPast()) {
-            return redirect(route('web.portal'));
+            return redirect(route('web.portal.index'));
         }
 
         if ($magicLink->authenticated_at != null) {
-            return redirect(route('web.portal'));
+            return redirect(route('web.portal.index'));
         }
 
         if ($request->ip() != $magicLink->ip_requested_from) {
-            return redirect(route('web.portal'));
+            return redirect(route('web.portal.index'));
         }
 
         return $next($request);
