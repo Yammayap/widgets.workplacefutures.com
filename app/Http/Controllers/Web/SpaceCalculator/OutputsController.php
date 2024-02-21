@@ -133,4 +133,10 @@ class OutputsController extends WebController
             'user' => $spaceCalculatorInput->enquiry->user,
         ]);
     }
+
+    public function postDetailed(SpaceCalculatorInput $spaceCalculatorInput): RedirectResponse
+    {
+ // needs request class
+        dd('in post detailed');
+    }
 }
