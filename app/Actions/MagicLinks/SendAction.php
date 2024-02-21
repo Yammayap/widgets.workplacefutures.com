@@ -25,7 +25,7 @@ class SendAction
         $magicLink = new MagicLink();
         $magicLink->user()->associate($user);
         $magicLink->requested_at = CarbonImmutable::now();
-        $magicLink->expires_at = CarbonImmutable::now()->addMinutes(config('widgets.auth.magic-links.expiry-minutes'));
+        $magicLink->expires_at = CarbonImmutable::now()->addMinutes(config('widgets.magic-links.expiry-minutes'));
         $magicLink->ip_requested_from = $ipAddress;
         $magicLink->intended_url = $intendedUrl;
         $magicLink->save();
