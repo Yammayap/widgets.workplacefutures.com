@@ -2,23 +2,37 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Actions\MagicLinks\MarkAsAuthenticated;
 use App\Http\Controllers\WebController;
 use App\Models\MagicLink;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class AuthController extends WebController
 {
     /**
+     * @param Request $request
      * @param MagicLink $magicLink
      * @return RedirectResponse
      */
-    public function getMagicLink(MagicLink $magicLink): RedirectResponse
+    public function getMagicLink(Request $request, MagicLink $magicLink): RedirectResponse
     {
-        // This is a placeholder for now - magic links will link to here
+        if (Auth::check()) {
+            Session::flush();
+        }
 
-        return redirect(route('web.space-calculator.index'));
+        MarkAsAuthenticated::run($magicLink, $request->ip());
+
+        Auth::login($magicLink->user);
+
+        if ($magicLink->intended_url != null) {
+            return redirect($magicLink->intended_url);
+        }
+
+        return redirect(route('web.home.index'));
     }
 
     /**

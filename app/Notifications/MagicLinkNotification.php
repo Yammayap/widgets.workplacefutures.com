@@ -38,7 +38,8 @@ class MagicLinkNotification extends Notification implements ShouldQueue
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Log in to ' . config('app.name'))
+            ->subject('Log in to ' . config('app.name')
+                . ' [' . Helpers::formatDateTime($this->magicLink->requested_at) . ']')
             ->greeting('Hi ' . $notifiable->name . ',')
             ->line('Click the button below to securely log in.')
             ->action('Log in', $this->magicLink->signedUrl)
