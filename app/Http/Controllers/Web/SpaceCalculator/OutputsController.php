@@ -13,9 +13,12 @@ use App\Http\Requests\Web\SpaceCalculator\Summary\PostProfileRequest;
 use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
+use App\Notifications\DetailedNotification;
 use App\Notifications\SummaryNotification;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -134,9 +137,30 @@ class OutputsController extends WebController
         ]);
     }
 
-    public function postDetailed(SpaceCalculatorInput $spaceCalculatorInput): RedirectResponse
+    /**
+     * @param Request $request
+     * @param SpaceCalculatorInput $spaceCalculatorInput
+     * @return RedirectResponse
+     */
+    public function postDetailed(Request $request, SpaceCalculatorInput $spaceCalculatorInput): RedirectResponse
     {
- // needs request class
-        dd('in post detailed');
+        /**
+         * @var User $user
+         */
+        $user = $spaceCalculatorInput->enquiry->user;
+
+        $user->notify(new DetailedNotification($spaceCalculatorInput->enquiry));
+
+        if (!Auth::check()) {
+            SendAction::run(
+                $user,
+                $request->ip(),
+                route('web.portal.index', $spaceCalculatorInput)
+            );
+            $request->session()->flash('auth-sent-user', $user);
+            return redirect(route('web.auth.sent'));
+        }
+
+        return redirect('web.portal.index');
     }
 }
