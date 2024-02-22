@@ -46,4 +46,16 @@ class AuthController extends WebController
             'user' => Session::has('auth-sent-user') ? Session::get('auth-sent-user') : null,
         ]);
     }
+
+    /**
+     * @return View
+     */
+    public function getLogout(): View
+    {
+        $this->metaTitle('Are you sure you want to logout?');
+
+        return view('web.auth.logout', [
+            'user' => $this->authUser(),
+        ]);
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Artesaos\SEOTools\Traits\SEOTools;
+use Illuminate\Support\Facades\Auth;
 
 abstract class WebController extends Controller
 {
@@ -124,5 +126,21 @@ abstract class WebController extends Controller
         $this->seo()->opengraph()->setTitle($title);
 
         return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function authUser(): User
+    {
+        // todo: discuss - would this be better in the Helpers class so we can use it anywhere not just controllers?
+        // (it's here because this is where we normally put it)
+
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        return $user;
     }
 }

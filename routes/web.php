@@ -78,6 +78,13 @@ Route::group([
     ]
 ], function (): void {
 
+    Route::group(['prefix' => 'logout'], function (): void {
+        Route::get('/', [Web\AuthController::class, 'getLogout'])
+            ->name('logout.index');
+        Route::post('/', [Web\AuthController::class, 'postLogout'])
+            ->name('logout.post');
+    });
+
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
         ->name('portal.index');
 });
