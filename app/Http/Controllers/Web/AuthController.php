@@ -50,11 +50,11 @@ class AuthController extends WebController
     /**
      * @return View
      */
-    public function getLogout(): View
+    public function getSignOut(): View
     {
-        $this->metaTitle('Are you sure you want to logout?');
+        $this->metaTitle('Are you sure you want to sign out?');
 
-        return view('web.auth.logout', [
+        return view('web.auth.sign-out', [
             'user' => $this->authUser(),
         ]);
     }
@@ -62,7 +62,7 @@ class AuthController extends WebController
     /**
      * @return RedirectResponse
      */
-    public function postLogout(): RedirectResponse
+    public function postSignOut(): RedirectResponse
     {
         Auth::logout();
 

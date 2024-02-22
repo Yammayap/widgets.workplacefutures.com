@@ -4,13 +4,13 @@ namespace Tests\Feature\Http\Web\AuthController;
 
 use Tests\TestCase;
 
-class PostLogoutTest extends TestCase
+class PostSignOutTest extends TestCase
 {
-    public function test_authenticated_user_can_logout(): void
+    public function test_authenticated_user_can_sign_out(): void
     {
         $this->authenticateUser();
 
-        $this->post(route('web.logout.post'))
+        $this->post(route('web.sign-out.post'))
             ->assertRedirect(route('web.home.index'))
             ->assertSessionHasNoErrors();
 

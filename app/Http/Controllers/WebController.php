@@ -133,9 +133,6 @@ abstract class WebController extends Controller
      */
     public function authUser(): User
     {
-        // todo: discuss - would this be better in the Helpers class so we can use it anywhere not just controllers?
-        // (it's here because this is where we normally put it)
-
         /**
          * @var User $user
          */

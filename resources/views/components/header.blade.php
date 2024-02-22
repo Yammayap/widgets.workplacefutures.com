@@ -10,7 +10,7 @@
         </div>
         <div>
             @auth {{-- todo: real text here for when designs are done --}}
-                Hello {{ Auth::user()->name }}! Not you? <a href="{{ route('web.logout.index') }}" title="Logout">Logout</a>.
+                Hello {{ Auth::user()->name }}! Not you? <a href="{{ route('web.sign-out.index') }}" title="Sign Out">Sign Out</a>.
             @endauth
         </div>
     </div>

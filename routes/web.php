@@ -78,13 +78,13 @@ Route::group([
     ]
 ], function (): void {
 
-    Route::group(['prefix' => 'logout'], function (): void {
+    Route::group(['prefix' => 'sign-out'], function (): void {
 
-        Route::get('/', [Web\AuthController::class, 'getLogout'])
-            ->name('logout.index');
+        Route::get('/', [Web\AuthController::class, 'getSignOut'])
+            ->name('sign-out.index');
 
-        Route::post('/', [Web\AuthController::class, 'postLogout'])
-            ->name('logout.post');
+        Route::post('/', [Web\AuthController::class, 'postSignOut'])
+            ->name('sign-out.post');
     });
 
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
