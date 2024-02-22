@@ -20,26 +20,26 @@ class GuardSpaceCalculatorDetailedOutput
     public function handle(Request $request, Closure $next): Response
     {
         /**
-         * @var SpaceCalculatorInput $model
+         * @var SpaceCalculatorInput $spaceCalculatorInput
          */
-        $model = $request->route()?->parameter('spaceCalculatorInput');
+        $spaceCalculatorInput = $request->route()?->parameter('spaceCalculatorInput');
 
         if (!Auth::check()) {
-            $user = $model->enquiry->user;
+            $user = $spaceCalculatorInput->enquiry->user;
 
             if (!$user) {
-                return redirect(route('web.space-calculator.index'));
+                return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
             }
 
             if (!$user->has_completed_profile) {
-                return redirect(route('web.space-calculator.index'));
+                return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
             }
 
             if (!Session::has(config('widgets.space-calculator.input-session-key'))) {
                 return redirect(route('web.space-calculator.index'));
             }
 
-            if (Session::get(config('widgets.space-calculator.input-session-key')) !== $model->uuid) {
+            if (Session::get(config('widgets.space-calculator.input-session-key')) !== $spaceCalculatorInput->uuid) {
                 return redirect(route('web.space-calculator.index'));
             }
         }
@@ -52,11 +52,10 @@ class GuardSpaceCalculatorDetailedOutput
             $user = Auth::user();
 
             if (!$user->has_completed_profile) {
-                // todo: discuss - would this link to a profile edit screen perhaps later?
                 return redirect(route('web.portal.index'));
             }
 
-            if ($model->enquiry->user_id != $user->id) {
+            if (!$spaceCalculatorInput->enquiry->user?->is($user)) {
                 return redirect(route('web.portal.index'));
             }
         }
