@@ -23,8 +23,8 @@ class PostDetailedTest extends TestCase
         SendAction::shouldRun()
             ->once()
             ->with(
-              $this->mockArgModel($user),
-              '127.0.0.1',
+                $this->mockArgModel($user),
+                '127.0.0.1',
                 route('web.portal.index', $inputs),
             );
 
