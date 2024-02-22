@@ -30,6 +30,7 @@ class GetDetailedTest extends TestCase
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
             ->assertOk()
+            ->assertSeeText('Log in to view your portal')
             ->assertViewIs('web.space-calculator.detailed-results');
     }
 
@@ -52,6 +53,7 @@ class GetDetailedTest extends TestCase
 
         $this->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
             ->assertOk()
+            ->assertDontSeeText('Log in to view your portal')
             ->assertViewIs('web.space-calculator.detailed-results');
     }
 
@@ -76,6 +78,7 @@ class GetDetailedTest extends TestCase
         $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
             ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
             ->assertOk()
+            ->assertDontSeeText('Log in to view your portal')
             ->assertViewIs('web.space-calculator.detailed-results');
     }
 
