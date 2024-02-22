@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Artesaos\SEOTools\Traits\SEOTools;
+use Illuminate\Support\Facades\Auth;
 
 abstract class WebController extends Controller
 {
@@ -124,5 +126,18 @@ abstract class WebController extends Controller
         $this->seo()->opengraph()->setTitle($title);
 
         return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function authUser(): User
+    {
+        /**
+         * @var User $user
+         */
+        $user = Auth::user();
+
+        return $user;
     }
 }

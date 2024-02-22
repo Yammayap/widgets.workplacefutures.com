@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'phone'                 => null,
             'marketing_opt_in'      => false,
             'has_completed_profile' => false,
+            'remember_token'        => null,
         ];
     }
 

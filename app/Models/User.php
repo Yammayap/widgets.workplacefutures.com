@@ -25,6 +25,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property PhoneNumber|null $phone
  * @property boolean $marketing_opt_in
  * @property boolean $has_completed_profile
+ * @property string|null $remember_token
  *
  * @property-read string $name
  * @property-read Collection<int, Enquiry> $enquiries
@@ -42,6 +43,15 @@ class User extends Authenticatable
      * @var string
      */
     protected $table = 'users';
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'remember_token',
+    ];
 
     /**
      * The attributes that should be cast.
