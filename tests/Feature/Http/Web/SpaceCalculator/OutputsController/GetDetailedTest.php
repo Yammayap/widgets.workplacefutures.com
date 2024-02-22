@@ -79,19 +79,104 @@ class GetDetailedTest extends TestCase
             ->assertViewIs('web.space-calculator.detailed-results');
     }
 
-    /*
-     * more to test
-     *
-     * GUEST REDIRECTS
-     * guest user incomplete profile redirect
-     * guest access without user set up yet redirect
-     * guest without session
-     * guess with session different inputs uuid
-     *
-     * AUTH USER REDIRECTS
-     * auth user incomplete profile redirect
-     * auth user can't access if enquiry isn't theirs
-     * auth user can't access if enquiry isn't theirs but has session containing their uuid
-     *
-     */
+    public function test_redirect_for_guest_with_incomplete_profile(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => false]);
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.space-calculator.index'));
+    }
+
+    public function test_redirect_for_guest_before_user_set_up(): void
+    {
+        $inputs = SpaceCalculatorInput::factory()->create();
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.space-calculator.index'));
+    }
+
+    public function test_redirect_for_guest_without_session(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => true]);
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.space-calculator.index'));
+    }
+
+    public function test_redirect_for_guest_with_different_uuid_in_session(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => true]);
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
+            ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.space-calculator.index'));
+    }
+
+    public function test_redirect_for_authenticated_user_with_incomplete_profile(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => false]);
+        $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->authenticateUser($user);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.portal.index'));
+    }
+
+    public function test_redirect_for_authenticated_user_if_enquiry_is_not_theirs(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => true]);
+        $enquiry = Enquiry::factory()->create(['user_id' => User::factory()->make()->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->authenticateUser($user);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.portal.index'));
+    }
+
+    // todo: discuss - this one possibly over the top or worth testing?
+    public function test_redirect_for_authenticated_user_if_enquiry_is_not_theirs_even_though_the_inputs_uuid_is_in_the_session(): void
+    {
+        $user = User::factory()->create(['has_completed_profile' => true]);
+        $enquiry = Enquiry::factory()->create(['user_id' => User::factory()->make()->id]);
+        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->authenticateUser($user);
+
+        $this->mock(Calculator::class)
+            ->shouldNotHaveBeenCalled();
+
+        $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
+            ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
+            ->assertRedirect(route('web.portal.index'));
+    }
 }
