@@ -27,8 +27,14 @@ class PostIndexTest extends TestCase
                 route('web.space-calculator.outputs.detailed', $inputs),
             );
 
+        AttachToUserAction::shouldRun()
+            ->once()
+            ->with(
+                $this->mockArgModel($inputs->enquiry),
+                $this->mockArgModel($user),
+            );
+
         CreateAction::shouldNotRun();
-        AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
@@ -144,7 +150,7 @@ class PostIndexTest extends TestCase
             ->post(route('web.space-calculator.outputs.index.post', $inputs), [
                 'email' => $this->faker->email,
             ])
-            ->assertRedirect(route('web.space-calculator.index'));
+            ->assertRedirect(route('web.portal.index'));
 
         Notification::assertCount(0);
     }
@@ -170,8 +176,6 @@ class PostIndexTest extends TestCase
     public function test_try_to_access_results_for_inputs_when_different_uuid_is_in_session(): void
     {
         Notification::fake();
-
-        $this->authenticateUser();
 
         $inputs = SpaceCalculatorInput::factory()->create();
 

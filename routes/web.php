@@ -40,10 +40,16 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
                 ->name('space-calculator.outputs.profile.post');
         });
 
-        Route::group(['prefix' => 'detailed'], function (): void {
+        Route::group([
+            'prefix' => 'detailed',
+            'middleware' => 'guard_space_calculator_detailed_output'
+        ], function (): void {
 
             Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getDetailed'])
                 ->name('space-calculator.outputs.detailed');
+
+            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postDetailed'])
+                ->name('space-calculator.outputs.detailed.post');
         });
     });
 });
@@ -58,6 +64,9 @@ Route::group([
 ], function (): void {
 
     Route::group(['prefix' => 'auth'], function (): void {
+
+        Route::post('sign-in', [Web\AuthController::class, 'postSignIn'])
+            ->name('auth.sign-in.post');
 
         Route::get('sent', [Web\AuthController::class, 'getSent'])
             ->name('auth.sent');

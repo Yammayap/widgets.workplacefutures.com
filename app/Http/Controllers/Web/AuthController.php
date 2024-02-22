@@ -36,6 +36,14 @@ class AuthController extends WebController
     }
 
     /**
+     * @return RedirectResponse
+     */
+    public function postSignIn(): RedirectResponse
+    {
+        dd('This is a placeholder - real content to come in a later card / PR');
+    }
+
+    /**
      * @return View
      */
     public function getSent(): View

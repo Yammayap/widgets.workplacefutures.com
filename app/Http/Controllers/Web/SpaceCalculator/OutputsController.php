@@ -13,9 +13,11 @@ use App\Http\Requests\Web\SpaceCalculator\Summary\PostProfileRequest;
 use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
+use App\Notifications\DetailedNotification;
 use App\Notifications\SummaryNotification;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -54,6 +56,7 @@ class OutputsController extends WebController
         $user = User::query()->where('email', $request->input('email'))->first();
 
         if ($user && $user->has_completed_profile) {
+            AttachToUserAction::run($spaceCalculatorInput->enquiry, $user);
             // todo: This intended route is just a placeholder, it will likely change
             SendAction::run(
                 $user,
@@ -118,11 +121,35 @@ class OutputsController extends WebController
     }
 
     /**
+     * @param Calculator $calculator
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return View
      */
-    public function getDetailed(SpaceCalculatorInput $spaceCalculatorInput): View
+    public function getDetailed(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
     {
-        dd('placeholder route - will change');
+        $this->metaTitle('Space Calculator Detailed Results');
+
+        return view('web.space-calculator.detailed-results', [
+            'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
+            'inputs' => $spaceCalculatorInput,
+            'user' => $spaceCalculatorInput->enquiry->user,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param SpaceCalculatorInput $spaceCalculatorInput
+     * @return RedirectResponse
+     */
+    public function postDetailed(Request $request, SpaceCalculatorInput $spaceCalculatorInput): RedirectResponse
+    {
+        /**
+         * @var User $user
+         */
+        $user = $spaceCalculatorInput->enquiry->user;
+
+        $user->notify(new DetailedNotification($spaceCalculatorInput->enquiry));
+
+        return redirect(route('web.space-calculator.outputs.detailed.post', $spaceCalculatorInput));
     }
 }

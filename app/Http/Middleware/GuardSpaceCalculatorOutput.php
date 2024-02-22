@@ -18,8 +18,8 @@ class GuardSpaceCalculatorOutput
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) { // todo: change this the prospect portal route when built
-            return redirect(route('web.space-calculator.index'));
+        if (Auth::check()) {
+            return redirect(route('web.portal.index'));
         }
 
         if (!Session::has(config('widgets.space-calculator.input-session-key'))) {
