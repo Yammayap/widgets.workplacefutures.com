@@ -79,4 +79,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(MagicLink::class, 'user_id');
     }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string|null
+     */
+    public function getRememberToken(): string|null
+    {
+        return null;
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setRememberToken($value): void
+    {
+        // do nothing
+    }
 }

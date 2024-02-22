@@ -58,4 +58,16 @@ class AuthController extends WebController
             'user' => $this->authUser(),
         ]);
     }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function postLogout(): RedirectResponse
+    {
+        Auth::logout();
+
+        Session::flush();
+
+        return redirect(route('web.home.index'));
+    }
 }
