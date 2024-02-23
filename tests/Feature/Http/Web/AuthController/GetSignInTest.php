@@ -15,7 +15,7 @@ class GetSignInTest extends TestCase
             ->assertSeeTextInOrder([
                 'Sign In',
                 'Email address',
-                'Sign In',
+                'Get my sign in link',
                 'Back to portal'
             ]);
     }

@@ -26,7 +26,7 @@ class PostSignInTest extends TestCase
            'email' => $user->email,
         ])
             ->assertRedirect(route('web.auth.sent'))
-            ->assertSessionHas('auth-sent-user'); // todo: discuss - asserting session = $user fails here?
+            ->assertSessionHas('auth-sent-user.id', $user->id);
     }
 
     public function test_cannot_post_as_authenticated_user(): void
@@ -41,7 +41,7 @@ class PostSignInTest extends TestCase
         $this->post(route('web.auth.sign-in.post'), [
             'email' => $user_2->email,
         ])
-            ->assertRedirect(route('web.home.index'))
+            ->assertRedirect()
             ->assertSessionMissing('auth-sent-user');
     }
 
@@ -56,8 +56,11 @@ class PostSignInTest extends TestCase
         $this->post(route('web.auth.sign-in.post'), [
             //
         ])
-            ->assertRedirect(route('web.home.index'))
-            ->assertSessionMissing('auth-sent-user');
+            ->assertRedirect()
+            ->assertSessionMissing('auth-sent-user')
+            ->assertSessionHasErrors([
+                'email' => 'The email field is required.'
+            ]);
     }
 
     public function test_email_must_be_valid(): void
@@ -71,8 +74,11 @@ class PostSignInTest extends TestCase
         $this->post(route('web.auth.sign-in.post'), [
             'email' => 'loremIpsum123'
         ])
-            ->assertRedirect(route('web.home.index'))
-            ->assertSessionMissing('auth-sent-user');
+            ->assertRedirect()
+            ->assertSessionMissing('auth-sent-user')
+            ->assertSessionHasErrors([
+                'email' => 'The email field must be a valid email address.'
+            ]);
     }
 
     public function test_email_must_belong_to_existing_user(): void
@@ -88,7 +94,10 @@ class PostSignInTest extends TestCase
         $this->post(route('web.auth.sign-in.post'), [
             'email' => 'damon@blur.co.uk'
         ])
-            ->assertRedirect(route('web.home.index'))
-            ->assertSessionMissing('auth-sent-user');
+            ->assertRedirect()
+            ->assertSessionMissing('auth-sent-user')
+            ->assertSessionHasErrors([
+                'email' => 'The selected email is invalid.'
+            ]);
     }
 }
