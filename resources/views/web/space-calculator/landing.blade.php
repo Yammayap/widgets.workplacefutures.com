@@ -10,7 +10,7 @@
     {{-- wording and placement of these buttons TBC --}}
     <div>
         <div>
-            <a href="#" title="Returning User">
+            <a href="{{ route('web.auth.sign-in') }}" title="Returning User">
                 Returning User
             </a>
         </div>
