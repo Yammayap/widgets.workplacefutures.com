@@ -65,6 +65,9 @@ Route::group([
 
     Route::group(['prefix' => 'auth'], function (): void {
 
+        Route::get('/sign-in', [Web\AuthController::class, 'getSignIn'])
+            ->name('auth.sign-in');
+
         Route::post('sign-in', [Web\AuthController::class, 'postSignIn'])
             ->name('auth.sign-in.post');
 

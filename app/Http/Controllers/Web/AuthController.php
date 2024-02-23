@@ -36,6 +36,16 @@ class AuthController extends WebController
     }
 
     /**
+     * @return View
+     */
+    public function getSignIn(): View
+    {
+        $this->metaTitle('Sign in');
+
+        return view('web.auth.sign-in');
+    }
+
+    /**
      * @return RedirectResponse
      */
     public function postSignIn(): RedirectResponse
