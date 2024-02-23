@@ -16,7 +16,7 @@ class GetSignInTest extends TestCase
                 'Sign In',
                 'Email address',
                 'Get my sign in link',
-                'Back to portal'
+                'Back to homepage'
             ]);
     }
 
