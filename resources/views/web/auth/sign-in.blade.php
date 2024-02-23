@@ -6,8 +6,9 @@
 
     <p>Lorem ipsum dolor sit amet</p>
 
-    <form method="post" action="{{ route('web.auth.sign-in.post') }}">
+    <form method="post" action="{{ route('web.auth.sign-in.post') }}" novalidate>
         @csrf
+        <x-errors :errors="$errors" />
         <x-forms.label for="email">Email address</x-forms.label>
         <x-forms.text type="email" id="email" name="email" :value="old('email')" />
         <button type="submit" title="Sign In">Sign In</button>

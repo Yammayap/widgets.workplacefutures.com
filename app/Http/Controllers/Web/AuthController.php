@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Actions\MagicLinks\MarkAsAuthenticated;
+use App\Actions\MagicLinks\SendAction;
 use App\Http\Controllers\WebController;
+use App\Http\Requests\Web\Auth\PostSignInRequest;
 use App\Models\MagicLink;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,11 +49,21 @@ class AuthController extends WebController
     }
 
     /**
+     * @param PostSignInRequest $request
      * @return RedirectResponse
      */
-    public function postSignIn(): RedirectResponse
+    public function postSignIn(PostSignInRequest $request): RedirectResponse
     {
-        dd('This is a placeholder - real content to come in a later card / PR');
+        /**
+         * @var User $user
+         */
+        $user = User::query()->where('email', $request->input('email'))->first();
+
+        SendAction::run($user, $request->ip(), route('web.portal.index'));
+
+        $request->session()->flash('auth-sent-user', $user);
+
+        return redirect(route('web.auth.sent'));
     }
 
     /**
