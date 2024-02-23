@@ -14,6 +14,6 @@
         <button type="submit" title="Get my sign in link">Get my sign in link</button>
     </form>
 
-    <a href="{{ route('web.home.index') }}" title="Back to portal">Back to portal</a>
+    <a href="{{ route('web.home.index') }}" title="Back to homepage">Back to homepage</a>
 
 @endsection
