@@ -10,7 +10,7 @@ class PostSignOutTest extends TestCase
     {
         $this->authenticateUser();
 
-        $this->post(route('web.sign-out.post'))
+        $this->post(route('web.auth.sign-out.post'))
             ->assertRedirect(route('web.home.index'))
             ->assertSessionHasNoErrors();
 

@@ -93,10 +93,10 @@ Route::group([
     Route::group(['prefix' => 'sign-out'], function (): void {
 
         Route::get('/', [Web\AuthController::class, 'getSignOut'])
-            ->name('sign-out.index');
+            ->name('auth.sign-out');
 
         Route::post('/', [Web\AuthController::class, 'postSignOut'])
-            ->name('sign-out.post');
+            ->name('auth.sign-out.post');
     });
 
     Route::get('portal', [Web\PortalController::class, 'getIndex'])

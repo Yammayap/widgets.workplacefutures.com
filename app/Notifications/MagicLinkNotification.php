@@ -15,19 +15,18 @@ class MagicLinkNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * Create a new notification instance.
+     * @param \App\Models\MagicLink $magicLink
      */
     public function __construct(private readonly MagicLink $magicLink)
     {
-        //
     }
 
     /**
-     * Get the notification's delivery channels.
+     * @param \App\Models\User $notifiable
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via(User $notifiable): array
     {
         return ['mail'];
     }

@@ -26,6 +26,6 @@ class GetSignInTest extends TestCase
         $this->authenticateUser($user);
 
         $this->get(route('web.auth.sign-in'))
-            ->assertRedirect(route('web.home.index'));
+            ->assertRedirect(route('web.portal.index'));
     }
 }

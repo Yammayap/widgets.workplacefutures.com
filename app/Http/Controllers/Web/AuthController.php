@@ -31,7 +31,7 @@ class AuthController extends WebController
 
         Auth::login($magicLink->user);
 
-        if ($magicLink->intended_url != null) {
+        if ($magicLink->intended_url !== null) {
             return redirect($magicLink->intended_url);
         }
 

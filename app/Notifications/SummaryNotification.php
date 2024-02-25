@@ -14,25 +14,26 @@ class SummaryNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * Create a new notification instance.
+     * @param \App\Models\Enquiry $enquiry
      */
     public function __construct(private readonly Enquiry $enquiry)
     {
-        //
     }
 
     /**
-     * Get the notification's delivery channels.
+     * @param \App\Models\User $notifiable
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via(User $notifiable): array
     {
         return ['mail'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * @param \App\Models\User $notifiable
+     *
+     * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail(User $notifiable): MailMessage
     {
