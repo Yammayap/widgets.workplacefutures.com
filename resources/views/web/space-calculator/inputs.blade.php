@@ -2,9 +2,9 @@
 
 @section('page')
 
-    <h1>Space Calculator Inputs</h1>
+    <h1>Space calculator inputs</h1>
 
-    <p>Lorem ipsum dolor sit amet. This page is a WIP but demonstrates inputs and selects as view components below.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean arcu quam, blandit eget sagittis nec, venenatis nec tellus. Cras mollis egestas molestie. Nam elit felis, facilisis eu enim quis, molestie iaculis nisi.</p>
 
     <form action="{{ route('web.space-calculator.inputs.post') }}" method="post" novalidate>
         @csrf
@@ -51,7 +51,7 @@
             </x-forms.label>
             <x-forms.select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
         </div>
-        <button type="submit" title="Submit Inputs">Submit Inputs</button>
+        <button type="submit" title="Get Results">Get Results</button>
     </form>
 
 @endsection

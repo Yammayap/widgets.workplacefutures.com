@@ -32,11 +32,9 @@ class InputsController extends WebController
      */
     public function getIndex(): View
     {
-        $this->metaTitle('Space Calculator Inputs');
+        $this->metaTitle('Space calculator inputs');
 
-        return view('web.space-calculator.inputs', [
-            //
-        ]);
+        return view('web.space-calculator.inputs');
     }
 
     /**

@@ -27,7 +27,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property boolean $has_completed_profile
  * @property string|null $remember_token
  *
- * @property-read string $name
+ * @property-read string|null $name
  * @property-read Collection<int, Enquiry> $enquiries
  * @property-read Collection<int, MagicLink> $magicLinks
  */
@@ -65,12 +65,18 @@ class User extends Authenticatable
     ];
 
     /**
-     * @return Attribute<string, never>
+     * @return Attribute<string|null, never>
      */
     public function name(): Attribute
     {
         return new Attribute(
-            get: fn() => trim($this->first_name . ' ' . $this->last_name)
+            get: function (): ?string {
+                if ($this->first_name === null && $this->last_name === null) {
+                    return null;
+                }
+
+                return trim($this->first_name . ' ' . $this->last_name);
+            },
         );
     }
 

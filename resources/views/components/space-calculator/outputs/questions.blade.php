@@ -1,26 +1,12 @@
 <div>
     <h2>Questions and answers</h2>
     <ul>
-        <li>
-            Q1: Workstyle: {{ $inputs->workstyle->label() }}
-        </li>
-        <li>
-            Q2: Total People: {{ $inputs->total_people }}
-        </li>
-        <li>
-            Q3: Growth Percentage: {{ $inputs->growth_percentage }}
-        </li>
-        <li>
-            Q4: Desk Percentage: {{ $inputs->desk_percentage }}
-        </li>
-        <li>
-            Q5: Hybrid Working: {{ $inputs->hybrid_working->label() }}
-        </li>
-        <li>
-            Q6: Mobility: {{ $inputs->mobility->label() }}
-        </li>
-        <li>
-            Q7: Collaboration: {{ $inputs->collaboration->label() }}
-        </li>
+        <li><strong>Q1: Workstyle:</strong> {{ $inputs->workstyle->label() }}</li>
+        <li><strong>Q2: Total People:</strong> {{ $inputs->total_people }}</li>
+        <li><strong>Q3: Growth Percentage:</strong> {{ $inputs->growth_percentage }}</li>
+        <li><strong>Q4: Desk Percentage:</strong> {{ $inputs->desk_percentage }}</li>
+        <li><strong>Q5: Hybrid Working:</strong> {{ $inputs->hybrid_working->label() }}</li>
+        <li><strong>Q6: Mobility:</strong> {{ $inputs->mobility->label() }}</li>
+        <li><strong>Q7: Collaboration:</strong> {{ $inputs->collaboration->label() }}</li>
     </ul>
 </div>

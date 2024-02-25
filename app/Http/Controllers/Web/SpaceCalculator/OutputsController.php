@@ -31,7 +31,7 @@ class OutputsController extends WebController
      */
     public function getIndex(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
     {
-        $this->metaTitle('Space Calculator Summary of Results');
+        $this->metaTitle('Space calculator summary results');
 
         return view('web.space-calculator.outputs', [
             'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
@@ -127,7 +127,7 @@ class OutputsController extends WebController
      */
     public function getDetailed(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
     {
-        $this->metaTitle('Space Calculator Detailed Results');
+        $this->metaTitle('Space calculator detailed results');
 
         return view('web.space-calculator.detailed-results', [
             'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),

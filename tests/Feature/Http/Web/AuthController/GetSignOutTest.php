@@ -10,7 +10,7 @@ class GetSignOutTest extends TestCase
     {
         $this->authenticateUser();
 
-        $this->get(route('web.sign-out.index'))
+        $this->get(route('web.auth.sign-out'))
             ->assertOk()
             ->assertViewIs('web.auth.sign-out');
     }
@@ -19,7 +19,7 @@ class GetSignOutTest extends TestCase
     {
         $this->assertGuest();
 
-        $this->get(route('web.sign-out.index'))
-            ->assertRedirect(route('web.home.index'));
+        $this->get(route('web.auth.sign-out'))
+            ->assertRedirect(route('web.auth.sign-in'));
     }
 }

@@ -47,6 +47,11 @@ class MagicLink extends Model
         'authenticated_at' => 'immutable_datetime',
     ];
 
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
@@ -57,9 +62,12 @@ class MagicLink extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    /**
+     * @return bool
+     */
     public function hasExpired(): bool
     {
-        return $this->expires_at->isPast() && $this->authenticated_at == null;
+        return $this->expires_at->isPast() && $this->authenticated_at === null;
     }
 
     /**
