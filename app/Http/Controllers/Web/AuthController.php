@@ -71,7 +71,7 @@ class AuthController extends WebController
      */
     public function getSent(): View
     {
-        $this->metaTitle('Authentication Required');
+        $this->metaTitle('Authentication required');
 
         return view('web.auth.sent', [
             'user' => Session::has('auth-sent-user') ? Session::get('auth-sent-user') : null,
@@ -83,7 +83,7 @@ class AuthController extends WebController
      */
     public function getSignOut(): View
     {
-        $this->metaTitle('Are you sure you want to sign out?');
+        $this->metaTitle('Sign out');
 
         return view('web.auth.sign-out', [
             'user' => $this->authUser(),

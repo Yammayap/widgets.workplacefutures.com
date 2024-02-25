@@ -36,19 +36,14 @@ class SummaryNotification extends Notification implements ShouldQueue
      */
     public function toMail(User $notifiable): MailMessage
     {
-        // todo: PDF attachment
         return (new MailMessage())
-            ->subject('Your space calculator results')
-            ->greeting('Hi ' . $notifiable->name . ',')
-            ->line('Thank you for using the space calculator with ' . $this->enquiry->tenant->label()
-                . '. Your results are attached to this email.')
-
-            // todo: discuss - the action is a placeholder route, where would it link?
-            // If it was a user we could link to the portal
-            // If it was a guest then it will be different and their sessions may have expired
-
-            ->action('Lorem ipsum', route('web.space-calculator.index'));
-
-            // todo: WFG may like to have some marketing text in this email
+            ->subject('Space calculator summary results')
+            ->greeting(
+                $notifiable->name === '' ? 'Hello,' : 'Hello ' . $notifiable->name . ','
+            )
+            ->line(
+                'Thank you for using the ' . $this->enquiry->tenant->label() . ' space calculator. ' .
+                'Your summary results are attached to this email.'
+            );
     }
 }

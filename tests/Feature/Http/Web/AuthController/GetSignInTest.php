@@ -13,10 +13,9 @@ class GetSignInTest extends TestCase
             ->assertOk()
             ->assertViewIs('web.auth.sign-in')
             ->assertSeeTextInOrder([
-                'Sign In',
+                'Sign in',
                 'Email address',
-                'Get my sign in link',
-                'Back to homepage'
+                'Get my sign in link'
             ]);
     }
 

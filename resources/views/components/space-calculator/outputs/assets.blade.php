@@ -1,4 +1,6 @@
 <div>
     <h2>Assets</h2>
-    @dump($assets)
+    @foreach($assets as $result)
+        <li><strong>{{ $result->asset }}</strong>: {{ $result->quantity }}</li>
+    @endforeach
 </div>

@@ -29,7 +29,7 @@ class GetIndexTest extends TestCase
             ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
             ->assertOk()
             ->assertViewIs('web.space-calculator.outputs')
-            ->assertSeeText('Get results PDF')
+            ->assertSeeText('Get summary results PDF')
             ->assertDontSeeText('View detailed results');
     }
 
@@ -53,7 +53,7 @@ class GetIndexTest extends TestCase
             ->assertOk()
             ->assertViewIs('web.space-calculator.outputs')
             ->assertSeeText('View detailed results')
-            ->assertDontSeeText('Get results PDF');
+            ->assertDontSeeText('Get summary results PDF');
     }
 
     public function test_auth_user_gets_redirected_away(): void

@@ -12,10 +12,8 @@ class LandingController extends WebController
      */
     public function getIndex(): View
     {
-        $this->metaTitle('Space Calculator');
+        $this->metaTitle('Space calculator');
 
-        return view('web.space-calculator.landing', [
-            //
-        ]);
+        return view('web.space-calculator.landing');
     }
 }
