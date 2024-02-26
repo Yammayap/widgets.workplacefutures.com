@@ -96,6 +96,9 @@ Route::group([
 
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
         ->name('portal.index');
+
+    Route::get('profile', [Web\ProfileController::class, 'getIndex'])
+        ->name('profile.index');
 });
 
 // both guests and users - here to avoid clash with auth routes

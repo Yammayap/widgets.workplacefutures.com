@@ -7,8 +7,21 @@ use Illuminate\View\View;
 
 class PortalController extends WebController
 {
+    /**
+     * @return View
+     */
     public function getIndex(): View
     {
-        dd('Portal - This is a placeholder route - contents to be decided later');
+        $this->metaTitle('Welcome to your portal');
+
+        $enquiries = $this->authUser()
+            ->enquiries()
+            ->with('spaceCalculatorInput')
+            ->orderBy('id', 'DESC')
+            ->paginate();
+
+        return view('web.portal.index', [
+            'enquiries' => $enquiries,
+        ]);
     }
 }
