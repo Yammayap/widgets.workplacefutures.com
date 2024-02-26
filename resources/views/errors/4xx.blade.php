@@ -1,6 +1,6 @@
 @extends('errors::layout')
 
-@section('title', 'Bad Request.')
+@section('title', 'Bad Request')
 @section('code', $exception->getStatusCode())
 @section('message')
     <p>It seems there are some technical problems.</p>
