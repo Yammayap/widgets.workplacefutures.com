@@ -76,11 +76,6 @@ Route::group([
     });
 });
 
-// both guests and users - here to avoid clash with auth/sent
-Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
-    ->middleware(['signed', 'verify_magic_link'])
-    ->name('auth.magic-link');
-
 /*---------------------------------------------------------------------*
  *----------------------- AUTHENTICATED ROUTES ------------------------*
  *---------------------------------------------------------------------*/
@@ -90,7 +85,7 @@ Route::group([
     ]
 ], function (): void {
 
-    Route::group(['prefix' => 'sign-out'], function (): void {
+    Route::group(['prefix' => 'auth/sign-out'], function (): void {
 
         Route::get('/', [Web\AuthController::class, 'getSignOut'])
             ->name('auth.sign-out');
@@ -102,3 +97,8 @@ Route::group([
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
         ->name('portal.index');
 });
+
+// both guests and users - here to avoid clash with auth routes
+Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
+    ->middleware(['signed', 'verify_magic_link'])
+    ->name('auth.magic-link');
