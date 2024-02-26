@@ -5,7 +5,7 @@ namespace Tests\Feature\Http\Web\SpaceCalculator\OutputsController;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
-use App\Notifications\DetailedNotification;
+use App\Notifications\SpaceCalculator\DetailedNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -63,7 +63,7 @@ class PostDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.detailed.post', $inputs))
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs))
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs))
             ->assertSessionHasNoErrors();
 
         Notification::assertCount(0);
@@ -77,7 +77,7 @@ class PostDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.detailed.post', $inputs))
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs))
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs))
             ->assertSessionHasNoErrors();
 
         Notification::assertCount(0);

@@ -28,11 +28,11 @@ class GuardSpaceCalculatorDetailedOutput
             $user = $spaceCalculatorInput->enquiry->user;
 
             if (!$user) {
-                return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
+                return redirect(route('web.space-calculator.outputs.summary', $spaceCalculatorInput));
             }
 
             if (!$user->has_completed_profile) {
-                return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
+                return redirect(route('web.space-calculator.outputs.summary', $spaceCalculatorInput));
             }
 
             if (!Session::has(config('widgets.space-calculator.input-session-key'))) {

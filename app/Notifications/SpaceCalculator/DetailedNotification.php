@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\SpaceCalculator;
 
 use App\Models\Enquiry;
 use App\Models\User;
@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SummaryNotification extends Notification implements ShouldQueue
+class DetailedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -38,13 +38,13 @@ class SummaryNotification extends Notification implements ShouldQueue
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage())
-            ->subject('Space calculator summary results')
+            ->subject('Space calculator detailed results')
             ->greeting(
                 $notifiable->name === '' ? 'Hello,' : 'Hello ' . $notifiable->name . ','
             )
             ->line(
                 'Thank you for using the ' . $this->enquiry->tenant->label() . ' space calculator. ' .
-                'Your summary results are attached to this email.'
+                'Your detailed results are attached to this email.'
             );
     }
 }

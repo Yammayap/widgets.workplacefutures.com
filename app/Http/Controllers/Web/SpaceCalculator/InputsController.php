@@ -64,6 +64,6 @@ class InputsController extends WebController
         // (user may have pressed back button and submitted again) Or just reset it?
         Session::put(config('widgets.space-calculator.input-session-key'), $input->uuid);
 
-        return redirect()->route('web.space-calculator.outputs.index', $input);
+        return redirect()->route('web.space-calculator.outputs.summary', $input);
     }
 }

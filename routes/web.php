@@ -27,14 +27,14 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
 
         Route::group([
             'prefix' => '/summary',
-            'middleware' => 'guard_space_calculator_output'
+            'middleware' => 'guard_space_calculator_summary_output'
         ], function (): void {
 
-            Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
-                ->name('space-calculator.outputs.index');
+            Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getSummary'])
+                ->name('space-calculator.outputs.summary');
 
-            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postIndex'])
-                ->name('space-calculator.outputs.index.post');
+            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postSummary'])
+                ->name('space-calculator.outputs.summary.post');
 
             Route::post('/profile', [Web\SpaceCalculator\OutputsController::class, 'postProfile'])
                 ->name('space-calculator.outputs.profile.post');
@@ -76,11 +76,6 @@ Route::group([
     });
 });
 
-// both guests and users - here to avoid clash with auth/sent
-Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
-    ->middleware(['signed', 'verify_magic_link'])
-    ->name('auth.magic-link');
-
 /*---------------------------------------------------------------------*
  *----------------------- AUTHENTICATED ROUTES ------------------------*
  *---------------------------------------------------------------------*/
@@ -90,7 +85,7 @@ Route::group([
     ]
 ], function (): void {
 
-    Route::group(['prefix' => 'sign-out'], function (): void {
+    Route::group(['prefix' => 'auth/sign-out'], function (): void {
 
         Route::get('/', [Web\AuthController::class, 'getSignOut'])
             ->name('auth.sign-out');
@@ -102,3 +97,8 @@ Route::group([
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
         ->name('portal.index');
 });
+
+// both guests and users - here to avoid clash with auth routes
+Route::get('auth/{magicLink}', [Web\AuthController::class, 'getMagicLink'])
+    ->middleware(['signed', 'verify_magic_link'])
+    ->name('auth.magic-link');

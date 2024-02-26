@@ -62,7 +62,7 @@ class Kernel extends HttpKernel
         // 'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         'set_tenant' => \App\Http\Middleware\SetTenant::class,
-        'guard_space_calculator_output' => \App\Http\Middleware\GuardSpaceCalculatorOutput::class,
+        'guard_space_calculator_summary_output' => \App\Http\Middleware\GuardSpaceCalculatorSummaryOutput::class,
         'guard_space_calculator_detailed_output' => \App\Http\Middleware\GuardSpaceCalculatorDetailedOutput::class,
         'verify_magic_link' => \App\Http\Middleware\VerifyMagicLink::class,
     ];
