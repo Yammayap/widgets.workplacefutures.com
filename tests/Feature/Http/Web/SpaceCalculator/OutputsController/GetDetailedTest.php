@@ -123,7 +123,7 @@ class GetDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
-            ->assertRedirect(route('web.portal.index'));
+            ->assertRedirect(route('web.profile.index'));
     }
 
     public function test_redirect_for_authenticated_user_if_enquiry_is_not_theirs(): void

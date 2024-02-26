@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnforceAuthenticatedUsersCompleteProfile
@@ -16,7 +17,12 @@ class EnforceAuthenticatedUsersCompleteProfile
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user() && !Auth::user()->has_completed_profile) {
+        if ( // todo: discuss - better way to handle this?
+            Auth::check()
+            && Auth::user()
+            && !Auth::user()->has_completed_profile
+            && Route::currentRouteName() != 'web.profile.index'
+        ) {
             return redirect(route('web.profile.index'));
         }
 
