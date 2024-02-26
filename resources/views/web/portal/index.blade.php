@@ -8,10 +8,10 @@
 
     {{-- todo: buttons here for now - rearrange when designs are ready --}}
     <div>
-        <a href="#" title="New Enquiry">New Enquiry</a>
+        <a href="{{ route('web.space-calculator.index') }}" title="New Enquiry">New Enquiry</a>
     </div>
     <div>
-        <a href="#" title="Edit profile">Edit profile</a>
+        <a href="{{ route('web.profile.index') }}" title="Edit profile">Edit profile</a>
     </div>
 
 @endsection

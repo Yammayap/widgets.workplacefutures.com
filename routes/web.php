@@ -101,4 +101,7 @@ Route::group([
 
     Route::get('portal', [Web\PortalController::class, 'getIndex'])
         ->name('portal.index');
+
+    Route::get('profile', [Web\ProfileController::class, 'getIndex'])
+        ->name('profile.index');
 });
