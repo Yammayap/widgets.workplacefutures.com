@@ -24,7 +24,12 @@ class EnforceAuthenticatedUsersCompleteProfile
             && !Auth::user()->has_completed_profile
             && !in_array(
                 Route::currentRouteName(),
-                ['web.profile.index', 'web.profile.index.post']
+                [
+                    'web.profile.index',
+                    'web.profile.index.post',
+                    'web.auth.sign-out',
+                    'web.auth.sign-out.post',
+                ]
             )
         ) {
             return redirect(route('web.profile.index'));

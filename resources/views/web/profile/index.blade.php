@@ -37,7 +37,7 @@
         </div>
 
         <div>
-            <x-forms.label for="phone">Phone</x-forms.label> {{-- todo: test phone as auth user updating profile --}}
+            <x-forms.label for="phone">Phone</x-forms.label>
             <x-forms.text type="tel" id="phone" name="phone" :value="old('phone', $user->phone)" />
         </div>
 
