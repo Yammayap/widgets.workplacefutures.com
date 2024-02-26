@@ -16,7 +16,7 @@
             </div>
         @else
             <div>
-                <a href="{{ route('web.space-calculator.inputs.index') }}" title="Get Started">Get Started</a>
+                <a href="{{ route('web.space-calculator.inputs.index') }}" title="Get started">Get started</a>
             </div>
         @endif
     </div>
