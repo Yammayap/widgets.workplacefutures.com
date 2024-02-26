@@ -10,6 +10,45 @@
         <p>You must complete your profile before using this website. Please fill out the form to proceed.</p>
     @endif
 
-    
+    <form method="post" action="{{ route('web.profile.index.post') }}" novalidate>
+
+        @csrf
+
+        <x-errors :errors="$errors" />
+
+        <div>
+            <x-forms.label for="first_name">First Name *</x-forms.label>
+            <x-forms.text id="first_name" name="first_name" :value="old('first_name', $user->first_name)" />
+        </div>
+
+        <div>
+            <x-forms.label for="last_name">Last Name *</x-forms.label>
+            <x-forms.text id="last_name" name="last_name" :value="old('last_name', $user->last_name)" />
+        </div>
+
+        <div> {{-- todo: discuss - should we allow editing of the email address or not? If we do then we may need more confirmation emails etc set up... --}}
+            <x-forms.label for="email_address">Email address</x-forms.label>
+            {{ $user->email }}
+        </div>
+
+        <div>
+            <x-forms.label for="company_name">Company Name</x-forms.label>
+            <x-forms.text id="company_name" name="company_name" :value="old('company_name', $user->company_name)" />
+        </div>
+
+        <div>
+            <x-forms.label for="phone">Phone</x-forms.label> {{-- todo: test phone as auth user updating profile --}}
+            <x-forms.text type="tel" id="phone" name="phone" :value="old('phone', $user->phone)" />
+        </div>
+
+        <div>
+            <x-forms.checkbox name="marketing_opt_in" id="marketing_opt_in" :checked="old('marketing_opt_in', $user->marketing_opt_in)" value="1">I'm happy to receive marketing from Workplace Futures Group</x-forms.checkbox>
+        </div>
+
+        <div>
+            <button type="submit" title="Save changes">Save changes</button>
+        </div>
+
+    </form>
 
 @endsection
