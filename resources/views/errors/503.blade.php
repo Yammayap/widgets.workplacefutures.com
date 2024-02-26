@@ -3,7 +3,7 @@
 @section('title', __('Service Unavailable'))
 @section('code', '503')
 @section('message')
-    <p>This portal is temporarily unavailable because we're currently performing maintenance on our systems.</p>
+    <p>This website is temporarily unavailable because we're currently performing maintenance on our systems.</p>
     <p>Please check back again later.</p>
     <p>Sorry for any inconvenience.</p>
 @endsection

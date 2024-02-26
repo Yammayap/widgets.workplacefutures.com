@@ -1,9 +1,9 @@
 @extends('errors::layout')
 
-@section('title', $exception->getMessage())
+@section('title', 'Bad Request.')
 @section('code', $exception->getStatusCode())
 @section('message')
-    <p>It seems we're experiencing some technical problems.</p>
+    <p>It seems there are some technical problems.</p>
     <p>Please try again later.</p>
 @endsection
 @section('actions')
