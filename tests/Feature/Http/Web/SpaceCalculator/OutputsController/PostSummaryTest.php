@@ -8,7 +8,7 @@ use App\Actions\Users\CreateAction;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
-use App\Notifications\SummaryNotification;
+use App\Notifications\SpaceCalculator\SummaryNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 

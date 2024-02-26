@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Web\SpaceCalculator\Summary;
+namespace App\Http\Requests\Web\SpaceCalculator\Outputs;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;

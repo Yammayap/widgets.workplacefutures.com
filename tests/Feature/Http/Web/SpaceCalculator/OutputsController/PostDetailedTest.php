@@ -5,7 +5,7 @@ namespace Tests\Feature\Http\Web\SpaceCalculator\OutputsController;
 use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
-use App\Notifications\DetailedNotification;
+use App\Notifications\SpaceCalculator\DetailedNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
