@@ -9,6 +9,10 @@ class PortalController extends WebController
 {
     public function getIndex(): View
     {
-        dd('Portal - This is a placeholder route - contents to be decided later');
+        $this->metaTitle('Portal');
+
+        return view('web.portal.index', [
+           //
+        ]);
     }
 }
