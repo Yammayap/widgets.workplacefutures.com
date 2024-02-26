@@ -14,7 +14,7 @@ class GetIndexTest extends TestCase
 
         $response->assertOk()
             ->assertViewIs('web.space-calculator.landing')
-            ->assertDontSeeText('Get Started');
+            ->assertDontSeeText('Get started');
     }
 
     public function test_page_loads_ok_for_auth_user(): void
@@ -25,6 +25,6 @@ class GetIndexTest extends TestCase
 
         $response->assertOk()
             ->assertViewIs('web.space-calculator.landing')
-            ->assertSeeText('Get Started');
+            ->assertSeeText('Get started');
     }
 }
