@@ -17,12 +17,12 @@
         <x-errors :errors="$errors" />
 
         <div>
-            <x-forms.label for="first_name">First Name *</x-forms.label>
+            <x-forms.label for="first_name">First name *</x-forms.label>
             <x-forms.text id="first_name" name="first_name" :value="old('first_name', $user->first_name)" />
         </div>
 
         <div>
-            <x-forms.label for="last_name">Last Name *</x-forms.label>
+            <x-forms.label for="last_name">Last name *</x-forms.label>
             <x-forms.text id="last_name" name="last_name" :value="old('last_name', $user->last_name)" />
         </div>
 
@@ -32,7 +32,7 @@
         </div>
 
         <div>
-            <x-forms.label for="company_name">Company Name</x-forms.label>
+            <x-forms.label for="company_name">Company name</x-forms.label>
             <x-forms.text id="company_name" name="company_name" :value="old('company_name', $user->company_name)" />
         </div>
 
