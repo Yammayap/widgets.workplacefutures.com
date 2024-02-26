@@ -7,7 +7,7 @@ use Illuminate\View\View;
 
 class ProfileController extends WebController
 {
-    public function getIndex():View
+    public function getIndex(): View
     {
         dd('edit profile - placeholder route for later');
     }

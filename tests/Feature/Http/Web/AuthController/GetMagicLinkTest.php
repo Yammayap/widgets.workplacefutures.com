@@ -140,8 +140,4 @@ class GetMagicLinkTest extends TestCase
 
         $this->assertGuest();
     }
-
-    /*
-     * When the URL isn't signed
-     */
 }
