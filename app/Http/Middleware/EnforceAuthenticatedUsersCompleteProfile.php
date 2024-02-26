@@ -17,11 +17,15 @@ class EnforceAuthenticatedUsersCompleteProfile
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ( // todo: discuss - better way to handle this?
+        if (
+            // todo: discuss - better way to handle this?
             Auth::check()
             && Auth::user()
             && !Auth::user()->has_completed_profile
-            && Route::currentRouteName() != 'web.profile.index'
+            && !in_array(
+                Route::currentRouteName(),
+                ['web.profile.index', 'web.profile.index.post']
+            )
         ) {
             return redirect(route('web.profile.index'));
         }
