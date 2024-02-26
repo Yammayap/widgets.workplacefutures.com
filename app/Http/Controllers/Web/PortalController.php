@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\WebController;
-use App\Models\Enquiry;
 use Illuminate\View\View;
 
 class PortalController extends WebController
@@ -15,10 +14,10 @@ class PortalController extends WebController
     {
         $this->metaTitle('Welcome to your portal');
 
-        $enquiries = Enquiry::query()
-            ->where('user_id', $this->authUser()->id)
+        $enquiries = $this->authUser()
+            ->enquiries()
             ->with('spaceCalculatorInput')
-            ->orderBy('id', 'DESC') // todo: discuss - better to sort by this or date?
+            ->orderBy('id', 'DESC')
             ->paginate();
 
         return view('web.portal.index', [

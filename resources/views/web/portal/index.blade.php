@@ -53,7 +53,6 @@
 
     @else
 
-        {{-- todo: discuss - link to new enquiry here as well? I think the new enquiry button will be visible enough when designs are in --}}
         <p>You have not made any enquiries yet.</p>
 
     @endif
