@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuardSpaceCalculatorOutput
+class GuardSpaceCalculatorSummaryOutput
 {
     /**
      * @param Request $request

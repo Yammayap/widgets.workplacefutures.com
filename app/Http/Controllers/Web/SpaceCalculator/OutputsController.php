@@ -8,8 +8,8 @@ use App\Actions\MagicLinks\SendAction;
 use App\Actions\Users\CreateAction;
 use App\Actions\Users\UpdateProfileAction;
 use App\Http\Controllers\WebController;
-use App\Http\Requests\Web\SpaceCalculator\Summary\PostIndexRequest;
 use App\Http\Requests\Web\SpaceCalculator\Summary\PostProfileRequest;
+use App\Http\Requests\Web\SpaceCalculator\Summary\PostSummaryRequest;
 use App\Jobs\Enquiries\TransmitToHubSpotJob;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
@@ -29,11 +29,11 @@ class OutputsController extends WebController
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return View
      */
-    public function getIndex(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
+    public function getSummary(Calculator $calculator, SpaceCalculatorInput $spaceCalculatorInput): View
     {
         $this->metaTitle('Space calculator summary results');
 
-        return view('web.space-calculator.outputs', [
+        return view('web.space-calculator.summary-results', [
             'outputs' => $calculator->calculate($spaceCalculatorInput->transformToCalculatorInputs()),
             'inputs' => $spaceCalculatorInput,
             'user' => $spaceCalculatorInput->enquiry->user,
@@ -41,12 +41,12 @@ class OutputsController extends WebController
     }
 
     /**
-     * @param PostIndexRequest $request
+     * @param PostSummaryRequest $request
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return RedirectResponse
      */
-    public function postIndex(
-        PostIndexRequest $request,
+    public function postSummary(
+        PostSummaryRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {
 
@@ -75,7 +75,7 @@ class OutputsController extends WebController
 
         $user->notify(new SummaryNotification($spaceCalculatorInput->enquiry));
 
-        return redirect(route('web.space-calculator.outputs.index', $spaceCalculatorInput));
+        return redirect(route('web.space-calculator.outputs.summary', $spaceCalculatorInput));
     }
 
     /**

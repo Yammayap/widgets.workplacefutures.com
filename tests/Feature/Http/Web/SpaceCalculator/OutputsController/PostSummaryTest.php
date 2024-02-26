@@ -12,7 +12,7 @@ use App\Notifications\SummaryNotification;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
-class PostIndexTest extends TestCase
+class PostSummaryTest extends TestCase
 {
     public function test_posts_ok_for_guest_posting_email_for_existing_user_with_complete_profile(): void
     {
@@ -37,7 +37,7 @@ class PostIndexTest extends TestCase
         CreateAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $user->email,
             ])
             ->assertRedirect(route('web.auth.sent'))
@@ -63,10 +63,10 @@ class PostIndexTest extends TestCase
             );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $user->email,
             ])
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs))
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs))
             ->assertSessionHasNoErrors();
 
         Notification::assertCount(1);
@@ -99,10 +99,10 @@ class PostIndexTest extends TestCase
             );
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => 'john@yammayap.com',
             ])
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs))
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs))
             ->assertSessionHasNoErrors();
 
         Notification::assertCount(1);
@@ -123,7 +123,7 @@ class PostIndexTest extends TestCase
         AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 //
             ])
             ->assertRedirect()
@@ -147,7 +147,7 @@ class PostIndexTest extends TestCase
         AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $this->faker->email,
             ])
             ->assertRedirect(route('web.portal.index'));
@@ -165,7 +165,7 @@ class PostIndexTest extends TestCase
         CreateAction::shouldNotRun();
         AttachToUserAction::shouldNotRun();
 
-        $this->post(route('web.space-calculator.outputs.index.post', $inputs), [
+        $this->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $this->faker->email,
             ])
             ->assertRedirect(route('web.space-calculator.index'));
@@ -184,7 +184,7 @@ class PostIndexTest extends TestCase
         AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $this->faker->uuid])
-            ->post(route('web.space-calculator.outputs.index.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $this->faker->email,
             ])
             ->assertRedirect(route('web.space-calculator.index'));

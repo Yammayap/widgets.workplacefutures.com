@@ -54,7 +54,7 @@
          </div>
       </form>
    @else
-      <form method="post" action="{{ route('web.space-calculator.outputs.index.post', $inputs) }}">
+      <form method="post" action="{{ route('web.space-calculator.outputs.summary.post', $inputs) }}">
          <h2>Get summary results PDF</h2>
          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean arcu quam, blandit eget sagittis nec, venenatis nec tellus. Cras mollis egestas molestie. Nam elit felis, facilisis eu enim quis, molestie iaculis nisi.</p>
          <x-errors :errors="$errors" />

@@ -10,7 +10,7 @@ use App\Services\SpaceCalculator\Output;
 use App\Services\SpaceCalculator\OutputAreaSize;
 use Tests\TestCase;
 
-class GetIndexTest extends TestCase
+class GetSummaryTest extends TestCase
 {
     public function test_page_loads_ok_for_guest_after_posting_inputs(): void
     {
@@ -26,9 +26,9 @@ class GetIndexTest extends TestCase
             ));
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
+            ->get(route('web.space-calculator.outputs.summary', $inputs->uuid))
             ->assertOk()
-            ->assertViewIs('web.space-calculator.outputs')
+            ->assertViewIs('web.space-calculator.summary-results')
             ->assertSeeText('Get summary results PDF')
             ->assertDontSeeText('View detailed results');
     }
@@ -49,9 +49,9 @@ class GetIndexTest extends TestCase
             ));
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
+            ->get(route('web.space-calculator.outputs.summary', $inputs->uuid))
             ->assertOk()
-            ->assertViewIs('web.space-calculator.outputs')
+            ->assertViewIs('web.space-calculator.summary-results')
             ->assertSeeText('View detailed results')
             ->assertDontSeeText('Get summary results PDF');
     }
@@ -65,7 +65,7 @@ class GetIndexTest extends TestCase
         $inputs = SpaceCalculatorInput::factory()->create();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->get(route('web.space-calculator.outputs.index', $inputs->uuid))
+            ->get(route('web.space-calculator.outputs.summary', $inputs->uuid))
             ->assertRedirect(route('web.portal.index'));
     }
 
@@ -75,7 +75,7 @@ class GetIndexTest extends TestCase
 
         $inputs = SpaceCalculatorInput::factory()->create();
 
-        $this->get(route('web.space-calculator.outputs.index', $inputs->uuid))
+        $this->get(route('web.space-calculator.outputs.summary', $inputs->uuid))
             ->assertRedirect(route('web.space-calculator.index'));
     }
 
@@ -87,7 +87,7 @@ class GetIndexTest extends TestCase
         $inputs_2 = SpaceCalculatorInput::factory()->create();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs_1->uuid])
-            ->get(route('web.space-calculator.outputs.index', $inputs_2->uuid))
+            ->get(route('web.space-calculator.outputs.summary', $inputs_2->uuid))
             ->assertRedirect(route('web.space-calculator.index'));
     }
 }

@@ -27,14 +27,14 @@ Route::group(['prefix' => 'space-calculator'], function (): void {
 
         Route::group([
             'prefix' => '/summary',
-            'middleware' => 'guard_space_calculator_output'
+            'middleware' => 'guard_space_calculator_summary_output'
         ], function (): void {
 
-            Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getIndex'])
-                ->name('space-calculator.outputs.index');
+            Route::get('/', [Web\SpaceCalculator\OutputsController::class, 'getSummary'])
+                ->name('space-calculator.outputs.summary');
 
-            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postIndex'])
-                ->name('space-calculator.outputs.index.post');
+            Route::post('/', [Web\SpaceCalculator\OutputsController::class, 'postSummary'])
+                ->name('space-calculator.outputs.summary.post');
 
             Route::post('/profile', [Web\SpaceCalculator\OutputsController::class, 'postProfile'])
                 ->name('space-calculator.outputs.profile.post');

@@ -68,7 +68,7 @@ class GetDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs));
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs));
     }
 
     public function test_redirect_for_guest_before_user_set_up(): void
@@ -80,7 +80,7 @@ class GetDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.detailed', $inputs->uuid))
-            ->assertRedirect(route('web.space-calculator.outputs.index', $inputs));
+            ->assertRedirect(route('web.space-calculator.outputs.summary', $inputs));
     }
 
     public function test_redirect_for_guest_without_session(): void
