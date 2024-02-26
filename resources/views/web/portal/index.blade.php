@@ -14,4 +14,48 @@
         <a href="{{ route('web.profile.index') }}" title="Edit profile">Edit profile</a>
     </div>
 
+    {{-- enquiries in a simple table for now. When we have designs perhaps this can be laid out nicer --}}
+
+    <h2>Your enquiries</h2>
+
+    @if($enquiries->isNotEmpty())
+
+        <table style="width: 100%;text-align:left;">
+            <tr>
+                <th>
+                    Date / time
+                </th>
+                <th>
+                    Widget
+                </th>
+                <th>
+                    Link
+                </th>
+            </tr>
+            @foreach($enquiries as $enquiry)
+                <tr>
+                    <td>
+                        {{ \App\Support\Helpers::formatDateTime($enquiry->created_at) }}
+                    </td>
+                    <td>
+                        {{ $enquiry->widget->label() }}
+                    </td>
+                    <td>
+                        <a href="{{ route('web.space-calculator.outputs.detailed', $enquiry->spaceCalculatorInput) }}" title="View">View</a>
+                    </td>
+                </tr>
+            @endforeach
+        </table>
+
+        <div>
+            {{ $enquiries->links() }}
+        </div>
+
+    @else
+
+        {{-- todo: discuss - link to new enquiry here as well? I think the new enquiry button will be visible enough when designs are in --}}
+        <p>You have not made any enquiries yet.</p>
+
+    @endif
+
 @endsection
