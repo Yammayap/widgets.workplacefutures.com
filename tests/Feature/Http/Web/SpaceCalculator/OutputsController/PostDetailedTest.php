@@ -126,7 +126,7 @@ class PostDetailedTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->post(route('web.space-calculator.outputs.detailed.post', $inputs))
-            ->assertRedirect(route('web.portal.index'))
+            ->assertRedirect(route('web.profile.index'))
             ->assertSessionHasNoErrors();
 
         Notification::assertCount(0);

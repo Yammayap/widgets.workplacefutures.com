@@ -41,6 +41,14 @@ class GetIndexTest extends TestCase
             ->assertDontSeeText('You have not made any enquiries yet');
     }
 
+    public function test_redirected_to_profile_edit_page_for_authenticated_user_with_incomplete_profile(): void
+    {
+        $this->authenticateUser(User::factory()->create(['has_completed_profile' => false]));
+
+        $this->get(route('web.portal.index'))
+            ->assertRedirect(route('web.profile.index'));
+    }
+
     public function test_redirect_for_guest(): void
     {
         $this->assertGuest();
