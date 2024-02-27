@@ -66,7 +66,7 @@ class GetSummaryTest extends TestCase
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
             ->get(route('web.space-calculator.outputs.summary', $inputs->uuid))
-            ->assertRedirect(route('web.portal.index'));
+            ->assertRedirect(route('web.space-calculator.outputs.detailed', $inputs));
     }
 
     public function test_without_session_redirects_away(): void

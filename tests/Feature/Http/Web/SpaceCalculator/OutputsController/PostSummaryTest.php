@@ -147,7 +147,7 @@ class PostSummaryTest extends TestCase
         AttachToUserAction::shouldNotRun();
 
         $this->withSession([config('widgets.space-calculator.input-session-key') => $inputs->uuid])
-            ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
+            ->post(route('web.space-calculator.outputs.detailed', $inputs), [
                 'email' => $this->faker->email,
             ])
             ->assertRedirect(route('web.portal.index'));

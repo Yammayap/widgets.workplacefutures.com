@@ -2,7 +2,7 @@
 
 @section('page')
 
-   <h1>Space calculator summary results</h1>
+   <h1>Space calculator detailed results</h1>
 
    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean arcu quam, blandit eget sagittis nec, venenatis nec tellus. Cras mollis egestas molestie. Nam elit felis, facilisis eu enim quis, molestie iaculis nisi.</p>
 
