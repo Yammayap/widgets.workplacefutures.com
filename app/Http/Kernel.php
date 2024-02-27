@@ -38,7 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\SetTenant::class,
             \App\Http\Middleware\SentryContext::class,
-            \App\Http\Middleware\EnforceAuthenticatedUsersCompleteProfile::class
+            \App\Http\Middleware\EnsureAuthenticatedUserHasCompletedProfile::class
         ],
     ];
 

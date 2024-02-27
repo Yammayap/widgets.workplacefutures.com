@@ -2,12 +2,12 @@
 
 @section('page')
 
-    <h1>Update your profile</h1> {{-- todo: discuss - should this be update or edit? It's edit on the portal... --}}
+    <h1>Update your profile</h1>
 
     @if($user->has_completed_profile)
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus nec dapibus lacus. In hac habitasse platea dictumst. Donec facilisis sem semper odio viverra, nec mattis felis sodales. Curabitur blandit, dui vel venenatis consequat, erat ligula semper orci, a scelerisque nisi risus feugiat ipsum. Integer molestie felis vel dignissim varius. Donec aliquet viverra scelerisque. Pellentesque eget congue mi. Duis tincidunt tortor orci, hendrerit dignissim ipsum facilisis ut. Praesent nec nulla non ligula pulvinar semper ut sed metus. Curabitur arcu lacus, vestibulum in molestie sed, sollicitudin eu lorem. Ut tempus et augue sed sollicitudin. Sed convallis nisl a felis gravida lobortis.</p>
+        <p>Keep your personal details and preferences up-to-date. The fields marked with * are required.</p>
     @else
-        <p>You must complete your profile before using this website. Please fill out the form to proceed.</p>
+        <p>To continue, you need to complete your profile. The fields marked with * are required.</p>
     @endif
 
     <form method="post" action="{{ route('web.profile.index.post') }}" novalidate>
@@ -26,7 +26,7 @@
             <x-forms.text id="last_name" name="last_name" :value="old('last_name', $user->last_name)" />
         </div>
 
-        <div> {{-- todo: discuss - should we allow editing of the email address or not? If we do then we may need more confirmation emails etc set up... --}}
+        <div>
             <x-forms.label for="email_address">Email address</x-forms.label>
             {{ $user->email }}
         </div>
@@ -46,7 +46,7 @@
         </div>
 
         <div>
-            <button type="submit" title="Save changes">Save changes</button>
+            <button type="submit" title="Save my profile">Save my profile</button>
         </div>
 
     </form>

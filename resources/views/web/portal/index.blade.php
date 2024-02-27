@@ -11,7 +11,7 @@
         <a href="{{ route('web.space-calculator.index') }}" title="New Enquiry">New Enquiry</a>
     </div>
     <div>
-        <a href="{{ route('web.profile.index') }}" title="Edit profile">Edit profile</a>
+        <a href="{{ route('web.profile.index') }}" title="Update profile">Update profile</a>
     </div>
 
     {{-- enquiries in a simple table for now. When we have designs perhaps this can be laid out nicer --}}
