@@ -19,6 +19,7 @@ use App\PdfBuilders\SpaceCalculatorPdfBuilder;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Propaganistas\LaravelPhone\PhoneNumber;
@@ -78,11 +79,7 @@ class OutputsController extends WebController
 
         AttachToUserAction::run($spaceCalculatorInput->enquiry, $user);
 
-        $user->notify(new SummaryNotification(
-            $spaceCalculatorPdfBuilder,
-            $calculator,
-            $spaceCalculatorInput->enquiry,
-        ));
+        $user->notify(App::make(SummaryNotification::class, ['enquiry' => $spaceCalculatorInput->enquiry]));
 
         return redirect(route('web.space-calculator.outputs.summary', $spaceCalculatorInput));
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Http\Web\SpaceCalculator\OutputsController;
+namespace Tests\Feature\Http\Web\SpaceCalculator\OutputsController;
 
 use App\Actions\Enquiries\AttachToUserAction;
 use App\Actions\MagicLinks\SendAction;
