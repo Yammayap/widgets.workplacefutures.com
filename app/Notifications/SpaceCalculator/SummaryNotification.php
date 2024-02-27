@@ -54,12 +54,15 @@ class SummaryNotification extends Notification implements ShouldQueue
                 'Thank you for using the ' . $this->enquiry->tenant->label() . ' space calculator. ' .
                 'Your summary results are attached to this email.'
             )
-            ->attach(
-                $this->spaceCalculatorPdfBuilder->summaryResults(
-                    $this->enquiry,
-                    $this->enquiry->spaceCalculatorInput,
-                    $this->calculator->calculate($this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()),
-                )->base64()
+            ->attachData(
+                base64_decode(
+                        $this->spaceCalculatorPdfBuilder->summaryResults(
+                        $this->enquiry,
+                        $this->enquiry->spaceCalculatorInput,
+                        $this->calculator->calculate($this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()),
+                    )->base64()
+                ),
+                'test-name-here.pdf', // todo: get real name here (from pdf class?)
             );
     }
 }
