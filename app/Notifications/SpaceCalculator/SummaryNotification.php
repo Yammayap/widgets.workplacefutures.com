@@ -21,7 +21,7 @@ class SummaryNotification extends Notification implements ShouldQueue
      * @param Calculator $calculator
      */
     public function __construct(
-        public readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
+        private readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
         private readonly Calculator $calculator,
         private readonly Enquiry $enquiry,
     ) {
@@ -59,7 +59,9 @@ class SummaryNotification extends Notification implements ShouldQueue
                     $this->spaceCalculatorPdfBuilder->summaryResults(
                         $this->enquiry,
                         $this->enquiry->spaceCalculatorInput,
-                        $this->calculator->calculate($this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()),
+                        $this->calculator->calculate(
+                            $this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()
+                        ),
                     )->base64()
                 ),
                 'space-calculator-summary-results.pdf',

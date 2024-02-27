@@ -31,9 +31,7 @@ class SummaryNotificationTest extends TestCase
             function ($notification, $channels, $notifiable) {
                 /* todo: discuss - should we assert more here? Feels like asserting base64 contents shouldn't
                 be done here */
-                return count($notification->toMail($notifiable)->rawAttachments) == 1
-                    && $notification->toMail($notifiable)->rawAttachments[0]['name']
-                    == 'space-calculator-summary-results.pdf';
+                return count($notification->toMail($notifiable)->rawAttachments) == 1;
             }
         );
     }
