@@ -18,17 +18,25 @@ class CreateAction
      * @param Tenant $tenant
      * @param Widget $widget
      * @param User|null $user
+     * @param string|null $message
+     * @param bool $canContact
      * @return Enquiry
      */
-    public function handle(Tenant $tenant, Widget $widget, User $user = null): Enquiry
-    {
+    public function handle(
+        Tenant $tenant,
+        Widget $widget,
+        User $user = null,
+        string|null $message = null,
+        bool $canContact = false
+    ): Enquiry {
         $enquiry = new Enquiry();
         if ($user) {
             $enquiry->user()->associate($user);
         }
         $enquiry->tenant = $tenant;
         $enquiry->widget = $widget;
-        $enquiry->can_contact = false;
+        $enquiry->message = $message;
+        $enquiry->can_contact = $canContact;
         $enquiry->save();
 
         return $enquiry;

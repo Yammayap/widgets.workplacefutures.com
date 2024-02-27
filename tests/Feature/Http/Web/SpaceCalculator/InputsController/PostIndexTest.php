@@ -24,6 +24,8 @@ class PostIndexTest extends TestCase
                 Tenant::WFG,
                 Widget::SPACE_CALCULATOR,
                 null,
+                null,
+                false,
             )
             ->andReturn($enquiry = Enquiry::factory()->create());
 
