@@ -21,7 +21,7 @@ class SummaryNotification extends Notification implements ShouldQueue
      * @param Calculator $calculator
      */
     public function __construct(
-        private readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
+        public readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
         private readonly Calculator $calculator,
         private readonly Enquiry $enquiry,
     ) {
