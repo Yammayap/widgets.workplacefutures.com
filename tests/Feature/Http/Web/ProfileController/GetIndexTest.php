@@ -18,6 +18,7 @@ class GetIndexTest extends TestCase
             ->assertViewIs('web.profile.index')
             ->assertSeeTextInOrder([
                 'Update your profile',
+                'Keep your personal details and preferences up-to-date.',
                 'First name *',
                 'Last name *',
                 'Email address',
@@ -25,9 +26,9 @@ class GetIndexTest extends TestCase
                 'Company name',
                 'Phone',
                 'happy to receive marketing from Workplace Futures Group',
-                'Save changes',
+                'Save my profile',
             ])
-            ->assertDontSeeText('You must complete your profile before using this website');
+            ->assertDontSeeText('To continue, you need to complete your profile.');
     }
 
     public function test_page_loads_ok_for_user_with_incomplete_profile(): void
@@ -39,7 +40,7 @@ class GetIndexTest extends TestCase
         $this->get(route('web.profile.index'))
             ->assertOk()
             ->assertViewIs('web.profile.index')
-            ->assertSeeText('You must complete your profile before using this website');
+            ->assertSeeText('To continue, you need to complete your profile.');
     }
 
     public function test_guest_is_redirected_away(): void
