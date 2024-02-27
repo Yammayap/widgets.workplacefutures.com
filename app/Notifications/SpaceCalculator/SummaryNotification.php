@@ -4,6 +4,8 @@ namespace App\Notifications\SpaceCalculator;
 
 use App\Models\Enquiry;
 use App\Models\User;
+use App\PdfBuilders\SpaceCalculatorPdfBuilder;
+use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -14,14 +16,20 @@ class SummaryNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @param \App\Models\Enquiry $enquiry
+     * @param SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder
+     * @param Enquiry $enquiry
+     * @param Calculator $calculator
      */
-    public function __construct(private readonly Enquiry $enquiry)
-    {
+    public function __construct(
+        private readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
+        private readonly Calculator $calculator,
+        private readonly Enquiry $enquiry,
+    ) {
+        //
     }
 
     /**
-     * @param \App\Models\User $notifiable
+     * @param User $notifiable
      *
      * @return array<int, string>
      */
@@ -31,9 +39,9 @@ class SummaryNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * @param \App\Models\User $notifiable
+     * @param User $notifiable
      *
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail(User $notifiable): MailMessage
     {
@@ -45,6 +53,13 @@ class SummaryNotification extends Notification implements ShouldQueue
             ->line(
                 'Thank you for using the ' . $this->enquiry->tenant->label() . ' space calculator. ' .
                 'Your summary results are attached to this email.'
+            )
+            ->attach(
+                $this->spaceCalculatorPdfBuilder->summaryResults(
+                    $this->enquiry,
+                    $this->enquiry->spaceCalculatorInput,
+                    $this->calculator->calculate($this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()),
+                )->base64()
             );
     }
 }

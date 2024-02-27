@@ -21,7 +21,8 @@ class SpaceCalculatorPdfBuilder
      * @return PdfBuilder
      */
     public function summaryResults(Enquiry $enquiry, SpaceCalculatorInput $inputs, Output $outputs): PdfBuilder
-    {   /* todo: discuss - some things here like margins, header and footer will likely be the same everywhere
+    {
+        /* todo: discuss - some things here like margins, header and footer will likely be the same everywhere
         maybe this can be deferred but once we know what the PDFs look like we could create a base / default
         function? Maybe it would just run a function get the required view name and data? */
         return $this->pdfBuilder
