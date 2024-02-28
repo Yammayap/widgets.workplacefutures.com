@@ -15,13 +15,17 @@ class SummaryNotificationTest extends TestCase
 {
     public function test_summary_notification_has_attachment(): void
     {
-        $this->mock(SummaryResultsPdfBuilder::class)
-            ->shouldReceive('build')
-            ->andReturn(new PdfBuilder());
-
         $user = User::factory()->create();
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+
+        $this->mock(SummaryResultsPdfBuilder::class)
+            ->shouldReceive('build')
+            ->with(
+                $this->mockArgModel($enquiry)
+            )
+            ->once()
+            ->andReturn(new PdfBuilder());
 
         $mail = (App::make(SummaryNotification::class, ['enquiry' => $enquiry]))->toMail($user);
 

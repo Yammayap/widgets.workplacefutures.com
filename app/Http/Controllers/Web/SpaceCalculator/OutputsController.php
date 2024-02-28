@@ -15,7 +15,6 @@ use App\Models\SpaceCalculatorInput;
 use App\Models\User;
 use App\Notifications\SpaceCalculator\DetailedNotification;
 use App\Notifications\SpaceCalculator\SummaryNotification;
-use App\PdfBuilders\SpaceCalculator\SummaryResultsPdfBuilder;
 use App\Services\SpaceCalculator\Calculator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,15 +42,11 @@ class OutputsController extends WebController
     }
 
     /**
-     * @param SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder
-     * @param Calculator $calculator
      * @param PostSummaryRequest $request
      * @param SpaceCalculatorInput $spaceCalculatorInput
      * @return RedirectResponse
      */
     public function postSummary(
-        SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder,
-        Calculator $calculator,
         PostSummaryRequest $request,
         SpaceCalculatorInput $spaceCalculatorInput
     ): RedirectResponse {

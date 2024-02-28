@@ -9,19 +9,17 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\App;
 
 class SummaryNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
-     * @param SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder
      * @param Enquiry $enquiry
      */
-    public function __construct(
-        private readonly SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder,
-        private readonly Enquiry $enquiry
-    ) {
+    public function __construct(private readonly Enquiry $enquiry)
+    {
         //
     }
 
@@ -53,7 +51,7 @@ class SummaryNotification extends Notification implements ShouldQueue
             )
             ->attachData(
                 base64_decode(
-                    $this->spaceCalculatorPdfBuilder->build($this->enquiry)->base64()
+                    App::make(SummaryResultsPdfBuilder::class)->build($this->enquiry)->base64()
                 ),
                 'space-calculator-summary-results.pdf',
             );

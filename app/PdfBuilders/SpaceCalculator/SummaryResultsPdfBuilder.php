@@ -5,33 +5,25 @@ namespace App\PdfBuilders\SpaceCalculator;
 use App\Models\Enquiry;
 use App\PdfBuilders\PdfBuilder;
 use App\Services\SpaceCalculator\Calculator;
+use Spatie\LaravelPdf\PdfBuilder as SpatiePdfBuilder;
 
 class SummaryResultsPdfBuilder extends PdfBuilder
 {
-    /**
-     * @var string
-     */
-    public string $view;
-
-    /**
-     * @param Calculator $calculator
-     */
-    public function __construct(Calculator $calculator)
+    public function __construct(private readonly Calculator $calculator)
     {
-        parent::__construct($calculator);
-
-        $this->view = 'pdfs.space-calculator.summary';
+        //
     }
 
-    /**
-     * @param Enquiry $enquiry
-     * @return array<string,mixed>
-     */
-    public function setViewParameters(Enquiry $enquiry): array
+    public function build(Enquiry $enquiry): SpatiePdfBuilder
     {
-        return [
-            'inputs' => $enquiry->spaceCalculatorInput,
-            'outputs' => $this->calculator->calculate($enquiry->spaceCalculatorInput->transformToCalculatorInputs()),
-        ];
+        return $this->buildPdf(
+            'pdfs.space-calculator.summary',
+            [
+                'inputs' => $enquiry->spaceCalculatorInput,
+                'outputs' => $this->calculator->calculate(
+                    $enquiry->spaceCalculatorInput->transformToCalculatorInputs()
+                ),
+            ]
+        );
     }
 }

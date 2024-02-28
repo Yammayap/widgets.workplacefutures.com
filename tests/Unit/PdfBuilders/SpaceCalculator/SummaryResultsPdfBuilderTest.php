@@ -2,29 +2,37 @@
 
 namespace Tests\Unit\PdfBuilders\SpaceCalculator;
 
+use App\Models\Enquiry;
+use App\Models\SpaceCalculatorInput;
+use App\PdfBuilders\SpaceCalculator\SummaryResultsPdfBuilder;
+use App\Services\SpaceCalculator\Calculator;
+use App\Services\SpaceCalculator\Output;
+use App\Services\SpaceCalculator\OutputAreaSize;
+use Spatie\LaravelPdf\Facades\Pdf;
 use Tests\TestCase;
 
 class SummaryResultsPdfBuilderTest extends TestCase
 {
     public function test_pdf_is_returned()
     {
-        /*Pdf::fake();
-        // todo: discuss - not sure we can use what is in the url https://spatie.be/docs/laravel-pdf/v1/basic-usage/testing-pdfs because we are not saving the PDF and the way we are returning it
+        Pdf::fake();
 
         $enquiry = Enquiry::factory()->create();
-        $inputs = SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
+        SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        $calculator = app()->make(Calculator::class);
-        $outputs = $calculator->calculate($inputs->transformToCalculatorInputs());
+        $this->mock(Calculator::class)
+            ->shouldReceive("calculate")
+            ->andReturn(new Output(
+                areaSize: new OutputAreaSize(0, 0, 0, 0, 0, 0),
+                assets: collect(),
+                capacityTypes: collect(),
+                areaTypes: collect(),
+            ));
 
         $builder = app()->make(SummaryResultsPdfBuilder::class);
 
-        $pdf = $builder->summaryResults(
-            $enquiry,
-            $inputs,
-            $outputs,
-        );
+        $pdf = $builder->build($enquiry);
 
-        $this->assertEquals('pdfs.space-calculator.summary', $pdf->viewName);*/
+        $this->assertEquals('pdfs.space-calculator.summary', $pdf->viewName);
     }
 }
