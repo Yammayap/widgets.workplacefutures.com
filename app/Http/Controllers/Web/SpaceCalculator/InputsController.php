@@ -46,9 +46,9 @@ class InputsController extends WebController
         $enquiry = CreateEnquiryAction::run(
             $this->tenantManager->getCurrentTenant(),
             Widget::SPACE_CALCULATOR,
+            Auth::check() && $request->filled('message') ? $request->input('message') : null,
+            Auth::check() && $request->filled('can_contact') && $request->boolean('can_contact'),
             Auth::user(),
-            $request->filled('message') ? $request->input('message') : null,
-            $request->filled('can_contact') && $request->boolean('can_contact'),
         );
 
         $input = CreateSpaceCalculatorInputAction::run(

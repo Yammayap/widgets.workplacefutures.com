@@ -21,7 +21,9 @@ class CreateActionTest extends TestCase
         $enquiry = CreateAction::run(
             Tenant::WFG,
             Widget::SPACE_CALCULATOR,
-            null
+            null,
+            false,
+            null,
         );
 
         $this->assertEquals(1, Enquiry::count());
@@ -46,6 +48,8 @@ class CreateActionTest extends TestCase
         $enquiry = CreateAction::run(
             Tenant::WFG,
             Widget::SPACE_CALCULATOR,
+            null,
+            false,
             $user_2,
         );
 
@@ -63,9 +67,9 @@ class CreateActionTest extends TestCase
         $enquiry = CreateAction::run(
             Tenant::WFG,
             Widget::SPACE_CALCULATOR,
-            null,
             'Lorem ipsum dolor sit amet',
             true,
+            null,
         );
 
         $this->assertEquals(1, Enquiry::count());

@@ -69,9 +69,9 @@ class PostIndexTest extends TestCase
             ->with(
                 Tenant::WFG,
                 Widget::SPACE_CALCULATOR,
-                $user,
                 'Lorem ipsum dolor sit amet',
                 true,
+                $user,
             )
             ->andReturn($enquiry = Enquiry::factory()->create());
 
