@@ -7,6 +7,7 @@ use App\Enums\Widgets\SpaceCalculator\HybridWorking;
 use App\Enums\Widgets\SpaceCalculator\Mobility;
 use App\Enums\Widgets\SpaceCalculator\Workstyle;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -19,7 +20,7 @@ class PostIndexRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'workstyle' => ['required', Rule::enum(Workstyle::class)],
             'hybrid_working' => ['required', Rule::enum(HybridWorking::class)],
             'mobility' => ['required', Rule::enum(Mobility::class)],
@@ -28,5 +29,12 @@ class PostIndexRequest extends FormRequest
             'growth_percentage' => ['required', 'integer', 'min:0', 'max:2147483647'],
             'desk_percentage' => ['required', 'integer', 'min:0', 'max:2147483647'],
         ];
+
+        if (Auth::check()) {
+            $rules['message'] = ['nullable', 'string', 'max:65535'];
+            $rules['can_contact'] = ['nullable', 'boolean'];
+        }
+
+        return $rules;
     }
 }

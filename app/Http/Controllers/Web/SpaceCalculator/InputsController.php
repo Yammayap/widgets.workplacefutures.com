@@ -46,6 +46,8 @@ class InputsController extends WebController
         $enquiry = CreateEnquiryAction::run(
             $this->tenantManager->getCurrentTenant(),
             Widget::SPACE_CALCULATOR,
+            Auth::check() && $request->filled('message') ? $request->input('message') : null,
+            Auth::check() && $request->filled('can_contact') && $request->boolean('can_contact'),
             Auth::user(),
         );
 
@@ -60,8 +62,6 @@ class InputsController extends WebController
             Collaboration::from($request->input('collaboration')),
         );
 
-        // todo: discuss - what should we do if this is already set?
-        // (user may have pressed back button and submitted again) Or just reset it?
         Session::put(config('widgets.space-calculator.input-session-key'), $input->uuid);
 
         return redirect()->route('web.space-calculator.outputs.summary', $input);

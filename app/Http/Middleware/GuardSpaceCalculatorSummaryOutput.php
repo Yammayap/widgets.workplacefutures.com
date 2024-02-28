@@ -18,20 +18,20 @@ class GuardSpaceCalculatorSummaryOutput
      */
     public function handle(Request $request, Closure $next): Response
     {
+        /**
+         * @var SpaceCalculatorInput $spaceCalculatorInput
+         */
+        $spaceCalculatorInput = $request->route()?->parameter('spaceCalculatorInput');
+
         if (Auth::check()) {
-            return redirect(route('web.portal.index'));
+            return redirect(route('web.space-calculator.outputs.detailed', $spaceCalculatorInput));
         }
 
         if (!Session::has(config('widgets.space-calculator.input-session-key'))) {
             return redirect(route('web.space-calculator.index'));
         }
 
-        /**
-         * @var SpaceCalculatorInput $model
-         */
-        $model = $request->route()?->parameter('spaceCalculatorInput');
-
-        if (Session::get(config('widgets.space-calculator.input-session-key')) !== $model->uuid) {
+        if (Session::get(config('widgets.space-calculator.input-session-key')) !== $spaceCalculatorInput->uuid) {
             return redirect(route('web.space-calculator.index'));
         }
 

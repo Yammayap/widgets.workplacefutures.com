@@ -150,7 +150,7 @@ class PostSummaryTest extends TestCase
             ->post(route('web.space-calculator.outputs.summary.post', $inputs), [
                 'email' => $this->faker->email,
             ])
-            ->assertRedirect(route('web.portal.index'));
+            ->assertRedirect(route('web.space-calculator.outputs.detailed', $inputs));
 
         Notification::assertCount(0);
     }

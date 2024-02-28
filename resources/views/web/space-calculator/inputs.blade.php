@@ -51,6 +51,15 @@
             </x-forms.label>
             <x-forms.select name="collaboration" id="collaboration" :selected="old('collaboration')" allowBlank :options="\App\Enums\Widgets\SpaceCalculator\Collaboration::toSelectOptions()" />
         </div>
+        @auth
+            <div>
+                <x-forms.label for="message">Message</x-forms.label>
+                <x-forms.textarea name="message" id="message">{{ old('message') }}</x-forms.textarea>
+            </div>
+            <div>
+                <x-forms.checkbox name="can_contact" id="can_contact" :checked="old('can_contact', false)" value="1">Happy for a consultant to get in touch?</x-forms.checkbox>
+            </div>
+        @endauth
         <button type="submit" title="Get Results">Get Results</button>
     </form>
 
