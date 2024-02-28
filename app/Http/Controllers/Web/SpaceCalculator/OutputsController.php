@@ -149,7 +149,7 @@ class OutputsController extends WebController
          */
         $user = $spaceCalculatorInput->enquiry->user;
 
-        $user->notify(new DetailedNotification($spaceCalculatorInput->enquiry));
+        $user->notify(App::make(DetailedNotification::class, ['enquiry' => ($spaceCalculatorInput->enquiry)]));
 
         return redirect(route('web.space-calculator.outputs.detailed.post', $spaceCalculatorInput));
     }
