@@ -25,9 +25,9 @@ class CreateAction
     public function handle(
         Tenant $tenant,
         Widget $widget,
-        string|null $message,
+        ?string $message,
         bool $canContact,
-        User $user = null,
+        ?User $user,
     ): Enquiry {
         $enquiry = new Enquiry();
         $enquiry->tenant = $tenant;
