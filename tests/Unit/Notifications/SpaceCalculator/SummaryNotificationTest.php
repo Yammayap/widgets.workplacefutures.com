@@ -6,33 +6,26 @@ use App\Models\Enquiry;
 use App\Models\SpaceCalculatorInput;
 use App\Models\User;
 use App\Notifications\SpaceCalculator\SummaryNotification;
+use App\PdfBuilders\SpaceCalculator\SummaryResultsPdfBuilder;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Notification;
+use Spatie\LaravelPdf\PdfBuilder;
 use Tests\TestCase;
 
 class SummaryNotificationTest extends TestCase
 {
     public function test_summary_notification_has_attachment(): void
     {
-        Notification::fake();
+        $this->mock(SummaryResultsPdfBuilder::class)
+            ->shouldReceive('build')
+            ->andReturn(new PdfBuilder());
 
         $user = User::factory()->create();
         $enquiry = Enquiry::factory()->create(['user_id' => $user->id]);
         SpaceCalculatorInput::factory()->create(['enquiry_id' => $enquiry->id]);
 
-        $user->notify(App::make(
-            SummaryNotification::class,
-            ['enquiry' => $enquiry]
-        ));
+        $mail = (App::make(SummaryNotification::class, ['enquiry' => $enquiry]))->toMail($user);
 
-        Notification::assertSentTo(
-            $user,
-            SummaryNotification::class,
-            function ($notification, $channels, $notifiable) {
-                /* todo: discuss - should we assert more here? Feels like asserting base64 contents shouldn't
-                be done here */
-                return count($notification->toMail($notifiable)->rawAttachments) == 1;
-            }
-        );
+        $this->assertEquals(1, count($mail->rawAttachments));
+        $this->assertEquals('space-calculator-summary-results.pdf', $mail->rawAttachments[0]['name']);
     }
 }

@@ -34,17 +34,17 @@ return [
     */
 
     'mailers' => [
-//        'smtp' => [
-//            'transport' => 'smtp',
-//            'url' => env('MAIL_URL'),
-//            'host' => env('MAIL_SMTP_HOST'),
-//            'port' => env('MAIL_SMTP_PORT', 587),
-//            'encryption' => env('MAIL_SMTP_ENCRYPTION', 'tls'),
-//            'username' => env('MAIL_SMTP_USERNAME'),
-//            'password' => env('MAIL_SMTP_PASSWORD'),
-//            'timeout' => null,
-//            'local_domain' => env('MAIL_SMTP_EHLO_DOMAIN'),
-//        ],
+        'smtp' => [
+            'transport' => 'smtp',
+            'url' => env('MAIL_URL'),
+            'host' => env('MAIL_SMTP_HOST', '0.0.0.0'),
+            'port' => env('MAIL_SMTP_PORT', 1025),
+            'encryption' => env('MAIL_SMTP_ENCRYPTION'),
+            'username' => env('MAIL_SMTP_USERNAME'),
+            'password' => env('MAIL_SMTP_PASSWORD'),
+            'timeout' => null,
+            'local_domain' => env('MAIL_SMTP_EHLO_DOMAIN'),
+        ],
 
 //        'ses' => [
 //            'transport' => 'ses',
@@ -94,18 +94,6 @@ return [
 //                'postmark',
 //            ],
 //        ],
-
-        'mailhog' => [
-            'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_SMTP_HOST', '0.0.0.0'),
-            'port' => env('MAIL_SMTP_PORT', 1025),
-            'encryption' => env('MAIL_SMTP_ENCRYPTION'),
-            'username' => env('MAIL_SMTP_USERNAME'),
-            'password' => env('MAIL_SMTP_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_SMTP_EHLO_DOMAIN'),
-        ],
     ],
 
     /*

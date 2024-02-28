@@ -4,8 +4,7 @@ namespace App\Notifications\SpaceCalculator;
 
 use App\Models\Enquiry;
 use App\Models\User;
-use App\PdfBuilders\SpaceCalculatorPdfBuilder;
-use App\Services\SpaceCalculator\Calculator;
+use App\PdfBuilders\SpaceCalculator\SummaryResultsPdfBuilder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -16,14 +15,12 @@ class SummaryNotification extends Notification implements ShouldQueue
     use Queueable;
 
     /**
-     * @param SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder
+     * @param SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder
      * @param Enquiry $enquiry
-     * @param Calculator $calculator
      */
     public function __construct(
-        private readonly SpaceCalculatorPdfBuilder $spaceCalculatorPdfBuilder,
-        private readonly Calculator $calculator,
-        private readonly Enquiry $enquiry,
+        private readonly SummaryResultsPdfBuilder $spaceCalculatorPdfBuilder,
+        private readonly Enquiry $enquiry
     ) {
         //
     }
@@ -56,13 +53,7 @@ class SummaryNotification extends Notification implements ShouldQueue
             )
             ->attachData(
                 base64_decode(
-                    $this->spaceCalculatorPdfBuilder->summaryResults(
-                        $this->enquiry,
-                        $this->enquiry->spaceCalculatorInput,
-                        $this->calculator->calculate(
-                            $this->enquiry->spaceCalculatorInput->transformToCalculatorInputs()
-                        ),
-                    )->base64()
+                    $this->spaceCalculatorPdfBuilder->build($this->enquiry)->base64()
                 ),
                 'space-calculator-summary-results.pdf',
             );
