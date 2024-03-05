@@ -10,7 +10,7 @@ jobs:
   build-assets:
     uses: ./.github/workflows/build-assets.yml
 
-#  deployer-test-deploy:
-#    needs: [build-assets]
-#    uses: ./.github/workflows/deployer-test-deploy.yml
-#    secrets: inherit
+  deployer-test-deploy:
+    needs: [build-assets]
+    uses: ./.github/workflows/deployer-test-deploy.yml
+    secrets: inherit
