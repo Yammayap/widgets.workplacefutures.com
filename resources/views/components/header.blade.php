@@ -8,9 +8,12 @@
         <div>
 
         </div>
-        <div style="display: flex;">
+        <div style="display: flex; align-items: center;">
             @auth
-                @if(Auth::user()->name) Hello {{ Auth::user()->name }} Not you? @else Hello. @endif
+                <span>@if(Auth::user()->name) Hello {{ Auth::user()->name }} @else Hello. @endif</span>
+                <span style="margin: 0 10px;">|</span>
+                <a href="{{ route('web.portal.index') }}" title="Portal">Portal</a>
+                <span style="margin: 0 10px;">|</span>
                 <form method="post" action="{{ route('web.auth.sign-out.post') }}">
                     @csrf
                     <button type="submit" title="Sign out">Sign out</button>
