@@ -43,7 +43,7 @@ class DetailedNotification extends Notification implements ShouldQueue
         return (new MailMessage())
             ->subject('Space calculator detailed results')
             ->greeting(
-                $notifiable->name === '' ? 'Hello,' : 'Hello ' . $notifiable->name . ','
+                $notifiable->name ? 'Hello ' . $notifiable->name . ',' : 'Hello,'
             )
             ->line(
                 'Thank you for using the ' . $this->enquiry->tenant->label() . ' space calculator. ' .

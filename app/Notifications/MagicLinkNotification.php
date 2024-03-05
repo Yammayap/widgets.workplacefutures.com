@@ -42,7 +42,7 @@ class MagicLinkNotification extends Notification implements ShouldQueue
                 ' [' . Helpers::formatDateTime($this->magicLink->requested_at) . ']'
             )
             ->greeting(
-                $notifiable->name === '' ? 'Hello,' : 'Hello ' . $notifiable->name . ','
+                $notifiable->name ? 'Hello ' . $notifiable->name . ',' : 'Hello,'
             )
             ->line('Click the button below to securely sign in.')
             ->action('Sign in', $this->magicLink->signedUrl)
