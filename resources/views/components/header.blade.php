@@ -2,7 +2,7 @@
     <div>
         <div>
             <a href="{{ route('web.home.index') }}" title="{{ $tenant->label() }}">
-                <img src="{{ $tenant->logoFileUrl() }}" alt="{{ $tenant->label() }}" />
+                <img src="{{ $tenant->logoFileUrl() }}" alt="{{ $tenant->label() }}" style="width:300px;" />
             </a>
         </div>
         <div>
